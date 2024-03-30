@@ -4,8 +4,11 @@ import QtQuick.Layouts
 import Generic
 import Layouts
 
+ChildLayout{
+    objectName: "Components"
+    breadcrumbStackView: stackViewMain
+    useMap: false
 
-Page{
     MainContent{
         ComponentsList {
             id: componentsList

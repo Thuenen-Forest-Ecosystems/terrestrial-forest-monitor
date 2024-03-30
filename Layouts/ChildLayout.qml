@@ -14,6 +14,7 @@ Page {
     property StackView breadcrumbStackView
 
     property bool showMap: false
+    property bool useMap: true
 
 
     ColumnLayout{
@@ -40,6 +41,8 @@ Page {
 
             Rectangle{
                 id: mapWrapper
+
+                visible: useMap
 
                 Component.onCompleted: {
                     if(mapBtn) mapBtn.setVisibility(true)
