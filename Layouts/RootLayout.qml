@@ -13,6 +13,7 @@ Page {
 
     default property alias data: inner.children
     property alias stackViewMain: stackViewMain
+    property alias loginDialogPopup: loginDialogPopup
 
     property alias mapBtn: mapBtn
 
@@ -123,6 +124,26 @@ Page {
 
             }
             IconButton {
+                id: fullscreenBtn
+                visible: Qt.platform.os === "android" || Qt.platform.os === "ios" || Qt.platform.os === "tvos" || Qt.platform.os === "qnx" ? false : true
+                codePoint: "e5d0"
+                iconColor: "#333"
+                toolTip: "Fullscreen"
+
+                onClicked: function(e){
+
+                    console.log(Qt.platform.os);
+
+                    if(applicationWindow.visibility === 2){
+                        applicationWindow.visibility = 5
+                        fullscreenBtn.codePoint = "f1cf"
+                    }else{
+                        applicationWindow.visibility = 2
+                        fullscreenBtn.codePoint = "e5d0"
+                    }
+                }
+            }
+            IconButton {
                 codePoint: "e94c"
                 iconColor: "#333"
                 toolTip: "Info & Kontakte"
@@ -141,6 +162,11 @@ Page {
             }
             Layout.fillWidth: true
             Layout.fillHeight: true
+        }
+        LoginDialog {
+            id: loginDialogPopup
+            anchors.centerIn: parent
+            authStackView: stackViewMain
         }
 
     }

@@ -3,11 +3,17 @@ import QtQuick.Controls 6.2
 import QtQuick.Layouts 6.2
 
 import Layouts
+import AuthOpenApi
 
 RootLayout{
 
     objectName: 'Wellcome'
 
+
+    AuthWrapper{
+        id: wrapper
+        visible: false
+    }
 
 
     GridLayout{
@@ -80,7 +86,12 @@ RootLayout{
                     bgColor: "#00AAAA"
 
                     onClicked: {
-                        stackViewMain.push("qrc:/qt/qml/Pages/CI27/Traktliste.qml", StackView.Immediate);
+                        wrapper.executeIfLoggedIn(
+                           () => {
+                                        console.log('RUN');
+                            stackViewMain.push("qrc:/qt/qml/Pages/CI27/Traktliste.qml", StackView.Immediate)
+                                    }
+                        )
                     }
 
                     text: "Kohlenstoffinventur"

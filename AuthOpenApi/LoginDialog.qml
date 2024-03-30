@@ -8,6 +8,7 @@ Dialog {
     modal: true
 
     property alias loginForm: loginForm
+    property StackView authStackView: authStackView
 
     title: wrapper.isLoggedIn ? "Abmelden" : "Eingabe Nutzerdaten"
 
@@ -37,7 +38,15 @@ Dialog {
             text: qsTr("ABMELDEN")
             Connections {
                 function onClicked(){
+
+                    let item = authStackView.get(0);
+                    authStackView.pop(item, StackView.Immediate);
+                    console.log('dsdsdsds');
+
+                    loginDialogPopup.close()
                     wrapper.logout()
+
+
                 }
             }
         }

@@ -2,8 +2,9 @@ import QtQuick 6.2
 import QtQuick.Controls 6.2
 import QtCore
 import QtQuick.Controls.Material
+import QtQuick.Layouts
 
-Item {
+RowLayout {
 
     // -- Properties
 
@@ -14,8 +15,8 @@ Item {
     property bool raised: false
 
 
-    width: !isLoggedIn ? loginBtn.width: logoutBtn.width
-    height: loginBtn.height
+    width: childrenRect.width
+    height: childrenRect.height
 
     // -- Methods
 
@@ -61,7 +62,7 @@ Item {
         }
         Connections {
             function onClicked(){
-                dialogPopup.open()
+                loginDialogPopup.open()
             }
         }
     }
@@ -74,7 +75,7 @@ Item {
         Material.background: Material.primary
         Connections {
             function onClicked(){
-                dialogPopup.open()
+                loginDialogPopup.open()
             }
         }
     }

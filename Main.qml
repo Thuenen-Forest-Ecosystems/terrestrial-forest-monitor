@@ -80,9 +80,4 @@ ApplicationWindow {
             anchors.centerIn: parent
         }
     }
-
-    LoginDialog {
-        id: dialogPopup
-        anchors.centerIn: parent
-    }
 }

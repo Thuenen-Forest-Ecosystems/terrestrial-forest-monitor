@@ -137,7 +137,7 @@ ColumnLayout {
                     saveTocken(object.token, userName);
                     loggingIn = true
 
-                    dialogPopup.close()
+                    loginDialogPopup.close()
                     resetForm()
                 } else {
                     //console.log("ERROR: ", JSON.stringify(object))

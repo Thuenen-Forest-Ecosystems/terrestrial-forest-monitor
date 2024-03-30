@@ -52,30 +52,13 @@ RowLayout {
         id: settings
         category: "User"
     }
-    //
-
-    IconButton {
-        id: fullscreenBtn
-        visible: Qt.platform.os === "android" || Qt.platform.os === "ios" || Qt.platform.os === "tvos" || Qt.platform.os === "qnx" ? false : true
-        codePoint: "e5d0"
-        iconColor: "#333"
-        toolTip: "Fullscreen"
-
-        onClicked: function(e){
-
-            console.log(Qt.platform.os);
-
-            if(applicationWindow.visibility === 2){
-                applicationWindow.visibility = 5
-                fullscreenBtn.codePoint = "f1cf"
-            }else{
-                applicationWindow.visibility = 2
-                fullscreenBtn.codePoint = "e5d0"
-            }
-        }
+    AuthenticationButton{
+        Layout.alignment: Qt.AlignVCenter
     }
 
     IconButton {
+        Layout.alignment: Qt.AlignVCenter
+
         codePoint: "e8b8"
         iconColor: "#333"
         toolTip: "Einstellungen"
