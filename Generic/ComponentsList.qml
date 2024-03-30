@@ -51,29 +51,37 @@ Repeater {
                             }
                         ]
                     },*/
-                    {
-                        name: "Layouts",
-                        pages: [
-                            {
-                                btnLabel: "Layouts/MainContent.qml",
-                                qmlFile:"qrc:/qt/qml/Layouts/MainContent.qml"
-                            },
-                            {
-                                btnLabel: "Layouts/SideBar.qml",
-                                qmlFile:"qrc:/qt/qml/Layouts/SideBar.qml"
-                            },
-                            {
-                                btnLabel: "Layouts/Wrapping.qml",
-                                qmlFile:"qrc:/qt/qml/Layouts/Wrapping.qml"
-                            }
-                        ]
-                    }
                 ]
             append(components) // appending a whole array makes each index into a ListElement at the top level
         }
     }
 
-    delegate: Column{
+    delegate: GenericCard{
+        headline: name
+        contentPadding: 10
+
+        Flow{
+            Layout.fillWidth: true
+            spacing: 10
+
+            Repeater{
+                model: pages
+                Button {
+                    text: btnLabel
+                    Connections {
+                        function onClicked(){
+                            stackViewStart.push("BasicPage.qml", {
+                                childElement: qmlFile,
+                                label: btnLabel,
+                            }, StackView.Immediate)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /*delegate: Column{
         id: col
         width: root.width
 
@@ -122,7 +130,7 @@ Repeater {
             color: "#333"
         }
 
-    }
+    }*/
 }
 
 

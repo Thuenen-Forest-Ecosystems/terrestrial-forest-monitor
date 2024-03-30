@@ -25,12 +25,12 @@ Page {
         anchors.fill: parent
         spacing: 0
 
-        Breadcrumb{
+        /*Breadcrumb{
             stackView: breadcrumbStackView
 
             Layout.fillWidth: true
             Layout.preferredHeight: childrenRect.height
-        }
+        }*/
 
         Item{
             id: inner

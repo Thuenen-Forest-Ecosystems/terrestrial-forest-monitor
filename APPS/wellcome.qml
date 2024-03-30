@@ -157,8 +157,12 @@ RootLayout{
                 ColorFieldBtn{
                     bgColor: "#008CD2"
 
-                    text: ""
-                    enabled: false
+                    onClicked: {
+                        stackViewMain.push("qrc:/qt/qml/Layouts/Components.qml", StackView.Immediate)
+                    }
+
+                    text: "Components"
+                    enabled: true
 
                     Layout.fillHeight: true
                     Layout.fillWidth: true

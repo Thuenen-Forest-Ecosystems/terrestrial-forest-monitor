@@ -21,4 +21,5 @@ qt_add_qml_module(AuthOpenApiLib
     AuthWrapper.qml
 
     RESOURCES account_circle_FILL0_wght400_GRAD0_opsz24.svg
+    RESOURCES README.md
 )
