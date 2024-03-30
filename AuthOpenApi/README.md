@@ -1,5 +1,8 @@
 # AuthOpenApi
 
+Functionality: https://miro.com/app/board/uXjVNj8fPPA=/
+Layout: https://www.figma.com/proto/n945CYkcTvfWr6HRxAizve/CI27
+
 ## AuthenticationButton
 
 The `AuthenticationButton` component is a button that allows the user to authenticate with the OpenAPI server. The button will open a [LoginDialog](#logindialog). State and text of the button will change depending on the authentication state.
