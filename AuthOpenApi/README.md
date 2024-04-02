@@ -31,15 +31,7 @@ The `LoginDialog` component is a dialog that shows a [LoginForm](#loginform).
     LoginDialog {
         id: loginDialogPopup
         anchors.centerIn: parent
-    }
-
-```qml
-    import AuthOpenApi
-
-    LoginDialog {
-        id: loginDialogPopup
-        anchors.centerIn: parent
-        authStackView: stackViewMain
+        authStackView: stackViewMain // defines the stackView to pop stack after logout
     }
 ```
 
