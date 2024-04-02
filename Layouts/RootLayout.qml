@@ -35,11 +35,20 @@ Page {
             font.weight: Font.Bold
             text: qsTr("Über diese App")
         }
-        GenericDivider{ margin: 3}
-        Label {
-            width: parent.width
-            wrapMode: Text.WordWrap
-            text: qsTr("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.")
+        GenericDivider{ margin: 0}
+
+        GridLayout{
+
+            columns: 2
+            columnSpacing: 10
+
+            Label {
+                text: "Version:"
+            }
+            Label {
+                text: Qt.application.version
+                font.weight: Font.Bold
+            }
         }
 
         Item {
@@ -99,6 +108,7 @@ Page {
             Layout.fillHeight: true
 
 
+
             IconButton {
                 id: mapBtn
 
@@ -152,7 +162,6 @@ Page {
                     _infoDialog(e)
                 }
             }
-
         }
         StackView {
             id: stackViewMain

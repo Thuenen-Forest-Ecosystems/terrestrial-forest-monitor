@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Playground VERSION 0.1 LANGUAGES CXX)
+project(Playground VERSION 0.1.1 LANGUAGES CXX)
 
 #set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -30,6 +30,8 @@ set_target_properties(playground PROPERTIES
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
+
+message(STATUS "Project: ${PROJECT_NAME} ${PROJECT_VERSION}")
 
 
 

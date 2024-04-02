@@ -54,7 +54,6 @@ RowLayout {
         }
         background: Rectangle {
             implicitWidth: 100
-            implicitHeight:  25
             border.width: raised ? 0 : 2
             border.color: Material.primary
             color: raised ? Material.primary : "White"

@@ -6,9 +6,11 @@ ColumnLayout {
     property int margin: 10
 
     width: parent.width
+    spacing: 0
 
-    Rectangle{
+    Item{
         height: margin
+        width: parent.width
     }
     Rectangle{
         height: 1
@@ -17,7 +19,8 @@ ColumnLayout {
         opacity: 0.2
         Layout.fillWidth: true
     }
-    Rectangle{
+    Item{
         height: margin
+        width: parent.width
     }
 }
