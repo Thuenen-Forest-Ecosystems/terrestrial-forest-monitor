@@ -4,6 +4,8 @@ import QtQuick.LocalStorage
 import QtQuick.Layouts
 import QtCore
 
+import Layouts
+
 
 ColumnLayout {
 
@@ -15,7 +17,7 @@ ColumnLayout {
 
     property var db
 
-    property alias sendButton: sendButton
+    //property alias sendButton: sendButton
 
     property alias userNameTextField: userNameTextField
     property alias userName: userNameTextField.text
@@ -94,6 +96,10 @@ ColumnLayout {
     }
 
 
+    function validateSendForm() : void {
+        sendHttpRequest(userNameTextField.text, passwordTextField.text)
+    }
+
 
     function sendHttpRequest(userName, password) : void {
         errorMessageVisible = false
@@ -160,8 +166,6 @@ ColumnLayout {
 
     }
 
-    sendButton.onClicked: sendHttpRequest(userNameTextField.text, passwordTextField.text)
-
     Component.onCompleted: {
         db = LocalStorage.openDatabaseSync(localOnlyDBName, "1.0", "The Example QML SQL!", 1000000); // 1 MB
         dropLocalUserTable();
@@ -178,9 +182,11 @@ ColumnLayout {
 
     TextField {
         id: userNameTextField
-        placeholderText: 'Name'
+        placeholderText: 'E-Mail'
         Layout.fillWidth: true
-
+        inputMethodHints: Qt.ImhEmailCharactersOnly
+        Keys.onReturnPressed: validateSendForm()
+        Keys.onEnterPressed: validateSendForm()
     }
 
     TextField {
@@ -188,6 +194,8 @@ ColumnLayout {
         placeholderText: 'Passwort'
         echoMode: "Password"
         Layout.fillWidth: true
+        Keys.onReturnPressed: validateSendForm()
+        Keys.onEnterPressed: validateSendForm()
     }
 
     Text {
@@ -197,16 +205,17 @@ ColumnLayout {
         color: "#ff0000"
     }
 
-    BusyIndicator {
-        implicitWidth: 25
-        implicitHeight: 25
-        running: true
-        visible: loggingIn
+    GenericButton{
+        Layout.alignment: Qt.AlignRight
+
+        buttonEnabled: !loggingIn
+        buttonText: "anmelden"
+        buttonIcon: "e163"
+        fn: function(){
+            validateSendForm()
+        }
+        raised: true
+        isBusy: loggingIn
     }
 
-    Button {
-        id: sendButton
-        text: qsTr("ANMELDEN")
-        enabled: !loggingIn
-    }
 }

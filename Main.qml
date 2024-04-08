@@ -11,9 +11,6 @@ import SyncOpenApi
 import Generic
 import Layouts
 
-// https://www.youtube.com/watch?v=rsBQgR_pd48
-// https://doc.qt.io/archives/qt-5.9/qtqml-cppintegration-topic.html
-
 ApplicationWindow {
 
     property real theme: Material.Dark
@@ -22,9 +19,9 @@ ApplicationWindow {
     id: applicationWindow
     visible: true
 
-    title: qsTr("Playground")
 
-
+    // Defined in main.cpp
+    title: qsTr(Qt.application.displayName)
 
 
     Material.theme: theme
@@ -35,7 +32,7 @@ ApplicationWindow {
 
 
     minimumWidth: 200
-    minimumHeight: 200
+    minimumHeight: 100
 
     width: 700
     height: 400

@@ -4,6 +4,8 @@ import QtCore
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 
+import Layouts
+
 RowLayout {
 
     // -- Properties
@@ -15,15 +17,10 @@ RowLayout {
     property bool raised: false
 
 
-    width: childrenRect.width
-    height: childrenRect.height
+    //width: childrenRect.width
+    //height: childrenRect.height
 
     // -- Methods
-
-    Component.onCompleted: {
-        AuthState.addListener(authStateChange)
-        authStateChange()
-    }
 
     function authStateChange(){
         if(settings){
@@ -34,19 +31,22 @@ RowLayout {
 
     }
 
+    Component.onCompleted: {
+        AuthState.addListener(authStateChange)
+        authStateChange()
+    }
+
     // -- Layout
 
-    Button {
+    /*Button {
         id:loginBtn
-        text: qsTr("ANMELDEN")
+        text: qsTr('ANMELDEN')
         visible: !isLoggedIn
-        flat: true
-        icon.source: "account_circle_FILL0_wght400_GRAD0_opsz24.svg"
+        icon.source: "qrc:/qt/qml/Layouts/icons/account_circle_FILL0_wght400_GRAD0_opsz24.svg"
         Material.background: Material.primary
         contentItem: Text {
             text: loginBtn.text
             font: loginBtn.font
-            //opacity: enabled ? 1.0 : 0.3
             color: raised ? loginBtn.color : Material.primary
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
@@ -56,7 +56,7 @@ RowLayout {
             implicitWidth: 100
             border.width: raised ? 0 : 2
             border.color: Material.primary
-            color: raised ? Material.primary : "White"
+            color: "#333"
             radius: 40
         }
         Connections {
@@ -68,14 +68,43 @@ RowLayout {
     Button {
         id:logoutBtn
         text: qsTr(userName)
-        icon.source: "account_circle_FILL0_wght400_GRAD0_opsz24.svg"
+        icon.source: "qrc:/qt/qml/Layouts/icons/account_circle_FILL0_wght400_GRAD0_opsz24.svg"
         visible: isLoggedIn
         flat: true
         Material.background: Material.primary
+        contentItem: Text {
+            text: logoutBtn.text
+            font: logoutBtn.font
+            color: "#333"
+        }
         Connections {
             function onClicked(){
                 loginDialogPopup.open()
             }
+        }
+    }*/
+
+    GenericButton{
+        visible: !isLoggedIn
+        Layout.alignment: Qt.AlignVCenter
+        buttonText: "anmelden"
+        buttonToolTip: "ANMELDEN / ABMELDEN"
+        buttonIcon: "e853"
+        fn: (e) => {
+            console.log(e);
+            loginDialogPopup.open();
+        }
+    }
+
+    GenericButton{
+        visible: isLoggedIn
+        Layout.alignment: Qt.AlignVCenter
+        buttonText: userName
+        buttonToolTip: "ANMELDEN / ABMELDEN"
+        buttonIcon: "e9ba"
+        fn: (e) => {
+            console.log(e);
+            loginDialogPopup.open();
         }
     }
 

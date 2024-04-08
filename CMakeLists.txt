@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Playground VERSION 0.1.1 LANGUAGES CXX)
+
+# Increase Version on Release #15
+project(Playground VERSION 0.1.2 LANGUAGES CXX)
 
 #set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

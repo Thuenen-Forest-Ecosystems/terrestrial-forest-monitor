@@ -3,6 +3,7 @@ import QtQuick.Controls 6.2
 import QtQuick.Layouts
 
 // http://imaginativethinking.ca/bi-directional-data-binding-qt-quick/
+import Layouts
 
 Dialog {
     modal: true
@@ -32,23 +33,26 @@ Dialog {
             id: loginForm
             visible: !wrapper.isLoggedIn
         }
-        Button {
-            Layout.alignment: Qt.AlignHCenter
+        GenericButton{
             visible: wrapper.isLoggedIn
-            text: qsTr("ABMELDEN")
-            Connections {
-                function onClicked(){
 
-                    let item = authStackView.get(0);
-                    authStackView.pop(item, StackView.Immediate);
-                    console.log('dsdsdsds');
+            Layout.alignment: Qt.AlignRight
 
-                    loginDialogPopup.close()
-                    wrapper.logout()
+            buttonText: "abmelden"
+            buttonIcon: "e9ba"
+
+            fn: function onClicked(){
+
+                let item = authStackView.get(0);
+                authStackView.pop(item, StackView.Immediate);
+                console.log('dsdsdsds');
+
+                loginDialogPopup.close()
+                wrapper.logout()
 
 
-                }
             }
+            raised: true
         }
     }
 

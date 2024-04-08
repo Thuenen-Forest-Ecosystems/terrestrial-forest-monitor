@@ -15,14 +15,10 @@ Item {
     width: size
     height: size
 
-     anchors.horizontalCenter : parent.horizontalCenter
-
-
     Label {
-        anchors.fill: parent
 
         font.family: materialFont.name
-        font.pixelSize: height
+        font.pixelSize: root.height
 
         color: parent.iconColor == "#000000" ? Material.foreground : iconColor
 
