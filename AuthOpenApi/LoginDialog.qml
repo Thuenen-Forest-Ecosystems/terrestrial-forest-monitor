@@ -45,7 +45,6 @@ Dialog {
 
                 let item = authStackView.get(0);
                 authStackView.pop(item, StackView.Immediate);
-                console.log('dsdsdsds');
 
                 loginDialogPopup.close()
                 wrapper.logout()

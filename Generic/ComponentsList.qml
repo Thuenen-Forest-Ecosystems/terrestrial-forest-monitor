@@ -42,15 +42,15 @@ Repeater {
                             }
                         ]
                     },
-                    /*{
-                        name: "Gnss",
+                    {
+                        name: "NetworkState - Checks on- / offline State",
                         pages: [
                             {
-                                btnLabel: "Bluetest.qml",
-                                qmlFile:"qrc:/qt/qml/Gnss/Bluetest.qml"
+                                btnLabel: "NetworkStateQml.qml",
+                                qmlFile:"qrc:/qt/qml/NetworkState/NetworkStateQml.qml"
                             }
                         ]
-                    },*/
+                    },
                 ]
             append(components) // appending a whole array makes each index into a ListElement at the top level
         }

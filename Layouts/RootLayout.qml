@@ -27,6 +27,7 @@ Page {
         showLogo: true
 
         Item {
+            width: parent.width
             height: 20
         }
 
@@ -35,6 +36,7 @@ Page {
             font.weight: Font.Bold
             text: qsTr("Über diese App")
         }
+
         GenericDivider{ margin: 0}
 
         GridLayout{
@@ -48,6 +50,32 @@ Page {
             Label {
                 text: Qt.application.version
                 font.weight: Font.Bold
+            }
+        }
+
+        Item {
+            width: parent.width
+            height: 20
+        }
+
+        Label {
+            font.pixelSize: 20
+            font.weight: Font.Bold
+            text: qsTr("Bereitgestellt von")
+        }
+        GenericDivider{ margin: 0}
+        Label {
+            text: '<b>Institut für Waldökosysteme<br/>'
+        }
+        Label {
+            text: 'Johann Heinrich von Thünen-Institut'
+        }
+        Label {
+            text: '<a href="https://www.thuenen.de/impressum" target="_blank">Impressum</a>'
+            Layout.fillWidth: true
+            wrapMode: Text.WordWrap
+            onLinkActivated: (link) => {
+                Qt.openUrlExternally(link)
             }
         }
 

@@ -11,6 +11,8 @@ qt_add_qml_module(NetworkStateLib
     URI NetworkState
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
-    QML_FILES NetworkState.qml
-    QML_FILES NetworkStateDialog.qml
+    QML_FILES NetworkStateQml.qml
+
+    SOURCES
+            networkstate.cpp networkstate.h
 )

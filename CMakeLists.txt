@@ -18,8 +18,14 @@ qt_add_executable(playground
 qt_add_qml_module(playground
     URI Playground
     VERSION 1.0
-    QML_FILES Main.qml
-    #RESOURCE_PREFIX ":/qt/qml/"
+
+    QML_FILES
+        Main.qml
+        #js/node_modules/ajv/dist/ajv.js
+        js/build/bundle.js
+
+    #RESOURCE_PREFIX "/root"
+
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -58,7 +64,7 @@ add_subdirectory(StaticData)
 add_subdirectory(AuthOpenApi)
 add_subdirectory(SyncOpenApi)
 add_subdirectory(Gnss)
-
+add_subdirectory(NetworkState)
 
 #find_package(Qt6 REQUIRED COMPONENTS Bluetooth)
 
@@ -75,6 +81,7 @@ target_link_libraries(playground PRIVATE
     LayoutsLibplugin
     StaticDataLibplugin
     PagesLibplugin
+    NetworkStateLibplugin
 )
 
 include(GNUInstallDirs)

@@ -17,8 +17,6 @@ Button {
 
     padding: 1
 
-    visible: !isLoggedIn
-    enabled: buttonEnabled
 
     MouseArea {
         anchors.fill: parent

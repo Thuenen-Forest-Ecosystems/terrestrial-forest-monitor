@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script type="module">
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            console.log(window);
+
+            console.log(ajv);
+
+
+            /*
+            const ajv = new Bundle.AJV.default()
+
+            const schema = {
+                type: "object",
+                properties: {
+                    foo: { type: "integer" },
+                    bar: { type: "string" }
+                },
+                required: ["foo"],
+                additionalProperties: false
+            }
+
+            const validate = ajv.compile(schema)
+            const data = {
+                foo: "1",
+                bar: "abc"
+            }
+
+            const valid = validate(data)
+            if (!valid) console.log(validate.errors)
+            else console.log(validate)*/
+        });
+    </script>
+    <script src="build/bundle.js"></script>
+</body>
+
+</html>

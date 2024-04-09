@@ -20,4 +20,6 @@ qt_add_qml_module(AuthOpenApiLib
     AuthState.qml
     AuthWrapper.qml
 
+
+
 )
