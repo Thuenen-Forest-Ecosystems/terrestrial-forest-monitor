@@ -14,7 +14,7 @@ qt_add_qml_module(AuthOpenApiLib
     QML_FILES
     LoginDialog.qml
     LoginForm.qml
-    LoginFormForm.ui.qml
+    #LoginFormForm.ui.qml
     AuthenticationButton.qml
 
     AuthState.qml

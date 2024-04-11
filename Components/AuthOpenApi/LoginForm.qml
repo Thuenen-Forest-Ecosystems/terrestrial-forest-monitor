@@ -20,6 +20,9 @@ ColumnLayout {
     property string usersTable: "USERS"
 
     property var db
+    property var ajv
+    property var schema
+    property var values
 
 
     property alias userNameTextField: userNameTextField
@@ -161,6 +164,19 @@ ColumnLayout {
         )
         return user
     }
+    function getUserByToken(token){
+        let user = {};
+        db.transaction(
+            function(tx) {
+                var rs = tx.executeSql(`SELECT * FROM ${usersTable} WHERE token in ( ? )`, [token], executeResult);
+                for (var i = 0; i < rs.rows.length; i++) {
+                    user = rs.rows[i]
+                    break
+                }
+            }
+        )
+        return user
+    }
 
     function offlineLogin(userName, password){
         let user = getUserByUsername();
@@ -252,38 +268,55 @@ ColumnLayout {
 
     }
 
-    function addValidation(){
-        const ajv = new Bundle.ajv()
+    function validate(){
 
-        const schema = {
-          type: "object",
-          properties: {
-            foo: {type: "integer"},
-            bar: {type: "string"}
-          },
-          required: ["foo"],
-          additionalProperties: false
-        }
+        console.log(JSON.stringify(values.values));
 
         const validate = ajv.compile(schema)
 
-        const data = {
-          foo: "1",
-          bar: "abc"
-        }
-
-        const valid = validate(data)
+        const valid = validate(values.values)
         if (!valid) console.log(JSON.stringify(validate.errors))
         else console.log("valid");
     }
 
     Component.onCompleted: {
         db = LocalStorage.openDatabaseSync(localOnlyDBName, "1.0", "The Example QML SQL!", 1000000); // 1 MB
-        dropLocalUserTable();
+        //dropLocalUserTable();
         createLocalUserTable();
 
         //AuthState.addListener(authStateChange)
-        addValidation();
+
+        //for( const i in Bundle)  console.log(i);
+
+        values = {
+            values:{
+                username: "",
+                password: ""
+            }
+        };
+
+        ajv = new Bundle.ajv()
+        Bundle.addFormats(ajv);
+
+        schema = {
+          type: "object",
+          properties: {
+            username: {
+                type: "string",
+                format: "email"
+            },
+            password: {
+                type: "string",
+                minLength: 6,
+                maxLength: 127
+            }
+          },
+          required: ["username", "password"],
+          additionalProperties: false
+        }
+        validate();
+
+
     }
 
 
@@ -294,23 +327,45 @@ ColumnLayout {
         category: "User"
     }
 
-    TextField {
+    /*TextField {
         id: userNameTextField
         placeholderText: 'E-Mail'
         Layout.fillWidth: true
         inputMethodHints: Qt.ImhEmailCharactersOnly
         Keys.onReturnPressed: validateSendForm()
         Keys.onEnterPressed: validateSendForm()
+        onDisplayTextChanged:{
+            validate();
+        }
+    }*/
+    GenericTextField{
+        id: userNameTextField
+        Layout.fillWidth: true
+        placeholderText: 'E-Mail'
+        parentObject: values.values
+        objectKey: "username"
+    }
+    Label{
+        text: genericUserName.text
     }
 
-    TextField {
+    /*TextField {
         id: passwordTextField
         placeholderText: 'Passwort'
         echoMode: "Password"
         Layout.fillWidth: true
         Keys.onReturnPressed: validateSendForm()
         Keys.onEnterPressed: validateSendForm()
+    }*/
+    GenericTextField{
+        id: passwordTextField
+        Layout.fillWidth: true
+        placeholderText: 'Passwort'
+        parentObject: values.values
+        objectKey: "password"
     }
+
+
 
     CheckBox {
         id: rememberLoginCheckbox

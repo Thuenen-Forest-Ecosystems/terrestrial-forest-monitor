@@ -14,4 +14,5 @@ QtObject {
     function addListener(fn){
         listenerFunctions.push(fn)
     }
+
 }

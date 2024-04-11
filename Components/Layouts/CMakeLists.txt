@@ -36,8 +36,5 @@ qt_add_qml_module(LayoutsLib
     QML_FILES ChildLayout.qml
     QML_FILES Components.qml
     QML_FILES GenericButton.qml
-
-
-
-
+    QML_FILES GenericTextField.qml
 )

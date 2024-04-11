@@ -21,7 +21,6 @@ qt_add_qml_module(playground
 
     QML_FILES
         Main.qml
-        #js/node_modules/ajv/dist/ajv.js
         js/build/bundle.js
 
     #RESOURCE_PREFIX "/root"
@@ -57,14 +56,15 @@ message(STATUS "Project: ${PROJECT_NAME} ${PROJECT_VERSION}")
 add_subdirectory(APPS)
 
 add_subdirectory(Generic)
-add_subdirectory(Layouts)
+add_subdirectory(Components/Layouts)
 
 add_subdirectory(StaticData)
 
-add_subdirectory(AuthOpenApi)
-add_subdirectory(SyncOpenApi)
-add_subdirectory(Gnss)
-add_subdirectory(NetworkState)
+add_subdirectory(Components/AuthOpenApi)
+
+add_subdirectory(Components/SyncOpenApi)
+add_subdirectory(Components/Gnss)
+add_subdirectory(Components/NetworkState)
 
 #find_package(Qt6 REQUIRED COMPONENTS Bluetooth)
 

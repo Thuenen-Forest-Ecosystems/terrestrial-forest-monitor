@@ -2,19 +2,18 @@
 import QtQuick 6.2
 import QtQuick.Controls.Material
 
-//import CppIntegration
+import QtCore
 
-import Playground
-
-import AuthOpenApi
-import SyncOpenApi
-import Generic
 import Layouts
+
+import QtQuick.LocalStorage
+
 
 ApplicationWindow {
 
     property real theme: Material.Dark
     property string themeBackground: Material.background
+    property alias sessionSettings: sessionSettings
 
     id: applicationWindow
     visible: true
@@ -76,5 +75,37 @@ ApplicationWindow {
             text: "Content goes here!"
             anchors.centerIn: parent
         }
+    }
+
+    // Remove Settings
+    onClosing: {
+
+        const token = sessionSettings.value('activeToken')
+
+        if(!token) return;
+
+        const db = LocalStorage.openDatabaseSync("LocalOnlyDB", "1.0", "The Example QML SQL!", 1000000);
+
+        let user = {};
+        db.transaction(
+            function(tx) {
+                var rs = tx.executeSql(`SELECT * FROM USERS WHERE token in ( ? )`, [token]);
+                for (var i = 0; i < rs.rows.length; i++) {
+                    user = rs.rows[i]
+                    break
+                }
+            }
+        )
+
+        console.log(JSON.stringify(user.autoLogin));
+
+        if(!user.autoLogin){
+            console.log('DELETED');
+            sessionSettings.setValue('activeToken', false)
+        }
+    }
+    Settings {
+        id: sessionSettings
+        category: "User"
     }
 }

@@ -15,11 +15,11 @@
 
             console.log(window);
 
-            console.log(ajv);
 
+            const _ajv = new ajv()
 
-            /*
-            const ajv = new Bundle.AJV.default()
+            addFormats(_ajv)
+
 
             const schema = {
                 type: "object",
@@ -31,7 +31,7 @@
                 additionalProperties: false
             }
 
-            const validate = ajv.compile(schema)
+            const validate = _ajv.compile(schema)
             const data = {
                 foo: "1",
                 bar: "abc"
@@ -39,10 +39,10 @@
 
             const valid = validate(data)
             if (!valid) console.log(validate.errors)
-            else console.log(validate)*/
+            else console.log(validate)
         });
     </script>
-    <script src="build/bundle.js"></script>
+    <script src="build/bundle.js" type="module"></script>
 </body>
 
 </html>
