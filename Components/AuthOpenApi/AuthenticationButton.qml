@@ -4,7 +4,7 @@ import QtCore
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 
-import Layouts
+import Layouts 1.0
 
 RowLayout {
 

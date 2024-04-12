@@ -6,8 +6,8 @@ import QtCore
 
 import Layouts
 
-//import "qrc:/Playground/js/node_modules/ajv/dist/ajv.js" as Ajv
-import "qrc:/Playground/js/build/bundle.js" as Bundle
+
+//import "qrc:/Playground/js/build/bundle.js" as Bundle
 
 
 
@@ -288,6 +288,7 @@ ColumnLayout {
 
         //for( const i in Bundle)  console.log(i);
 
+        /*
         values = {
             values:{
                 username: "",
@@ -316,7 +317,7 @@ ColumnLayout {
         }
         validate();
 
-
+        */
     }
 
 

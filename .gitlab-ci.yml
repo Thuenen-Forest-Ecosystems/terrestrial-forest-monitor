@@ -18,9 +18,10 @@ stages:
 
 include:
   - template: Auto-DevOps.gitlab-ci.yml
-  - template: ".gitlab-ci-runners-templates.yml"
+  - template: .gitlab-ci-runners-templates.yml
 
 # JOBS
+# https://gitlab.com/pages/plain-html
 pages:
   stage: deploy
   script:
@@ -31,44 +32,4 @@ pages:
     expire_in: 1 day
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-
-
-# Builds
-build-Linux-Static-analysis:
-   extends: .linuxJobTemplate
-   stage: Static-analysis
-   variables:
-     USE_CLANG: "true"
-     USE_CLAZY: "true"
-   script:
-     - ruby static-analysis.rb
-   artifacts:
-     paths:
-       - build
-     expire_in: 15 m
-
-build-Linux:
-   extends: .linuxJobTemplate
-   stage: Build
-   needs: ["build-Linux-Static-analysis"]
-   variables:
-     SHOULD_BUILD: "true"
-   script:
-     - ruby targets/linux/runPipeline.rb
-   artifacts:
-     paths:
-       - build/linux
-     expire_in: 15 m
-
-
-build-macOS:
-  extends: .macOSJobTemplate
-  stage: Build
-  variables:
-    SHOULD_BUILD: "true"
-  script:
-    - ruby targets/macOS/runPipeline.rb
-  artifacts:
-    paths:
-      - build/macOS
-    expire_in: 15 m
+    

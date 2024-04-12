@@ -59,7 +59,7 @@ ApplicationWindow {
 
     StackView {
         id: stackViewStart
-        initialItem: "qrc:/qt/qml/Pages/wellcome.qml"
+        initialItem: "qrc:/qt/qml/Routes/wellcome.qml"
         anchors.fill: parent
     }
 

@@ -64,7 +64,7 @@ RowLayout {
         toolTip: "Einstellungen"
 
         onClicked: function(e){
-            stackViewStart.push("qrc:/qt/qml/Pages/CI27/Einstellungen.qml", StackView.Immediate)
+            stackViewStart.push("qrc:/qt/qml/Routes/CI27/Einstellungen.qml", StackView.Immediate)
         }
     }
 

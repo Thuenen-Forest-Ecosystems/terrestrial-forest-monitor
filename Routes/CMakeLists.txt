@@ -1,11 +1,11 @@
-qt_add_library(PagesLib STATIC)
+qt_add_library(RoutesLib STATIC)
 
-set_target_properties(PagesLib PROPERTIES AUTOMOC ON)
-target_link_libraries(PagesLib PRIVATE Qt6::Quick )
+set_target_properties(RoutesLib PROPERTIES AUTOMOC ON)
+target_link_libraries(RoutesLib PRIVATE Qt6::Quick )
 
 
-qt_add_qml_module(PagesLib
-    URI Pages
+qt_add_qml_module(RoutesLib
+    URI Routes
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
     QML_FILES

@@ -25,7 +25,7 @@ Page {
                         toolTip: "Schließen"
 
                         onClicked: function(e){
-                            stackViewStart.push("qrc:/qt/qml/Pages/CI27/settings/Privileges.qml", StackView.Immediate)
+                            stackViewStart.push("qrc:/qt/qml/Routes/CI27/settings/Privileges.qml", StackView.Immediate)
                         }
                     }
                 }

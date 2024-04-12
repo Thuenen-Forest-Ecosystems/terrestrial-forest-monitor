@@ -88,7 +88,7 @@ RootLayout{
                     onClicked: {
                         wrapper.executeIfLoggedIn(
                             () => {
-                                stackViewMain.push("qrc:/qt/qml/Pages/CI27/Traktliste.qml", StackView.Immediate)
+                                stackViewMain.push("qrc:/qt/qml/Routes/CI27/Traktliste.qml", StackView.Immediate)
                             }
                         )
                     }

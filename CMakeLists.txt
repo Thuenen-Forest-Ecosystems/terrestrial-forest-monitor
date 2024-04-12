@@ -14,14 +14,16 @@ qt_add_executable(playground
     main.cpp
 )
 
+target_link_options(playground PRIVATE -s FULL_ES3=1)
+#target_link_options(playground PRIVATE -s LIBRARY_DEBUG=1)
+
+
 qt_add_qml_module(playground
     URI Playground
     VERSION 1.0
-
     QML_FILES
     Main.qml
-    js/build/bundle.js
-
+    # js/build/bundle.js
     # RESOURCE_PREFIX "/root"
 )
 
@@ -49,7 +51,8 @@ message(STATUS "Project: ${PROJECT_NAME} ${PROJECT_VERSION}")
 # #set_source_files_properties(${app_icon_macos} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 
 # #qt_add_executable(photosurfaceexample MACOSX_BUNDLE main.cpp ${app_icon_macos})
-add_subdirectory(APPS)
+
+add_subdirectory(Routes)
 
 add_subdirectory(Generic)
 add_subdirectory(Components/Layouts)
@@ -76,7 +79,7 @@ target_link_libraries(playground PRIVATE
     GenericLibplugin
     LayoutsLibplugin
     StaticDataLibplugin
-    PagesLibplugin
+    RoutesLibplugin
     NetworkStateLibplugin
 )
 
