@@ -15,6 +15,7 @@ stages:
   - Build
   - Test
   - Pack
+  - Deploy
 
 include:
   - template: Auto-DevOps.gitlab-ci.yml
@@ -22,7 +23,7 @@ include:
 # JOBS
 # https://gitlab.com/pages/plain-html
 pages:
-  stage: deploy
+  stage: Deploy
   script:
   - echo 'Nothing to do...'
   artifacts:
