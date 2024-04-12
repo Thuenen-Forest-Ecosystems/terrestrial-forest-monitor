@@ -1,0 +1,61 @@
+.androidJobTemplate:
+  variables:
+    SHOULD_BUILD: "false"
+    SHOULD_PACK: "false"
+    CMAKE_TOOLCHAIN_FILE: "C:/Users/Scythe-Studio/AppData/Local/Android/Sdk/ndk/22.1.7171670/build/cmake/android.toolchain.cmake"
+    CMAKE_PREFIX_PATH: "C:/Qt/6.3.0/android_armv7"
+    CMAKE_BIN_PATH: "C:/Qt/Tools/CMake_64/bin"
+    ANDROID_NDK_DIR: "C:/Users/Scythe-Studio/AppData/Local/Android/Sdk/ndk/22.1.7171670/prebuilt/windows-x86_64/bin"
+    ANDROID_SDK_ROOT: "C:/Users/Scythe-Studio/AppData/Local/Android/Sdk"
+    JAVA_HOME: "C:/Program Files/OpenJDK/jdk-11.0.15.10-hotspot"
+    QT_HOST_PATH: "C:/Qt/6.3.0/mingw_64"
+  before_script:
+    - $env:Path="C:/Qt/Tools/mingw1120_64/bin;$env:Path"
+  tags:
+    - windows 
+    - qt
+
+.windowsJobTemplate:
+  variables:
+    SHOULD_BUILD: "false"
+    SHOULD_TEST: "false"
+    SHOULD_PACK: "false"
+    MINGW_BIN_DIR: "C:/Qt/Tools/mingw1120_64/bin"
+    CMAKE_BIN_PATH: "C:/Qt/Tools/CMake_64/bin"
+    CMAKE_PREFIX_PATH: "C:/Qt/6.3.0/mingw_64"
+    QTIF_BIN_DIR: "C:/Qt/Tools/QtInstallerFramework/4.0/bin"
+  before_script:
+    - $env:Path="C:/Qt/Tools/mingw1120_64/bin;$env:Path"
+  tags:
+    - windows
+    - qt
+
+.linuxJobTemplate:
+  variables:
+    USE_CLANG: "false"
+    USE_CLAZY: "false"
+    SHOULD_BUILD: "false"
+    SHOULD_TEST: "false"
+    SHOULD_PACK: "false"
+    CMAKE_PREFIX_PATH: "/home/gerrit/Qt//6.6.2/gcc_64"
+  tags:
+    - linux
+    - qt
+
+.macOSJobTemplate:
+  variables:
+    SHOULD_BUILD: "false"
+    SHOULD_TEST: "false"
+    SHOULD_PACK: "false"
+    QT_DIR: "/Users/lukasz/Qt/6.3.0/macos"
+  tags:
+    - macos
+    - qt
+
+.iOSJobTemplate:
+  extends: .macOSJobTemplate
+  variables:
+    QT_DIR: "/Users/lukasz/Qt/6.3.0/ios"
+  tags:
+    - ios
+    - qt

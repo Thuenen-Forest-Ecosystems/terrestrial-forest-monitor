@@ -1,3 +1,5 @@
+image: busybox
+
 # You can override the included template(s) by including variable overrides
 # SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
 # Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
@@ -9,6 +11,7 @@
 #include: '.gitlab-ci-runners-templates.yml'
 
 stages:
+  - Static-analysis
   - Build
   - Test
   - Pack
@@ -17,7 +20,48 @@ include:
   - template: Auto-DevOps.gitlab-ci.yml
   - template: ".gitlab-ci-runners-templates.yml"
 
-"build-macOS":
+# JOBS
+pages:
+  stage: deploy
+  script:
+  - echo 'Nothing to do...'
+  artifacts:
+    paths:
+    - public
+    expire_in: 1 day
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+
+
+# Builds
+build-Linux-Static-analysis:
+   extends: .linuxJobTemplate
+   stage: Static-analysis
+   variables:
+     USE_CLANG: "true"
+     USE_CLAZY: "true"
+   script:
+     - ruby static-analysis.rb
+   artifacts:
+     paths:
+       - build
+     expire_in: 15 m
+
+build-Linux:
+   extends: .linuxJobTemplate
+   stage: Build
+   needs: ["build-Linux-Static-analysis"]
+   variables:
+     SHOULD_BUILD: "true"
+   script:
+     - ruby targets/linux/runPipeline.rb
+   artifacts:
+     paths:
+       - build/linux
+     expire_in: 15 m
+
+
+build-macOS:
   extends: .macOSJobTemplate
   stage: Build
   variables:
