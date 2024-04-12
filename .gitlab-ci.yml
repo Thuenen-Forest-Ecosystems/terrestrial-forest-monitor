@@ -18,7 +18,6 @@ stages:
 
 include:
   - template: Auto-DevOps.gitlab-ci.yml
-  - template: .gitlab-ci-runners-templates.yml
 
 # JOBS
 # https://gitlab.com/pages/plain-html
