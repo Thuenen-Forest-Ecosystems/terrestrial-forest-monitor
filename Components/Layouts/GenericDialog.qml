@@ -12,6 +12,7 @@ Dialog {
     id: root
 
     modal: true
+    padding: 0
 
 
     contentItem: ColumnLayout{
@@ -26,7 +27,6 @@ Dialog {
                 fillMode: Image.PreserveAspectCrop
                 sourceSize: Qt.size(377, 151)
                 smooth: false
-                antialiasing: false
             }
         }
         ScrollView{

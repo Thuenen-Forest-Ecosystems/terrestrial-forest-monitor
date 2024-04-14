@@ -15,7 +15,10 @@ Button {
     property bool buttonEnabled: true
     property bool isBusy: false
 
+    property string badge
+
     padding: 1
+    enabled: buttonEnabled
 
 
     MouseArea {
@@ -56,7 +59,7 @@ Button {
         implicitWidth: 100
         border.width: raised ? 0 : 2
         border.color: Material.primary
-        color: raised ? Material.primary : "#333"
+        color: raised ? buttonEnabled ? Material.primary : "#ddd" : "#333"
         radius: 40
     }
 
@@ -74,6 +77,20 @@ Button {
     FontLoader {
         id: materialFont;
         source: "qrc:/qt/qml/Layouts/fonts/MaterialIcons.ttf"
+    }
+
+    // Badge
+    Rectangle {
+        visible: badge
+        width: 20
+        height: 20
+        color: "#f0f"
+        radius: 20
+
+        Label{
+            text: badge.toString()
+
+        }
     }
 
 }

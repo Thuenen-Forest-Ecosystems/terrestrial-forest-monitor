@@ -29,6 +29,12 @@ ToolButton {
     ToolTip.visible: hovered
     ToolTip.text: qsTr(toolTip)
 
+    MouseArea {
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
+        onClicked: parent.clicked()
+    }
+
 
     FontLoader {
         id: materialFont;

@@ -18,6 +18,7 @@ import QtQuick.Layouts 6.2
         width: parent.width
 
         Item{
+            visible: leadingCodePoint ? true : false
             width: leadingCodePoint ? 50 : 10
             Layout.alignment: Qt.AlignTop
 

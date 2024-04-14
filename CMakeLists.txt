@@ -14,7 +14,7 @@ qt_add_executable(playground
     main.cpp
 )
 
-target_link_options(playground PRIVATE -s FULL_ES3=1)
+#target_link_options(playground PRIVATE -s FULL_ES3=1)
 #target_link_options(playground PRIVATE -s LIBRARY_DEBUG=1)
 
 
@@ -23,7 +23,7 @@ qt_add_qml_module(playground
     VERSION 1.0
     QML_FILES
     Main.qml
-    # js/build/bundle.js
+    js/build/bundle.js
     # RESOURCE_PREFIX "/root"
 )
 

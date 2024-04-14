@@ -41,7 +41,6 @@ RowLayout {
         buttonToolTip: "ANMELDEN / ABMELDEN"
         buttonIcon: "e853"
         fn: (e) => {
-            console.log(e);
             loginDialogPopup.open();
         }
     }
@@ -53,7 +52,6 @@ RowLayout {
         buttonToolTip: "ANMELDEN / ABMELDEN"
         buttonIcon: "e9ba"
         fn: (e) => {
-            console.log(e);
             loginDialogPopup.open();
         }
     }

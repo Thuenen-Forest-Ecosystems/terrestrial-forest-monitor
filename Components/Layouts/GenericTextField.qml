@@ -2,29 +2,62 @@ import QtQuick 6.2
 import QtQuick.Controls
 import QtQuick.Layouts
 
-RowLayout{
+ColumnLayout{
 
     id: root
+    property string errorMessage
 
     required property string placeholderText
 
     property var parentObject
     property string objectKey
 
-    property alias text: userNameTextField.text
+    property var echoMode
 
-    height: childrenRect.height
+    property string description
 
-    TextField {
-        id: userNameTextField
-        placeholderText: root.placeholderText
-        Layout.fillWidth: true
-        inputMethodHints: Qt.ImhEmailCharactersOnly
-        Keys.onReturnPressed: validateSendForm()
-        Keys.onEnterPressed: validateSendForm()
-        onDisplayTextChanged:{
-            validate();
-            parentObject[objectKey] = userNameTextField.text
+    property variant formErrors
+
+    property string error
+
+
+    onFormErrorsChanged: {
+
+        error = ''
+
+
+
+        for(const curError of formErrors){
+            if(curError.instancePath.endsWith(objectKey)){
+                error = curError.message
+                break
+            }
         }
+    }
+
+    RowLayout{
+        height: childrenRect.height
+
+        TextField {
+            id: textField
+            placeholderText: root.placeholderText
+            Layout.fillWidth: true
+            inputMethodHints: Qt.ImhEmailCharactersOnly
+            echoMode: root.echoMode || "Normal"
+            Keys.onReturnPressed: validateSendForm()
+            Keys.onEnterPressed: validateSendForm()
+            onDisplayTextChanged:{
+
+                parentObject[objectKey] = textField.text
+                validate();
+
+            }
+        }
+    }
+    Label {
+        visible: true
+        text: error
+        color: "#900"
+        Layout.leftMargin: 20
     }
 }

@@ -7,7 +7,7 @@ import QtCore
 import Layouts
 
 
-//import "qrc:/Playground/js/build/bundle.js" as Bundle
+import "qrc:/Playground/js/build/bundle.js" as Bundle
 
 
 
@@ -23,13 +23,14 @@ ColumnLayout {
     property var ajv
     property var schema
     property var values
+    property variant errors:  []
 
 
-    property alias userNameTextField: userNameTextField
-    property alias userName: userNameTextField.text
+    //property alias userNameTextField: userNameTextField
+    //property alias userName: userNameTextField.text
 
-    property alias passwordTextField: passwordTextField
-    property alias password: passwordTextField.text
+    //property alias passwordTextField: passwordTextField
+    //property alias password: passwordTextField.text
 
     property alias rememberLoginCheckbox: rememberLoginCheckbox
 
@@ -141,7 +142,7 @@ ColumnLayout {
 
 
     function validateSendForm() : void {
-        sendHttpRequest(userNameTextField.text, passwordTextField.text)
+        sendHttpRequest(values.values.username, values.values.password)
     }
 
     function removeUserByUsername(username){
@@ -200,19 +201,6 @@ ColumnLayout {
     function sendHttpRequest(userName, password) : void {
         errorMessageVisible = false
 
-
-
-        if(!userName || !password) {
-            errorMessageVisible = true
-            errorMessage = 'Gib dein Nutzername und Passwort ein.'
-            return;
-        }
-        if(!privacyCheckBox.checked){
-            errorMessageVisible = true
-            errorMessage = 'Die Datenschutzbestimmungen müssen akzeptiert werden.'
-            return;
-        }
-
         const body = JSON.stringify({
           email: userName,
           pass: password
@@ -250,8 +238,8 @@ ColumnLayout {
                     //console.log("ERROR: ", JSON.stringify(object))
                     errorMessage = object.message
                     errorMessageVisible = true
-                    passwordTextField.text = '';
-                    passwordTextField.forceActiveFocus()
+                    //passwordTextField.text = '';
+                    //passwordTextField.forceActiveFocus()
                 }
             }
         }
@@ -260,8 +248,8 @@ ColumnLayout {
     }
     function resetForm(){
         rememberLoginCheckbox.checked = false;
-        userNameTextField.text = '';
-        passwordTextField.text = '';
+        //userNameTextField.text = '';
+        //passwordTextField.text = '';
         loggingIn = false
         errorMessage = ''
         errorMessageVisible = false
@@ -270,16 +258,16 @@ ColumnLayout {
 
     function validate(){
 
-        console.log(JSON.stringify(values.values));
-
         const validate = ajv.compile(schema)
 
         const valid = validate(values.values)
-        if (!valid) console.log(JSON.stringify(validate.errors))
-        else console.log("valid");
+
+        errors = valid ? [] : validate.errors;
+
     }
 
     Component.onCompleted: {
+
         db = LocalStorage.openDatabaseSync(localOnlyDBName, "1.0", "The Example QML SQL!", 1000000); // 1 MB
         //dropLocalUserTable();
         createLocalUserTable();
@@ -288,15 +276,17 @@ ColumnLayout {
 
         //for( const i in Bundle)  console.log(i);
 
-        /*
+        errors = [];
+
         values = {
             values:{
                 username: "",
-                password: ""
+                password: "",
+                privacy: false
             }
         };
 
-        ajv = new Bundle.ajv()
+        ajv = new Bundle.ajv({allErrors: true})
         Bundle.addFormats(ajv);
 
         schema = {
@@ -310,14 +300,17 @@ ColumnLayout {
                 type: "string",
                 minLength: 6,
                 maxLength: 127
+            },
+            privacy: {
+                const: true
             }
           },
-          required: ["username", "password"],
+          required: ["username", "password", "privacy"],
           additionalProperties: false
         }
         validate();
 
-        */
+
     }
 
 
@@ -328,42 +321,22 @@ ColumnLayout {
         category: "User"
     }
 
-    /*TextField {
-        id: userNameTextField
-        placeholderText: 'E-Mail'
-        Layout.fillWidth: true
-        inputMethodHints: Qt.ImhEmailCharactersOnly
-        Keys.onReturnPressed: validateSendForm()
-        Keys.onEnterPressed: validateSendForm()
-        onDisplayTextChanged:{
-            validate();
-        }
-    }*/
     GenericTextField{
-        id: userNameTextField
         Layout.fillWidth: true
         placeholderText: 'E-Mail'
         parentObject: values.values
         objectKey: "username"
-    }
-    Label{
-        text: genericUserName.text
+        errorMessage: "ERROR: "
+        formErrors: errors
     }
 
-    /*TextField {
-        id: passwordTextField
-        placeholderText: 'Passwort'
-        echoMode: "Password"
-        Layout.fillWidth: true
-        Keys.onReturnPressed: validateSendForm()
-        Keys.onEnterPressed: validateSendForm()
-    }*/
     GenericTextField{
-        id: passwordTextField
         Layout.fillWidth: true
         placeholderText: 'Passwort'
         parentObject: values.values
         objectKey: "password"
+        echoMode: "Password"
+        formErrors: errors
     }
 
 
@@ -383,6 +356,10 @@ ColumnLayout {
         CheckBox {
             id: privacyCheckBox
             checked: false
+            onCheckStateChanged: {
+                values.values.privacy = privacyCheckBox.checked
+                validate()
+            }
         }
         Label {
             text: 'Ich habe die <a href="https://www.thuenen.de/de/datenschutzerklaerung" target="_blank">Datenschutzerklärung</a> gelesen und akzeptiere diese.'
@@ -406,7 +383,7 @@ ColumnLayout {
     GenericButton{
         Layout.alignment: Qt.AlignRight
 
-        buttonEnabled: !loggingIn
+        buttonEnabled: !loggingIn && errors?.length === 0
         buttonText: "anmelden"
         buttonIcon: "e163"
         fn: function(){
@@ -414,6 +391,7 @@ ColumnLayout {
         }
         raised: true
         isBusy: loggingIn
+        badge: errors?.length > 0 ? errors?.length.toString() : null
     }
 
 }
