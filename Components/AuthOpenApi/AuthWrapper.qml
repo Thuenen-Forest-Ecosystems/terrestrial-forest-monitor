@@ -7,8 +7,10 @@ Item {
 
     property bool isLoggedIn: false;
     property alias settings: settings
+    property string token
 
     function authStateChange(){
+        token = settings.value('activeToken')
         if(settings)
             isLoggedIn = settings.value('activeToken') ? true : false
     }

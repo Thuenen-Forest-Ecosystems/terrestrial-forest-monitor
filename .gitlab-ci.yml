@@ -11,12 +11,19 @@ image: busybox
 #include: '.gitlab-ci-runners-templates.yml'
 
 stages:
-  - BuildPages
+  - Static-analysis
+  - Build
+  - Test
+  - Pack
+
+include:
+  - template: Auto-DevOps.gitlab-ci.yml
+  - template: .gitlab-ci-runners-templates.yml
 
 # JOBS
 # https://gitlab.com/pages/plain-html
 pages:
-  stage: BuildPages
+  stage: deploy
   script:
   - echo 'Nothing to do...'
   artifacts:

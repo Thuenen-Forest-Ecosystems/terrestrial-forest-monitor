@@ -97,11 +97,11 @@ ApplicationWindow {
             }
         )
 
-        console.log(JSON.stringify(user.autoLogin));
-
         if(!user.autoLogin){
-            console.log('DELETED');
-            sessionSettings.setValue('activeToken', false)
+            console.log('TODO: onClosing');
+            return
+            sessionSettings.setValue('activeToken', null)
+            sessionSettings.setValue('activeUser', null)
         }
     }
     Settings {

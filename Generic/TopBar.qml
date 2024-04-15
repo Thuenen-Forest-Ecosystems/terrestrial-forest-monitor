@@ -10,7 +10,6 @@ import Layouts
 RowLayout {
 
     property alias settings: settings
-    property var activeToken: settings.value('activeToken')
 
     anchors.fill: parent
     spacing: 0
