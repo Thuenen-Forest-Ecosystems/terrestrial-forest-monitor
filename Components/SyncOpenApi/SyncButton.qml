@@ -12,7 +12,7 @@ Item {
 
     property string apiHost: "https://wo-apps.thuenen.de/postgrest/"
     property string endpointLogin: ""
-    property string schema_name
+    property string schema_name: "bwi_de_001_dev"
 
     property alias settings: settings
     property string token
@@ -53,9 +53,10 @@ Item {
     function buildSqlite(definitions) {
         if(!definitions) return;
 
-        console.log('GOT');
+
 
         const schema = schema_name || 'default';
+        console.log('GOT:', schema);
 
         const tables = [];
 
@@ -84,7 +85,6 @@ Item {
             });
         }
 
-
         db.transaction(
             function(tx) {
                 for(const table of tables){
@@ -92,29 +92,103 @@ Item {
 
                     const userName = settings.value('activeUser').replace(/[^\w\s]/gi, '')
 
-                    const tableName = `${userName}_${schema}_${table.definitionKey}`
-                    console.log(tableName);
+                    const tableName = `${userName}$${schema}$${table.definitionKey}`
 
-                    const sqlStringSelect = `SELECT * FROM ${tableName}z`;
-                    var rs = tx.executeSql(sqlStringSelect, executeResult);
-                    console.log(JSON.stringify(rs));
 
-                    const sqlStringDrop = `DROP TABLE IF EXISTS ${tableName}`;
-                    tx.executeSql(sqlStringDrop, executeResult);
+                    const sqlStringDrop = `DROP TABLE IF EXISTS ${tableName};`;
+                    //tx.executeSql(sqlStringDrop);
 
-                    const sqlStringCreate = `CREATE TABLE IF NOT EXISTS ${tableName}(${table.fields.join(',')})`;
+                    const sqlStringCreate = `CREATE TABLE IF NOT EXISTS ${tableName}(${table.fields.join(',')});`;
                     tx.executeSql(sqlStringCreate, executeResult);
+
+                    fillSqlite(tableName, table.definitionKey);
                 }
-
-                const sqlStringTables2 = `SELECT * FROM sqlite_temp_master`;
-                var rs = tx.executeSql(sqlStringTables2, executeResult);
-                console.log(JSON.stringify(rs));
-
-                const sqlStringTables = `SELECT * FROM sqlite_master`;
-                rs = tx.executeSql(sqlStringTables, executeResult);
             }
         )
 
+        listTables()
+    }
+    function listTables(){
+        const tables = [];
+        db.transaction(
+            function(tx) {
+                const sqlStringTables2 = `SELECT name FROM sqlite_schema;`;
+                var rs2 = tx.executeSql(sqlStringTables2, executeResult);
+                for(var i = 0; i < rs2.rows.length; i++) {
+                    tables.push(rs2.rows.item(i).name)
+                    console.log(JSON.stringify(rs2.rows.item(i)));
+                }
+            }
+        )
+        return tables;
+    }
+    function addRowsToTable(tableName, object): void {
+        db.transaction(
+            function(tx) {
+                console.log(JSON.stringify(object));
+                for(const row of object){
+                    const keys = Object.keys(row)
+                    const values = Object.values(row)
+                    const encValues = values.map(x => typeof x == 'number'? x : `"${x}"`)
+
+                    const sqlStringCreate = `INSERT INTO ${tableName} (${keys}) VALUES (${encValues});`;
+                    tx.executeSql(sqlStringCreate, executeResult);
+                }
+            }
+        )
+        /*db.transaction(
+            function(tx) {
+                const sqlStringTables2 = `SELECT * FROM ${tableName};`;
+                var rs = tx.executeSql(sqlStringTables2, executeResult);
+                for(const row in rs.rows){
+                    console.log(JSON.stringify(row));
+                }
+                for(var i = 0; i < rs.rows.length; i++) {
+                    console.log(JSON.stringify(rs.rows.item(i)));
+                }
+            }
+        )*/
+    }
+    function fillSqlite(tableName, definitionKey): void {
+        console.log(definitionKey);
+
+        const body = JSON.stringify({
+        });
+
+        var http = new XMLHttpRequest()
+        var url = apiHost + definitionKey;
+
+        console.log(url, token);
+
+        http.open("GET", url, true);
+
+        http.setRequestHeader("accept", "application/json");
+        http.setRequestHeader("Content-type", "application/json");
+        http.setRequestHeader("Connection", "close");
+
+        if(schema_name){
+            // https://postgrest.org/en/v12/references/api/schemas.html
+            http.setRequestHeader("Accept-Profile", schema_name); // GET or HEAD
+            //http.setRequestHeader("Content-Profile", schema_name); // POST, PATCH, PUT and DELETE
+        } // Else default DB
+
+        if(token){
+            http.setRequestHeader("Authorization", `bearer ${token}`);
+        }
+
+
+        http.onreadystatechange = function() {
+            if (http.readyState == 4) {
+
+
+                var object = JSON.parse(http.responseText.toString());
+
+                addRowsToTable(tableName, object);
+                return;
+
+            }
+        }
+        http.send(body);
     }
 
     function sendHttpRequest() : void {
@@ -128,12 +202,14 @@ Item {
 
         http.open("GET", url, true);
 
-        http.setRequestHeader("accept", "application/json");
-        http.setRequestHeader("Content-type", "application/json");
-        http.setRequestHeader("Connection", "close");
+        //http.setRequestHeader("accept", "application/json");
+        //http.setRequestHeader("Content-type", "application/json");
+        //http.setRequestHeader("Connection", "close");
 
         if(schema_name){
-            http.setRequestHeader("Accept-Profile", schema_name);
+            // https://postgrest.org/en/v12/references/api/schemas.html
+            http.setRequestHeader("Accept-Profile", schema_name); // GET or HEAD
+            //http.setRequestHeader("Content-Profile", schema_name); // POST, PATCH, PUT and DELETE
         } // Else default DB
 
         if(token){
