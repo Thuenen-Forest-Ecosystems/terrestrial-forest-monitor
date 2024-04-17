@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 # Increase Version on Release #15
-project(Playground VERSION 0.1.2 LANGUAGES CXX)
+project(playground VERSION 0.1.2 LANGUAGES CXX)
 
 # set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -105,3 +105,25 @@ set(QML_IMPORT_PATH "${QML_DIRS}" CACHE STRING "Qt Creator 4.1 extra qml import 
 # i18n/base.ts
 # i18n/qml_de.ts
 # )
+
+
+
+# Pack https://www.ics.com/blog/revisiting-qt-installer-framework-cmake
+include(InstallRequiredSystemLibraries)
+set(CPACK_GENERATOR "IFW")
+set(CPACK_IFW_ROOT "/home/gerrit/Qt/Tools/QtInstallerFramework/4.7")
+set(CPACK_PACKAGE_VERSION_MAJOR "1")
+set(CPACK_PACKAGE_VERSION_MINOR "0")
+#include(CPACK)
+include(CPackIFW)
+
+# PACK: https://www.youtube.com/watch?v=3xuq985YKI0 
+
+
+# Qt/Tools/QtInstallerFramework/4.7/bin/binarycreator 
+#set(CPACK_GENERATOR "IFW")
+##set(CPACK_IFW_ROOT "$ENV{HOME}/Qt/Tools/QtInstallerFramework/4.1")
+#set(CPACK_IFW_ROOT "/home/gerrit/Qt/Tools/QtInstallerFramework/4.7")
+#set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+#set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+#include(CPACK)

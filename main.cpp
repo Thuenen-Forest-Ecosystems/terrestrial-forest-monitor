@@ -3,7 +3,7 @@
 
 #include <QFontDatabase>
 #include <QTranslator>
-
+#include <QIcon>
 
 
 
@@ -17,6 +17,7 @@ int main(int argc, char *argv[]) {
   app.setOrganizationName("Thuenen");
   app.setOrganizationDomain("org.thuenen.de");
   app.setApplicationName("Waldmonitoring");
+  app.setWindowIcon(QIcon(":/resources/android_512_512.png"));
 
   // Allow to load local files via XMLHttpRequest
   qputenv("QML_XHR_ALLOW_FILE_READ", QString("1").toUtf8());

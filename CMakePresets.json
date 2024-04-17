@@ -73,7 +73,7 @@
     {
       "name": "debug",
       "description": "Preset which expects Qt and compiler to be put into PATH before launching vscode",
-      "binaryDir": "${sourceDir}/build-debug",
+      "binaryDir": "${sourceDir}/build/build-debug",
       "inherits": [
         "base-ninja",
         "base-debug"
@@ -82,7 +82,7 @@
     {
       "name": "release",
       "description": "Preset which expects Qt and compiler to be put into PATH before launching vscode",
-      "binaryDir": "${sourceDir}/build-release",
+      "binaryDir": "${sourceDir}/build/build-release",
       "inherits": [
         "base-ninja",
         "base-release"
@@ -91,7 +91,7 @@
     {
       "name": "profile",
       "description": "Preset which expects Qt and compiler to be put into PATH before launching vscode",
-      "binaryDir": "${sourceDir}/build-profile",
+      "binaryDir": "${sourceDir}/build/build-profile",
       "inherits": [
         "base-ninja",
         "base-profile"
@@ -100,7 +100,7 @@
     {
       "name": "debug-msvc",
       "description": "Preset which expects Qt to be put into PATH before launching vscode. vsvars64.bat is called by the IDE automatically.",
-      "binaryDir": "${sourceDir}/build-debug-msvc",
+      "binaryDir": "${sourceDir}/build/build-debug-msvc",
       "inherits": [
         "base-debug",
         "base-ninja",
@@ -110,7 +110,7 @@
     {
       "name": "release-msvc",
       "description": "Preset which expects Qt to be put into PATH before launching vscode. vsvars64.bat is called by the IDE automatically.",
-      "binaryDir": "${sourceDir}/build-release-msvc",
+      "binaryDir": "${sourceDir}/build/build-release-msvc",
       "inherits": [
         "base-release",
         "base-ninja",
@@ -120,7 +120,7 @@
     {
       "name": "profile-msvc",
       "description": "Preset which expects Qt to be put into PATH before launching vscode. vsvars64.bat is called by the IDE automatically.",
-      "binaryDir": "${sourceDir}/build-profile-msvc",
+      "binaryDir": "${sourceDir}/build/build-profile-msvc",
       "inherits": [
         "base-profile",
         "base-ninja",
