@@ -4,7 +4,7 @@ This repository is a playground for the CI2027 modules/components, layouts and f
 
 ## Components
 
-[AuthOpenApi](https://git-dmz.thuenen.de/datenerfassungci2027/ci2027_datenerfassung/ci2027-playground/-/tree/main/AuthOpenApi)
+[AuthOpenApi](https://github.com/Thuenen-Forest-Ecosystems/terrestrial-forest-monitor/tree/main/Components/AuthOpenApi)
 
 ## Build js bundle
 
@@ -24,4 +24,4 @@ The current setup is made to be edited in QT-Creator. More could follow...
 5. Select "Build" -> "Run" or Ctr+r to run the project.
 
 ## License
-This project is licensed under the [GNU General Public License v3.0](LICENCE.md).
+This project is licensed under the [GNU General Public License v3.0](https://github.com/Thuenen-Forest-Ecosystems/terrestrial-forest-monitor/blob/main/LICENSE.md).
