@@ -14,7 +14,7 @@ The built js file provides QT with "Turf.js | Advanced geospatial analysis" for 
 
 
 ## Setup in Qt Creator
-The current setup is made to be edited in QT-Creator. More could follow...
+The current setup is made to be edited in QT-Creator.
 
 *Steps to get started:*
 1. Clone Repository
@@ -25,3 +25,4 @@ The current setup is made to be edited in QT-Creator. More could follow...
 
 ## License
 This project is licensed under the [GNU General Public License v3.0](https://github.com/Thuenen-Forest-Ecosystems/terrestrial-forest-monitor/blob/main/LICENSE.md).
+
