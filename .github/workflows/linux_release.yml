@@ -49,7 +49,7 @@ jobs:
       - name: Build
         working-directory: ${{ env.SOURCE_DIR }}/build
         run:  |
-              cmake
+              cmake -DCMAKE_BUILD_TYPE:STRING=Release -S./ -B./build
               make
               
       - name: AppImage
