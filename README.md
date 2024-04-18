@@ -6,6 +6,13 @@ This repository is a playground for the CI2027 modules/components, layouts and f
 
 [AuthOpenApi](https://github.com/Thuenen-Forest-Ecosystems/terrestrial-forest-monitor/tree/main/Components/AuthOpenApi)
 
+## Build
+
+```bash
+cmake -DCMAKE_BUILD_TYPE:STRING=Release -S./ -B./build
+make -C ./build
+```
+
 ## Build js bundle
 
 Run ```npm install``` and ```npm run build``` in the ```js``` folder before Running the QT app.
