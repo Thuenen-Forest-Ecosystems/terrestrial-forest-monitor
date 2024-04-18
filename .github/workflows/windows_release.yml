@@ -4,13 +4,13 @@ name: Windows Release
 on:
   push:
     branches:
-      - 'master'
+      - 'windows-release'
       - 'continuous-integration'
     tags:
       - 'v*'
   pull_request:
     branches:
-    - 'master'
+    - 'windows-release'
     - 'continuous-integration'
 
 defaults:
