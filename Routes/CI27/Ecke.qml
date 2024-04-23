@@ -10,6 +10,7 @@ import "qrc:/Playground/js/build/bundle.js" as Bundle
 
 
 ChildLayout{
+    id: cornerRoot
     objectName: "Ecke: " + id.toString()
     breadcrumbStackView: stackViewMain
 
@@ -18,7 +19,7 @@ ChildLayout{
     property var ajv
     property variant _schema
     property var _values
-    property variant _errors:  []
+    property var _errors
     property string _key: "eal"
 
 
@@ -29,10 +30,14 @@ ChildLayout{
 
         const valid = validate(_values.values)
 
-        _errors = valid ? [] : validate.errors;
+        if(valid === false)
+            _errors = [...validate.errors]
+        else
+            _errors = []
 
-        console.log('validate', valid, JSON.stringify(_values.values));
-
+        
+        console.log('validate', valid, JSON.stringify(_errors));
+        console.log('values', JSON.stringify(_values.values));
     }
 
     ContentLoader{
@@ -66,20 +71,35 @@ ChildLayout{
 
         GenericDivider{margin: 0}
 
-        TabBar {
-            id: bar
-            onCurrentIndexChanged: {
-                if(!_schema) return;
+        RowLayout{
 
-                _key = Object.entries(_schema.properties)[bar.currentIndex][0]
-            }
-            width: parent.width
-            Repeater {
-                model: Object.entries(contentLoader.json.properties)
-                TabButton {
-                    text: modelData[1].title
-                    
+            Layout.fillHeight: false
+
+            TabBar {
+                id: tabBar
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
+                
+                onCurrentIndexChanged: {
+                    if(!_schema) return;
+
+                    _key = Object.entries(_schema.properties)[tabBar.currentIndex][0]
+                    validate()
                 }
+                Repeater {
+                    model: Object.entries(contentLoader.json.properties)
+                    TabButton {
+                        text: modelData[1].title
+                        
+                    }
+                }
+            }
+            SendButton{
+                Layout.alignment: Qt.AlignTop
+                Layout.rightMargin: 10
+                Layout.leftMargin: 10
+                errors: _errors
             }
         }
 
@@ -92,8 +112,7 @@ ChildLayout{
 
             GenericForm{
 
-                Layout.fillHeight: true
-                Layout.fillWidth: true
+                anchors.fill: parent
 
                 key: _key
                 values: _values.values

@@ -11,29 +11,36 @@ ColumnLayout{
 
     property var parentObject
     property string objectKey
-    property variant errors
+    property variant formErrors
 
     property var echoMode
 
     property string description
 
-    
-
     property string error
 
-    property var change
 
-
-    onErrorsChanged: {
-
+    function getErrors(){
         error = ''
 
-        for(const curError of errors){
-            if(curError.instancePath.endsWith(key)){
+        for(const curError of formErrors){
+            if(curError.instancePath.endsWith(root.objectKey)){
                 error = curError.message
                 break
             }
         }
+    }
+
+    /*Connections {
+        target: genericForm
+        function onErrorsChanged() {
+            getErrors()
+
+        }
+    }*/
+
+    onFormErrorsChanged: {
+        getErrors()
     }
 
     RowLayout{
@@ -45,19 +52,26 @@ ColumnLayout{
             Layout.fillWidth: true
             inputMethodHints: Qt.ImhEmailCharactersOnly
             echoMode: root.echoMode || "Normal"
-            Keys.onReturnPressed: validateSendForm()
-            Keys.onEnterPressed: validateSendForm()
-            text: parentObject[key]
+            //Keys.onReturnPressed: validateSendForm()
+            //Keys.onEnterPressed: validateSendForm()
+            text: parentObject[objectKey]
             onDisplayTextChanged:{
-                parentObject[key] = textField.text
+                parentObject[objectKey] = textField.text
                 validate();
             }
         }
     }
-    Label {
-        visible: true
-        text: error
-        color: "#900"
-        Layout.leftMargin: 20
+    Rectangle{
+        color: "red"
+        height: childrenRect.height
+        width: childrenRect.width
+        radius: 5
+        Label {
+            visible: true
+            text: error
+            color: "#eee"
+            Layout.leftMargin: 20
+            
+        }
     }
 }

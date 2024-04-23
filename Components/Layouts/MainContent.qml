@@ -30,7 +30,7 @@ Pane{
                 id: inner
 
                 Layout.fillWidth: true
-                Layout.alignment: Qt.AlignHCenter
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
 
                 Layout.minimumWidth: minWidth
                 Layout.maximumWidth: maxWidth

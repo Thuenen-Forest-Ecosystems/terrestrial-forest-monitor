@@ -34,6 +34,7 @@ qt_add_qml_module(LayoutsLib
         GenericTextField.qml
         GenericForm.qml
         GenericForm/TextField.qml
+        GenericForm/SendButton.qml
 
     RESOURCES 
         fonts/calibri.ttf 

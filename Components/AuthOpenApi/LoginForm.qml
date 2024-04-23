@@ -328,7 +328,7 @@ ColumnLayout {
         parentObject: values.values
         objectKey: "username"
         errorMessage: "ERROR: "
-        errors: errors
+        formErrors: errors
     }
 
     GenericTextField{
@@ -337,7 +337,7 @@ ColumnLayout {
         parentObject: values.values
         objectKey: "password"
         echoMode: "Password"
-        errors: errors
+        formErrors: errors
     }
 
 

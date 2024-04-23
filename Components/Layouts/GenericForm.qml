@@ -5,35 +5,51 @@ import QtQuick.Layouts
 import Layouts
 
 ColumnLayout{
-    id: root
 
-    //property var component
+    id: genericForm
+
     property var sprite
+    property var sprites: []
 
     property variant schema
     property variant errors
-    property var values
+    property variant values
     property string key
+
+
+    function destroyAllSprites(){
+        for (var i = 0; i < sprites.length; i++) {
+            sprites[i].destroy();
+        }
+        sprites = [];
+    }
 
     function updateForm(){
         if(!schema || !key) return;
+        
 
-        if (sprite) {
-            sprite.destroy();
-        }
+        destroyAllSprites();
+
 
         if(schema.properties[key].type === "string"){
-            console.log('STRING');
+            
+            if(!values[key]){
+                values[key] = "";
+                console.log('ERROR:', key);
+                return;
+            }
+
             createObject("qrc:/qt/qml/Layouts/GenericForm/TextField.qml", {
                 "key": key,
                 "schema": schema.properties[key],
                 "errors": errors,
-                "values": values[key],
+                "values": values
             })
-        }else if(schema.properties[key].type === "object"){
-            console.log('object');
-            for(const [nKey, nValue] of Object.entries(schema.properties[key].properties)){
 
+            
+        }else if(schema.properties[key].type === "object"){
+            
+            for(const [nKey, nValue] of Object.entries(schema.properties[key].properties)){                
                 createObject("qrc:/qt/qml/Layouts/GenericForm.qml", {
                     "key": nKey,
                     "schema": schema.properties[key],
@@ -47,24 +63,26 @@ ColumnLayout{
     function createObject(qmlFile, properties = {}) {
         const component = Qt.createComponent(qmlFile);
         if (component.status == Component.Ready){
-            sprite = component.createObject(root, properties);
+            sprite = component.createObject(placeHolder);
             sprite.values = properties.values;
             sprite.errors = properties.errors;
             sprite.key = properties.key;
+            sprite.schema = properties.schema;
              
             if (sprite === null) {
                 console.log("Error creating object");
             }else{
-                console.log("Success creating object", sprite.height);
+                sprites.push(sprite);
             }
         }else if (component.status === Component.Error) {
             console.log("Error loading component:", component.errorString());
             //component.statusChanged.connect(finishCreation);
         }
     }
-    
     onErrorsChanged: {
-        //sprite.formErrors = errors;
+        for (var i = 0; i < sprites.length; i++) {
+            sprites[i].errors = errors;
+        }
     }
     onKeyChanged: {
         updateForm()
@@ -73,25 +91,15 @@ ColumnLayout{
         updateForm()
     }
 
-    Item{
+    GridLayout{
+        columnSpacing: 10
+        rowSpacing: 10
         id: placeHolder
         Layout.fillWidth: true
-        height: childrenRect.height
-        width: childrenRect.width
+
+        Layout.topMargin: 10
     }
 
-    GenericDivider{
-        Layout.fillWidth: true
-    }
-
-
-    // REMOVE LATER
-    /*GenericTextField{
-        Layout.fillWidth: true
-        placeholderText: schema.properties[key].title
-        parentObject: values
-        objectKey: key
-        errors: errors
-    }*/
+    
 
 }

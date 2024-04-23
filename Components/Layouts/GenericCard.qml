@@ -4,10 +4,14 @@ import QtQuick.Layouts 6.2
 
 Column{
 
+    id: card
+
     default property alias data: inner.children
     property string headline
     property int margin: 10
     property int contentPadding: 10
+
+    property var clicked
 
     width: parent.width
 
@@ -32,6 +36,14 @@ Column{
         radius: 20
 
         color: Style.isDarkTheme ? "#111" : '#fff'
+
+        MouseArea {
+            anchors.fill: parent
+            cursorShape: card.clicked ? Qt.PointingHandCursor : Qt.ArrowCursor
+            onClicked: function(){
+                if (card.clicked) card.clicked()
+            }
+        }
 
         ColumnLayout{
             id:outer

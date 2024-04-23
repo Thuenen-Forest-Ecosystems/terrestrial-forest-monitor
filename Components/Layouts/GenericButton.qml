@@ -21,6 +21,7 @@ Button {
     enabled: buttonEnabled
 
 
+
     MouseArea {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
@@ -36,6 +37,7 @@ Button {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
+            opacity: buttonEnabled ? 1 : 0.5
         }
         Icon{
             visible: buttonIcon && !isBusy
@@ -43,6 +45,7 @@ Button {
             codePoint: buttonIcon
             iconColor: raised ? "#333" : Material.primary
             size: 20
+            opacity: buttonEnabled ? 1 : 0.5
         }
         BusyIndicator {
             implicitWidth: 25
@@ -58,7 +61,8 @@ Button {
     background: Rectangle {
         implicitWidth: 100
         border.width: raised ? 0 : 2
-        border.color: Material.primary
+        opacity: buttonEnabled ? 1 : 0.5
+        border.color: buttonEnabled ? Material.primary: "#ddd"
         color: raised ? buttonEnabled ? Material.primary : "#ddd" : "#333"
         radius: 40
     }

@@ -7,7 +7,7 @@ import QtQuick.Layouts 6.2
     RowLayout {
         default property alias data: inner.children
 
-        required property string title;
+        property string title;
         property string subTitle;
         property string description;
 
@@ -30,7 +30,7 @@ import QtQuick.Layouts 6.2
 
 
         Column{
-
+            visible: title ? true : false
             Layout.fillWidth: true
             Label {
                 text: title
@@ -55,7 +55,7 @@ import QtQuick.Layouts 6.2
             }
         }
 
-        Row{
+        RowLayout{
             id: inner
         }
         Item{

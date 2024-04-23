@@ -27,7 +27,7 @@ ToolButton {
     ToolTip.delay: 1000
     ToolTip.timeout: 5000
     ToolTip.visible: hovered
-    ToolTip.text: qsTr(toolTip)
+    ToolTip.text: qsTr(toolTip || "")
 
     MouseArea {
         anchors.fill: parent

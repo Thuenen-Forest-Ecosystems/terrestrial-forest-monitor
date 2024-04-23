@@ -54,7 +54,7 @@ Rectangle{
         for(let i = 0; i < stackView.depth; i++){
 
             // Skip initial Item
-            if(i == 0) continue;
+            //if(i == 0) continue;
 
             const item = stackView.get(i);
             if(item)
@@ -95,11 +95,21 @@ Rectangle{
 
         Repeater{
             model: history
-            delegate: BreadcrumbBtn{
+            delegate: GenericButton{
                 required property int index
                 required property string name
 
-
+                Layout.alignment: Qt.AlignVCenter
+                buttonText: index == 0 ? '' : name
+                buttonIcon: index == 0 ? "e88a" : ""
+                buttonEnabled: history.count -1 === index ? false : true
+                fn: () => {
+                    _goTo(name, index);
+                }
+            }
+            /*delegate: BreadcrumbBtn{
+                required property int index
+                required property string name
 
                 enabled: history.count -1 === index ? false : true
 
@@ -110,7 +120,7 @@ Rectangle{
                    _goTo(name, index);
                 }
 
-            }
+            }*/
         }
     }
 }

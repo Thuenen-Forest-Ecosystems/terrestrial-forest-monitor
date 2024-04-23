@@ -37,12 +37,23 @@ ChildLayout{
             Repeater {
                 model: rows
                 delegate: GenericCard{
+                    clicked: () =>{
+                        stackViewMain.push(
+                            Qt.createComponent("qrc:/qt/qml/Routes/CI27/Ecke.qml").createObject(null, {"id": modelData.enr}),
+                            {
+                                "id": modelData.enr
+                            },
+                            StackView.Immediate
+                        )
+                    }
                     GenericLine{
-                        title: modelData.enr.toString()
-                        description: qsTr("Trakt 1")
-                        IconButton {
+                        TableRowToLayout{
+                            Layout.fillWidth: true
+                            row: modelData
+                        }
+                        /*IconButton {
                             codePoint: "e5e1"
-                            toolTip: "Schließen"
+                            toolTip: "s"
 
                             onClicked: function(e){
                                 stackViewMain.push(
@@ -53,7 +64,7 @@ ChildLayout{
                                     StackView.Immediate
                                 )
                             }
-                        }
+                        }*/
                     }
                 }
             }
