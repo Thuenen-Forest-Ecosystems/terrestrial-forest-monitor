@@ -23,6 +23,8 @@ Page {
 
         MainContent{
 
+            anchors.fill: parent
+
             GenericCard{
                 headline: qsTr("Berechtigungen")
                 GenericLine{

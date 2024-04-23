@@ -5,12 +5,12 @@ import QtQuick.Layouts 6.2
 
 Pane{
     default property alias data: inner.children
+    property int maxWidth: 800
+    property int minWidth: 400
 
     padding: 0
 
     id: canvas
-
-    anchors.fill: parent
 
     ScrollView {
 
@@ -20,10 +20,9 @@ Pane{
         ScrollBar.vertical.policy: ScrollBar.AsNeeded
         ScrollBar.horizontal.policy: ScrollBar.AsNeeded
 
-
-
         ColumnLayout{
             width: canvas.width
+            height: canvas.height // MAYBE DON'T NEED THIS
             spacing: 5
 
             Column{
@@ -33,8 +32,8 @@ Pane{
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignHCenter
 
-                Layout.minimumWidth: 300
-                Layout.maximumWidth: 800
+                Layout.minimumWidth: minWidth
+                Layout.maximumWidth: maxWidth
 
                 Layout.leftMargin: 10
                 Layout.rightMargin: 10

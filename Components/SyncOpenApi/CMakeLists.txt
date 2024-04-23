@@ -8,7 +8,9 @@ target_link_libraries(SyncOpenApiLib PRIVATE Qt6::Quick )
 set_source_files_properties(Sqlite.qml PROPERTIES
     QT_QML_SINGLETON_TYPE TRUE
 )
-
+set_source_files_properties(SyncUtils.qml PROPERTIES
+    QT_QML_SINGLETON_TYPE TRUE
+)
 #list(APPEND MODULE_QML_FILES SButton.qml SImageButton.qml SSlider.qml SText.qml SToggleButton.qml)
 
 qt_add_qml_module(SyncOpenApiLib
@@ -22,5 +24,6 @@ qt_add_qml_module(SyncOpenApiLib
     SyncTables.qml
     SyncTablesForm.qml
     Sqlite.qml
+    SyncUtils.qml
 
 )

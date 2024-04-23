@@ -10,5 +10,5 @@ qt_add_qml_module(StaticDataLib
     QML_FILES
     ContentLoader.qml
 
-    RESOURCES contacts.json
+    RESOURCES contacts.json schema.json
 )

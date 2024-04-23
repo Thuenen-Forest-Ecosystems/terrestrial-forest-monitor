@@ -264,6 +264,7 @@ ColumnLayout {
 
         errors = valid ? [] : validate.errors;
 
+        console.log('Login');
     }
 
     Component.onCompleted: {
@@ -327,7 +328,7 @@ ColumnLayout {
         parentObject: values.values
         objectKey: "username"
         errorMessage: "ERROR: "
-        formErrors: errors
+        errors: errors
     }
 
     GenericTextField{
@@ -336,7 +337,7 @@ ColumnLayout {
         parentObject: values.values
         objectKey: "password"
         echoMode: "Password"
-        formErrors: errors
+        errors: errors
     }
 
 

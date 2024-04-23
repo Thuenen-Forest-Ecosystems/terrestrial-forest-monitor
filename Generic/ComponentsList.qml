@@ -16,16 +16,20 @@ Repeater {
                         name: "AuthOpenAPI -Authentication width Open-Api",
                         pages: [
                             {
-                                btnLabel: "AuthOpenApi -> AuthWrapper.qml",
+                                btnLabel: "AuthWrapper.qml",
                                 qmlFile:"qrc:/qt/qml/AuthOpenApi/AuthWrapper.qml"
                             },
                             {
-                                btnLabel: "AuthOpenApi -> AuthenticationButton.qml",
+                                btnLabel: "AuthenticationButton.qml",
                                 qmlFile:"qrc:/qt/qml/AuthOpenApi/AuthenticationButton.qml"
                             },
                             {
-                                btnLabel: "AuthOpenApi -> LogiForm.qml",
+                                btnLabel: "LogiForm.qml",
                                 qmlFile:"qrc:/qt/qml/AuthOpenApi/LoginForm.qml"
+                            },
+                            {
+                                btnLabel: "TestToken.qml",
+                                qmlFile:"qrc:/qt/qml/AuthOpenApi/TestToken.qml"
                             }
                         ]
                     },

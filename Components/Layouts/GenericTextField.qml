@@ -11,24 +11,25 @@ ColumnLayout{
 
     property var parentObject
     property string objectKey
+    property variant errors
 
     property var echoMode
 
     property string description
 
-    property variant formErrors
+    
 
     property string error
 
+    property var change
 
-    onFormErrorsChanged: {
+
+    onErrorsChanged: {
 
         error = ''
 
-
-
-        for(const curError of formErrors){
-            if(curError.instancePath.endsWith(objectKey)){
+        for(const curError of errors){
+            if(curError.instancePath.endsWith(key)){
                 error = curError.message
                 break
             }
@@ -46,11 +47,10 @@ ColumnLayout{
             echoMode: root.echoMode || "Normal"
             Keys.onReturnPressed: validateSendForm()
             Keys.onEnterPressed: validateSendForm()
+            text: parentObject[key]
             onDisplayTextChanged:{
-
-                parentObject[objectKey] = textField.text
+                parentObject[key] = textField.text
                 validate();
-
             }
         }
     }

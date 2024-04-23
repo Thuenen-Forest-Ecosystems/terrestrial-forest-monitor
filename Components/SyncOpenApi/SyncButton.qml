@@ -152,8 +152,7 @@ Item {
     function fillSqlite(tableName, definitionKey): void {
         console.log(definitionKey);
 
-        const body = JSON.stringify({
-        });
+        const body = JSON.stringify({});
 
         var http = new XMLHttpRequest()
         var url = apiHost + definitionKey;

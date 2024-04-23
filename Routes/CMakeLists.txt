@@ -11,6 +11,7 @@ qt_add_qml_module(RoutesLib
     QML_FILES
         wellcome.qml
         CI27/Ecke.qml
+        CI27/EckeTest.qml
         CI27/Ecken.qml
         CI27/Traktliste.qml
         CI27/Einstellungen.qml

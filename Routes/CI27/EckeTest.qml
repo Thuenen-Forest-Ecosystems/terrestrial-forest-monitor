@@ -8,30 +8,26 @@ import StaticData
 
 import "qrc:/Playground/js/build/bundle.js" as Bundle
 
-
 ChildLayout{
+    id: root 
+
     objectName: "Ecke: " + id.toString()
     breadcrumbStackView: stackViewMain
 
     property int id
 
     property var ajv
-    property variant _schema
-    property var _values
-    property variant _errors:  []
-    property string _key: "eal"
-
+    property var schema
+    property var values
+    property variant errors:  []
 
     function validate(){
-        
 
-        const validate = ajv.compile(_schema)
+        const validate = ajv.compile(schema)
 
-        const valid = validate(_values.values)
+        const valid = validate(values.values)
 
-        _errors = valid ? [] : validate.errors;
-
-        console.log('validate', valid, JSON.stringify(_values.values));
+        errors = valid ? [] : validate.errors;
 
     }
 
@@ -39,46 +35,40 @@ ChildLayout{
         id: contentLoader
         url: "qrc:/qt/qml/StaticData/schema.json"
         Component.onCompleted: {
-            _values = {
+            values = {
                 values:{
-                    "eal": "Testtter",
-                    "wzp4": "Hallo Echo",
-                    "ran": {
-                        "waldrand": "Test21",
-                        "bestandesgrenze": "Test12"
+                    "eal": {
+                        "eal1": "Testtter"
                     }
                 }
             };
             ajv = new Bundle.ajv({allErrors: true})
             Bundle.addFormats(ajv);
-            _schema = contentLoader.json
+            schema = contentLoader.json
             validate()
         }
     }
 
     ColumnLayout{
+        id: columnLayout
         anchors.fill: parent
+        spacing: 0
 
         Label {
-            id: headline
-            text: qsTr("Ecke: " + " " + id.toString())
+            id: name
+            text: qsTr(root.objectName)
         }
 
         GenericDivider{margin: 0}
 
         TabBar {
             id: bar
-            onCurrentIndexChanged: {
-                if(!_schema) return;
-
-                _key = Object.entries(_schema.properties)[bar.currentIndex][0]
-            }
             width: parent.width
             Repeater {
                 model: Object.entries(contentLoader.json.properties)
                 TabButton {
                     text: modelData[1].title
-                    
+                    width: Math.max(100, bar.width / 5)
                 }
             }
         }
@@ -87,7 +77,7 @@ ChildLayout{
 
             Layout.fillHeight: true
             Layout.fillWidth: true
-
+            
             maxWidth: 2000
 
             GenericForm{
@@ -95,12 +85,13 @@ ChildLayout{
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-                key: _key
-                values: _values.values
-                schema: _schema
-                errors: _errors
-                
+                schema: schema
+                errors: errors
+
+                id: genericForm
             }
+            
+            
         }
     }
 }

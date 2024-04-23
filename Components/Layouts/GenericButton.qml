@@ -38,7 +38,7 @@ Button {
             elide: Text.ElideRight
         }
         Icon{
-            visible: !isBusy
+            visible: buttonIcon && !isBusy
             Layout.alignment: Qt.AlignVCenter
             codePoint: buttonIcon
             iconColor: raised ? "#333" : Material.primary

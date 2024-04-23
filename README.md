@@ -1,4 +1,4 @@
-# CI2027 Playground
+# Terrestrial Forest Monitor (TFM)
 
 This repository is a playground for the CI2027 modules/components, layouts and functionality.
 
@@ -6,18 +6,28 @@ This repository is a playground for the CI2027 modules/components, layouts and f
 
 [AuthOpenApi](https://github.com/Thuenen-Forest-Ecosystems/terrestrial-forest-monitor/tree/main/Components/AuthOpenApi)
 
-## Build
+## Install & Run
+### Build C++ Dependencies
+We uses [conan](https://conan.io/) package manager by default. But feel free to use any package manager you like.
+
+```bash
+$ conan install conanfile.txt --build=missing
+```
+
+### Build JavaScript Dependencies
+
+Run ```npm install``` and ```npm run build``` in the ```js``` folder before Running the QT app.
+
+The built js file provides QT with "Turf.js | Advanced geospatial analysis" for calculating distances etc. and "Ajv JSON schema validator" for validating forms.
+
+### Build
 
 ```bash
 cmake -DCMAKE_BUILD_TYPE:STRING=Release -S./ -B./build
 make -C ./build
 ```
 
-## Build js bundle
 
-Run ```npm install``` and ```npm run build``` in the ```js``` folder before Running the QT app.
-
-The built js file provides QT with "Turf.js | Advanced geospatial analysis" for calculating distances etc. and "Ajv JSON schema validator" for validating forms.
 
 
 ## Setup in Qt Creator

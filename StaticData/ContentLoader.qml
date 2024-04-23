@@ -5,14 +5,17 @@ Item {
 
     property string url;
     property var model: ListModel {}
+    property variant json
 
     function _loader(){
         var xhr = new XMLHttpRequest;
         xhr.open("GET", url, false)
+
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
 
                 var data = JSON.parse(xhr.responseText);
+                json = data;
 
                 model.clear();
 
@@ -21,7 +24,6 @@ Item {
                     for (const [key, value] of Object.entries(data[i])) {
                       obj2Add[key] = value
                     }
-
                     model.append(obj2Add);
                 }
             }
