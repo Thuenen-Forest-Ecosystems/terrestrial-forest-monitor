@@ -55,8 +55,11 @@ jobs:
       
       - name: Create AppImage directory
         run:  mkdir ${{ env.SOURCE_DIR }}/AppImage
+      
+      - name: Install FUSE
+        run: sudo apt-get install -y fuse libfuse2
 
-      - name: AppImage
+      - name: Build AppImage
         working-directory: ${{ env.SOURCE_DIR }}/AppImage
         run: |
           wget -O deploy.AppImage https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
