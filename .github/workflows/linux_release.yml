@@ -50,6 +50,7 @@ jobs:
       - name: Build
         working-directory: ${{ env.SOURCE_DIR }}/build
         run:  |
+              cmake -S . -B
               cmake --build .
               make -C .
               
