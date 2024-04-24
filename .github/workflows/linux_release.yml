@@ -50,8 +50,8 @@ jobs:
       - name: Build
         working-directory: ${{ env.SOURCE_DIR }}/build
         run:  |
-              cmake --build ./build
-              make -C ./build
+              cmake --build .
+              make -C .
               
       - name: AppImage
         working-directory: ${{ env.SOURCE_DIR }}/build
