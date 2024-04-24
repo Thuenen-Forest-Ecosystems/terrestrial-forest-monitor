@@ -39,7 +39,7 @@ jobs:
           version:      6.7.0
           host:         linux
           target:       desktop
-          arch:         gcc_64
+          arch:         linux_gcc_64
           dir:          ${{ runner.temp }}
           modules:      
           setup-python: false
