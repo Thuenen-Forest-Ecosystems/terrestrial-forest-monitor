@@ -28,6 +28,7 @@ QtObject {
         const sqlString = `SELECT * FROM ${filteredTables[0].name} ${where};`;
 
         const rows = [];
+        
         db.transaction(
             function(tx) {
                 const result = tx.executeSql(sqlString);

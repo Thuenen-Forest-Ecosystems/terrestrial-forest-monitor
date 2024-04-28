@@ -6,7 +6,7 @@ import Layouts
 import SyncOpenApi 1.0
 import StaticData
 
-import "qrc:/Playground/js/build/bundle.js" as Bundle
+import "qrc:/Playground/js/build/bundle.cjs.js" as Bundle
 
 
 ChildLayout{
@@ -21,6 +21,10 @@ ChildLayout{
     property var _values
     property var _errors
     property string _key: "eal"
+
+    property string parentTableName: "b3_ecke"
+    property variant parentRows: []
+    property var parentRowsDetails: []
 
 
     function validate(){
@@ -39,6 +43,14 @@ ChildLayout{
         console.log('validate', valid, JSON.stringify(_errors));
         console.log('values', JSON.stringify(_values.values));
     }
+
+    Component.onCompleted: {
+        parentRows = SyncUtils.select(parentTableName, `WHERE enr = ${id}`);
+        const parentRowsDetailsObject = JSON.parse(settings.value(schemaName));
+        parentRowsDetails = Object.entries(parentRowsDetailsObject.properties.eckenList.items.properties)
+    }
+
+    
 
     ContentLoader{
         id: contentLoader
@@ -64,9 +76,28 @@ ChildLayout{
     ColumnLayout{
         anchors.fill: parent
 
-        Label {
-            id: headline
-            text: qsTr("Ecke: " + " " + id.toString())
+        RowLayout{
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter
+
+            Item{
+                width: 10
+            }
+            GenericCard{
+                Layout.fillWidth: true
+                headline: "Ecke: " + id.toString()
+                GenericLine{
+                    TableRowToLayout{
+                        Layout.fillWidth: true
+                        row: parentRows[0]
+                        details: parentRowsDetails
+                        tableName: parentTableName
+                    }
+                }
+            }
+            Item{
+                width: 10
+            }
         }
 
         GenericDivider{margin: 0}

@@ -20,6 +20,7 @@ Column{
     Item{height: margin; width:10}
 
     Label{
+        visible: headline
         text: headline
         font.weight: Font.Bold
         x: 20

@@ -24,7 +24,8 @@ qt_add_qml_module(playground
     VERSION 1.0
     QML_FILES
     Main.qml
-    js/build/bundle.js
+    js/build/bundle.cjs.js
+    js/build/dereference.cjs.js
     # RESOURCE_PREFIX "/root"
 )
 

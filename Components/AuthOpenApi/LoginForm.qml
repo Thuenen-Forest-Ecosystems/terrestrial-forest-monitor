@@ -7,7 +7,7 @@ import QtCore
 import Layouts
 
 
-import "qrc:/Playground/js/build/bundle.js" as Bundle
+import "qrc:/Playground/js/build/bundle.cjs.js" as Bundle
 
 
 

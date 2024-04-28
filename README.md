@@ -25,6 +25,9 @@ The built js file provides QT with "Turf.js | Advanced geospatial analysis" for 
 ```bash
 cmake -DCMAKE_BUILD_TYPE:STRING=Release -S./ -B./build
 make -C ./build
+
+./linuxdeploy-static-x86_64.AppImage --appdir AppDir --executable /home/gerrit/sites/thuenen/ci2027-playground/build/playground --output appimage
+
 ```
 
 

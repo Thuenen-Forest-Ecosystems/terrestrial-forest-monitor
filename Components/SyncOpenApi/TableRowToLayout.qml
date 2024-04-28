@@ -5,23 +5,24 @@ import QtQuick.Layouts
 import Layouts
 
 Flow{
-
-    property variant row;
+    required property string tableName;
+    required property variant row;
+    required property var details;
 
     id: rowLayout
     spacing: 20
 
     Repeater{
-        model: Object.entries(row)
+        model: details
         delegate: ColumnLayout{
             spacing: 0
             Label{
-                text: modelData[1]
+                text: row[modelData[0].split('.').pop()]
                 font.bold: true
             }
             GenericDivider{margin:2}
             Label{
-                text: modelData[0]
+                text: modelData[1].name || `[${modelData[0]}]`
             }
         }
     }

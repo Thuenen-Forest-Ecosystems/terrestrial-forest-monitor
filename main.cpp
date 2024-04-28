@@ -21,6 +21,7 @@ int main(int argc, char *argv[]) {
 
   // Allow to load local files via XMLHttpRequest
   qputenv("QML_XHR_ALLOW_FILE_READ", QString("1").toUtf8());
+  qputenv("QML_XHR_ALLOW_FILE_WRITE", QString("1").toUtf8());
 
   QQmlApplicationEngine engine;
 

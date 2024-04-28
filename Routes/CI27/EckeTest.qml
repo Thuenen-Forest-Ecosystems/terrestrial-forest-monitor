@@ -6,7 +6,7 @@ import Layouts
 import SyncOpenApi 1.0
 import StaticData
 
-import "qrc:/Playground/js/build/bundle.js" as Bundle
+import "qrc:/Playground/js/build/bundle.cjs.js" as Bundle
 
 ChildLayout{
     id: root 

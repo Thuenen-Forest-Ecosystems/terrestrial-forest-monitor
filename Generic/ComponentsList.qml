@@ -43,6 +43,10 @@ Repeater {
                             {
                                 btnLabel: "SyncTables.qml",
                                 qmlFile:"qrc:/qt/qml/SyncOpenApi/SyncTables.qml"
+                            },
+                            {
+                                btnLabel: "CreateSchema.qml",
+                                qmlFile:"qrc:/qt/qml/SyncOpenApi/CreateSchema.qml"
                             }
                         ]
                     },

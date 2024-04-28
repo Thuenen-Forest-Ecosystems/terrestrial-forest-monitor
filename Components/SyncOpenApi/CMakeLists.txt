@@ -26,5 +26,6 @@ qt_add_qml_module(SyncOpenApiLib
     Sqlite.qml
     SyncUtils.qml
     TableRowToLayout.qml
+    CreateSchema.qml
 
 )

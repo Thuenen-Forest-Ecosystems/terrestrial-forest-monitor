@@ -7,15 +7,19 @@ Item {
     property var model: ListModel {}
     property variant json
 
-    function _loader(){
+    function loader(_url, cb=()=>{}){
         var xhr = new XMLHttpRequest;
-        xhr.open("GET", url, false)
+        xhr.open("GET", _url, false)
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
 
                 var data = JSON.parse(xhr.responseText);
                 json = data;
+                if(cb) {
+                    cb(data);
+                    return;
+                }
 
                 model.clear();
 
@@ -31,6 +35,6 @@ Item {
         xhr.send();
     }
     Component.onCompleted: {
-        _loader()
+        loader(url)
     }
 }

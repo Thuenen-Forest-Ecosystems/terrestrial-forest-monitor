@@ -9665,9 +9665,6 @@ var _templateObject;
   exports["default"] = formatsPlugin;
 })(dist, dist.exports);
 var distExports = dist.exports;
-var addFormats = /*@__PURE__*/getDefaultExportFromCjs(distExports);
-
-console.log(addFormats);
 
 exports.AJV = ajv$1;
-exports.addFormats = addFormats;
+exports.addFormats = distExports.addFormats;
