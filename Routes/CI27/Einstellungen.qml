@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls
+import QtQuick.Layouts
 
 import Layouts
 import SyncOpenApi
@@ -11,7 +12,6 @@ Page {
 
     function refreshTables(){
         const tables = Sqlite.tables()
-
 
         userTables = tables
     }
@@ -72,7 +72,20 @@ Page {
             }
 
             GenericCard{
-                headline: qsTr("Datenbanken")
+                headline: qsTr("Admin")
+
+                GenericLine{
+                    title: "Select DB Schema"
+                    description: qsTr("Wähle ein Schema.")
+                    leadingCodePoint: "e9f4"
+                    SchemaSelection{
+                        Layout.minimumWidth: 200
+                    }
+
+                }
+
+                GenericDivider{}
+
                 GenericLine{
                     Component.onCompleted: {
                         refreshTables();

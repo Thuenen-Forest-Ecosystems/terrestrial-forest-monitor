@@ -15,7 +15,7 @@ ComboBox {
 
     function activateCurrentSchema() {
         const currentValue = settings.value("schema");
-        console.log("currentValue: " + currentValue)
+
         if (currentValue) {
             for (let i = 0; i < dbSchemas.length; i++) {
                 if (dbSchemas[i].schema_name === currentValue) {

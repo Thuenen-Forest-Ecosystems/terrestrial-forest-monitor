@@ -24,7 +24,7 @@ QtObject {
         const tables = [];
         db.transaction(
             function(tx) {
-                console.log(tx);
+
                 const sqlStringTables2 = `SELECT name FROM sqlite_schema;`;
                 var rs2 = tx.executeSql(sqlStringTables2);
                 for(var i = 0; i < rs2.rows.length; i++) {
@@ -33,8 +33,6 @@ QtObject {
 
                     const sqlStringDrop = `SELECT COUNT(*) FROM "${tableName}";`;
                     const res = tx.executeSql(sqlStringDrop);
-
-                    console.log(JSON.stringify(res.rows.item(0)['COUNT(*)']));
 
                     tables.push({
                         name: tableName,

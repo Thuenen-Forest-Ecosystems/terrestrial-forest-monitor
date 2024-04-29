@@ -20,7 +20,7 @@ import QtQuick.Layouts 6.2
         Item{
             visible: leadingCodePoint ? true : false
             width: leadingCodePoint ? 50 : 10
-            Layout.alignment: Qt.AlignTop
+            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
 
             Icon {
 
