@@ -6,7 +6,6 @@ import QtCore
 
 
 Item {
-
     property string apiHost: "https://wo-apps.thuenen.de/postgrest/"
     property alias sessionSettings: sessionSettings
     

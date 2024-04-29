@@ -8,6 +8,8 @@ import AuthOpenApi 1.0
 QtObject {
 
     property string openApiHost: "https://wo-apps.thuenen.de/postgrest/"
+    property string publicSchema: "api"
+    property string schemataEndpoint: "my_schemata"
     property string schema_name: "bwi_de_001_dev"
 
     // local DB name
@@ -89,5 +91,71 @@ QtObject {
             }
         )
         return true
+    }
+
+    // HELPER
+    function error(message){
+        return {
+            error: message
+        }
+    }
+    function sendHttpRequest(endPoint, callback, schema, type = 'GET', body = {}) : void {
+
+        let errorMessage = ""
+
+        if(!endPoint) {
+            errorMessage = "Kein Endpunkt angegeben"
+            callback(error(errorMessage));
+            return
+        }else if(!callback) {
+            errorMessage = "Kein Callback angegeben"
+            callback(error(errorMessage));
+            return
+        }
+
+        body = JSON.stringify(body);
+
+        var http = new XMLHttpRequest()
+        var url = openApiHost + endPoint;
+
+        http.open(type, url, true);
+
+        http.setRequestHeader("accept", "application/json");
+        http.setRequestHeader("Content-type", "application/json");
+        http.setRequestHeader("Accept-Profile", schema || publicSchema);
+        http.setRequestHeader("Connection", "close");
+
+        http.onreadystatechange = function() {
+            if (http.readyState == 4) {
+
+                // server down: TODO: Check Server before form is shown
+                if(http.responseText == '') {
+                    errorMessage = "Server nicht erreichbar"
+                    callback(error(errorMessage));
+                    return
+                }
+                var object = JSON.parse(http.responseText.toString());
+
+                if (http.status == 200) {
+                    callback({
+                        data: object
+                    });
+                } else {
+                    errorMessage = object.message
+                    callback(error(errorMessage));
+                }
+            }
+        }
+        http.send(body);
+    }
+    // on PUBLIC SCHEMA
+    function getSchemata(callback = () => {}){
+        sendHttpRequest(schemataEndpoint, (result) => {
+            if(result.error){
+                console.log('Show Error');
+                return
+            }
+            callback(result)
+        });
     }
 }

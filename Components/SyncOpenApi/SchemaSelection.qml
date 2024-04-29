@@ -2,14 +2,51 @@ import QtQuick 6.2
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import QtCore
+
+import SyncOpenApi 1.0
+
 ComboBox {
-    currentIndex: 2
-    model: ListModel {
-        id: cbItems
-        ListElement { text: "Banana"; color: "Yellow" }
-        ListElement { text: "Apple"; color: "Green" }
-        ListElement { text: "Coconut"; color: "Brown" }
+
+    property variant dbSchemas: []
+    property alias settings: settings
+
+    id: schemaComboBox
+
+    function activateCurrentSchema() {
+        const currentValue = settings.value("schema");
+        console.log("currentValue: " + currentValue)
+        if (currentValue) {
+            for (let i = 0; i < dbSchemas.length; i++) {
+                if (dbSchemas[i].schema_name === currentValue) {
+                    schemaComboBox.currentIndex = i
+                    break
+                }
+            }
+        }
     }
-    width: 200
-    onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text + ", " + cbItems.get(currentIndex).color)
+    
+    Component.onCompleted: {
+        SyncUtils.getSchemata(function(response) {
+            const unfilteredSchemas = response.data
+            dbSchemas = unfilteredSchemas.filter(function(schema) {
+                return schema.schema_name.startsWith("bwi")
+            })
+            activateCurrentSchema()
+        })
+    }
+    enabled: dbSchemas.length > 0
+    textRole: "schema_name"
+    valueRole: "schema_name"
+    currentIndex: 0
+    model: dbSchemas
+    width: parent.width
+    onActivated: {
+        settings.setValue("schema", schemaComboBox.currentValue)
+    }
+
+    Settings {
+        id: settings
+        category: "Schema"
+    }
 }
