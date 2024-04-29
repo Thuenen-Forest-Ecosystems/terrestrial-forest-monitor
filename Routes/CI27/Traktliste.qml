@@ -8,9 +8,9 @@ import Layouts
 import SyncOpenApi 1.0
 
 
-ChildLayout{
+Item{
     objectName: "Traktliste"
-    breadcrumbStackView: stackViewMain
+    //breadcrumbStackView: stackViewMain
 
 
     property variant rows: []

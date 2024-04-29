@@ -8,11 +8,11 @@ import StaticData
 
 import "qrc:/Playground/js/build/bundle.cjs.js" as Bundle
 
-ChildLayout{
+Item{
     id: root 
 
     objectName: "Ecke: " + id.toString()
-    breadcrumbStackView: stackViewMain
+    //breadcrumbStackView: stackViewMain
 
     property int id
 

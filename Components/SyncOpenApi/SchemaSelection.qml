@@ -43,6 +43,7 @@ ComboBox {
     width: parent.width
     onActivated: {
         settings.setValue("schema", schemaComboBox.currentValue)
+        SyncUtils.schema_name = schemaComboBox.currentValue
     }
 
     Settings {

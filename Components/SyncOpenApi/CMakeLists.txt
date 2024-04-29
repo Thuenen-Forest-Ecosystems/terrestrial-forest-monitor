@@ -20,9 +20,6 @@ qt_add_qml_module(SyncOpenApiLib
 
     QML_FILES
     SyncButton.qml
-
-    SyncTables.qml
-    SyncTablesForm.qml
     Sqlite.qml
     SyncUtils.qml
     TableRowToLayout.qml

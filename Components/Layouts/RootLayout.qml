@@ -191,15 +191,26 @@ Page {
                 }
             }
         }
-        StackView {
-            id: stackViewMain
-            initialItem: Page{
-                objectName: "Wellcome"
-                id:inner
-            }
+        ChildLayout{
             Layout.fillWidth: true
             Layout.fillHeight: true
+
+            breadcrumbStackView: stackViewMain
+
+            Item{
+                anchors.fill: parent
+                StackView {
+                    anchors.fill: parent
+
+                    id: stackViewMain
+                    initialItem: Page{
+                        objectName: "Wellcome"
+                        id:inner
+                    }
+                }
+            }
         }
+        
         LoginDialog {
             id: loginDialogPopup
             anchors.centerIn: parent

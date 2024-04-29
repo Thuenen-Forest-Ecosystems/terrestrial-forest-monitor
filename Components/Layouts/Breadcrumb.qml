@@ -10,6 +10,9 @@ Rectangle{
 
     color: Style.lightPrimary
 
+    visible: history.count > 1
+
+
     height: childrenRect.height
 
     Connections {
@@ -77,21 +80,11 @@ Rectangle{
 
         spacing: 10
 
-        visible: true
-
+        
         Item{
             height: 1
             width: 10
         }
-
-        /*IconButton{
-            codePoint: "e88a"
-            iconColor: "#333"
-            toolTip: "Startseite"
-            onClicked: function(e){
-                _infoDialog(e)
-            }
-        }*/
 
         Repeater{
             model: history
@@ -107,20 +100,7 @@ Rectangle{
                     _goTo(name, index);
                 }
             }
-            /*delegate: BreadcrumbBtn{
-                required property int index
-                required property string name
-
-                enabled: history.count -1 === index ? false : true
-
-                text: name
-                flat: true
-
-                onClicked: {
-                   _goTo(name, index);
-                }
-
-            }*/
+            
         }
     }
 }
