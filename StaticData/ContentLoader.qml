@@ -7,7 +7,7 @@ Item {
     property var model: ListModel {}
     property variant json
 
-    function loader(_url, cb=()=>{}){
+    function loader(_url, cb){
         var xhr = new XMLHttpRequest;
         xhr.open("GET", _url, false)
 

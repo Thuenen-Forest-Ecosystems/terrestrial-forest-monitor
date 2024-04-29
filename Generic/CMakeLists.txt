@@ -8,7 +8,6 @@ qt_add_qml_module(GenericLib
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
     QML_FILES  TopBar.qml
-    QML_FILES  pages/StartPage.qml
     QML_FILES  pages/Settings.qml
     QML_FILES  ComponentsList.qml
     QML_FILES  BasicPage.qml

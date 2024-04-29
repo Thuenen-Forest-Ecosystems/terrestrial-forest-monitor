@@ -34,7 +34,7 @@ Page {
         Label {
             font.pixelSize: 20
             font.weight: Font.Bold
-            text: qsTr("Über diese App")
+            text: qsTr("Über diese Apps")
         }
 
         GenericDivider{ margin: 0}

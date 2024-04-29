@@ -7,7 +7,12 @@ import AuthOpenApi 1.0
 
 QtObject {
 
+    property string openApiHost: "https://wo-apps.thuenen.de/postgrest/"
+    property string schema_name: "bwi_de_001_dev"
+
+    // local DB name
     property string dbName: "SyncDB"
+
     property var db: LocalStorage.openDatabaseSync(dbName, "1.0", "The Example QML SQL!", 1000000); // 1 MB
 
     function usernameToTableName(username){
@@ -70,9 +75,7 @@ QtObject {
         db.transaction(
             function(tx) {
                 for(const tableName of tables){
-
-                    console.log('REMOVE:', tableName);
-
+                    
                     const sqlStringDrop = `DROP TABLE IF EXISTS ${tableName};`;
 
                     try{

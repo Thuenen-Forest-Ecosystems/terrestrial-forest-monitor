@@ -5,6 +5,9 @@ import QtQuick.LocalStorage
 
 QtObject {
 
+    
+
+
     property string dbName: "SyncDB"
     property var db: LocalStorage.openDatabaseSync(dbName, "1.0", "The Example QML SQL!", 1000000); // 1 MB
 

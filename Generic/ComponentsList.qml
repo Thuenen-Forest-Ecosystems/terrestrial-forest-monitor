@@ -47,6 +47,10 @@ Repeater {
                             {
                                 btnLabel: "CreateSchema.qml",
                                 qmlFile:"qrc:/qt/qml/SyncOpenApi/CreateSchema.qml"
+                            },
+                            {
+                                btnLabel: "SchemaSelection.qml",
+                                qmlFile:"qrc:/qt/qml/SyncOpenApi/SchemaSelection.qml"
                             }
                         ]
                     },
@@ -67,7 +71,6 @@ Repeater {
     delegate: GenericCard{
         headline: name
         contentPadding: 10
-
         Flow{
             Layout.fillWidth: true
             spacing: 10
@@ -88,57 +91,6 @@ Repeater {
             }
         }
     }
-
-    /*delegate: Column{
-        id: col
-        width: root.width
-
-        Item {
-            height: 25
-            width: 1
-        }
-        Label {
-            text: name
-            font.pixelSize: 30
-            font.family: defaultFont.font
-            elide: Text.ElideRight
-            width: parent.width
-        }
-        Item {
-            height: 5
-            width: 1
-        }
-        Flow{
-            width: parent.width
-            anchors.margins: 4
-            spacing: 10
-            Repeater{
-                model: pages
-                Button {
-                    text: btnLabel
-                    Connections {
-                        function onClicked(){
-                            stackViewStart.push("BasicPage.qml", {
-                                childElement: qmlFile,
-                                label: btnLabel,
-                            }, StackView.Immediate)
-                        }
-                    }
-                }
-            }
-        }
-
-        Item {
-            height: 25
-            width: 1
-        }
-        Rectangle{
-            width: root.width
-            height: 1
-            color: "#333"
-        }
-
-    }*/
 }
 
 

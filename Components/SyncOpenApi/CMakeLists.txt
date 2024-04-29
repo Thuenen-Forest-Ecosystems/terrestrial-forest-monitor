@@ -27,5 +27,6 @@ qt_add_qml_module(SyncOpenApiLib
     SyncUtils.qml
     TableRowToLayout.qml
     CreateSchema.qml
+    SchemaSelection.qml
 
 )
