@@ -20,8 +20,8 @@ if (!fs.existsSync(srcDirectory)){
     return
 }
 
-fs.copyFile( `${srcDirectory}/playground.html`, `${destDirectory}/index.html`, (e) => _copied(e, 'index.html'))
-fs.copyFile( `${srcDirectory}/playground.wasm`, `${destDirectory}/playground.wasm`, (e) => _copied(e, 'playground.wasm'))
-fs.copyFile( `${srcDirectory}/playground.js`, `${destDirectory}/playground.js`, (e) => _copied(e, 'playground.js'))
-fs.copyFile( `${srcDirectory}/qtloader.js`, `${destDirectory}/qtloader.js`, (e) => _copied(e, 'qtloader.js'))
-fs.copyFile( `${srcDirectory}/qtlogo.svg`, `${destDirectory}/qtlogo.svg`, (e) => _copied(e, 'qtlogo.svg'))
+//fs.copyFile( `${srcDirectory}/tfm.html`, `${destDirectory}/index.html`, (e) => _copied(e, 'index.html'))
+fs.copyFile( `${srcDirectory}/tfm.wasm`, `${destDirectory}/tfm.wasm`, (e) => _copied(e, 'tfm.wasm'))
+fs.copyFile( `${srcDirectory}/tfm.js`, `${destDirectory}/tfm.js`, (e) => _copied(e, 'tfm.js'))
+//fs.copyFile( `${srcDirectory}/qtloader.js`, `${destDirectory}/qtloader.js`, (e) => _copied(e, 'qtloader.js'))
+//fs.copyFile( `${srcDirectory}/qtlogo.svg`, `${destDirectory}/qtlogo.svg`, (e) => _copied(e, 'qtlogo.svg'))

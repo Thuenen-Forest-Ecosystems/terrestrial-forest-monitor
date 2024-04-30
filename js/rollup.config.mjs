@@ -10,7 +10,7 @@ export default [
         output: [
             
             {
-                file: './build/bundle.cjs.js',
+                file: './build/ajv.cjs.js',
                 format: 'cjs',
                 esModule: false,
                 name: 'Bundle'
@@ -37,6 +37,29 @@ export default [
                 format: 'cjs',
                 esModule: false,
                 name: 'Bundle'
+            }
+        ],
+        plugins: [
+            commonjs(),
+            nodeResolve(),
+            json(),
+            babel({
+                babelHelpers: 'bundled',
+                presets: [
+                    "@babel/preset-env"
+                ]
+            }),
+        ]
+    },
+    {
+        input: './addFormats.js',
+        output: [
+            
+            {
+                file: './build/addFormats.cjs.js',
+                format: 'cjs',
+                esModule: false,
+                name: 'addFormats'
             }
         ],
         plugins: [

@@ -1,6 +1,5 @@
 # Terrestrial Forest Monitor (TFM)
 
-This repository is a playground for the CI2027 modules/components, layouts and functionality.
 
 ## Components
 
@@ -26,11 +25,13 @@ The built js file provides QT with "Turf.js | Advanced geospatial analysis" for 
 cmake -DCMAKE_BUILD_TYPE:STRING=Release -S./ -B./build
 make -C ./build
 
-./linuxdeploy-static-x86_64.AppImage --appdir AppDir --executable /home/gerrit/sites/thuenen/ci2027-playground/build/playground --output appimage
+./linuxdeploy-static-x86_64.AppImage --appdir AppDir --executable ./build/tfm --output appimage
 
 ```
 
-
+## Additional Translations
+lupdate ./src -ts i18n/qml_de.ts ^C
+lrelease i18n/qml_en.ts
 
 
 ## Setup in Qt Creator

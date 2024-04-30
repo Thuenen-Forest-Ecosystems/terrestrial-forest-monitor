@@ -1,0 +1,89 @@
+{
+    "title": "Dashboard",
+    "type": "object",
+    "properties": {
+        "transectList": {
+            "title": "Transect List",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "b3_tnr.tnr":{
+                        "$ref": "#/parameters/rowFilter.b3_tnr.tnr",
+                        "$TFM": {
+                            "speech": true
+                        }
+                    },
+                    "b3_tnr.datverwend": {
+                        "$ref": "#/parameters/rowFilter.b3_tnr.datverwend"
+                    },
+                    "b3_tnr.id": {
+                        "$ref": "#/parameters/rowFilter.b3_tnr.id"
+                    }
+                }
+            }
+        },
+        "eckenList": {
+            "title": "Ecken List",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "b3_ecke.aufnbl": {
+                        "$ref": "#/parameters/rowFilter.b3_ecke.aufnbl"
+                    },
+                    "b3_ecke.enr": {
+                        "$ref": "#/parameters/rowFilter.b3_ecke.enr"
+                    },
+                    "b3_ecke.id": {
+                        "$ref": "#/parameters/rowFilter.b3_ecke.id"
+                    }
+                }
+            }
+        },
+        "eckeForm": {
+            "title": "Ecke Form",
+            "type": "object",
+            "required": ["eal", "wzp4", "ran"],
+            "properties": {
+                "eal": {
+                    "title": "Trakt",
+                    "description": "Beschreibung des Traktes",
+                    "type": "object",
+                    "required": ["b3_ecke.aufnbl"],
+                    "properties": {
+                        "b3_ecke.aufnbl": {
+                            "type": "number",
+                            "$ref": "#/parameters/rowFilter.b3_ecke.aufnbl"
+                        }
+                    }
+                },
+                "wzp4": {
+                    "title": "Probebäume",
+                    "description": "Winkelzählprobe 4",
+                    "type": "object",
+
+                    "properties": {
+                        "b3_ecke.enr": {
+                            "type": "number",
+                            "$ref": "#/parameters/rowFilter.b3_ecke.enr"
+                        }
+                    }
+                },
+                "ran": {
+                    "title": "Waldränder und Bestandesgrenzen",
+                    "description": "Winkelzählprobe 4",
+                    "type": "object",
+                    "properties": {
+                        "b3_ecke.id": {
+                            "type": "number",
+                            "$ref": "#/parameters/rowFilter.b3_ecke.id"
+                        }
+                    }
+                    
+                }
+            }
+        }
+
+    }
+}

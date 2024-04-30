@@ -1,7 +1,7 @@
 {
-  "name": "ci2027-playground",
+  "name": "tfm",
   "version": "1.0.0",
-  "description": "This repository is a playground for the CI2027 modules/components, layouts and functionality.",
+  "description": "Monitoring app.",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -9,10 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://git-dmz.thuenen.de/datenerfassungci2027/ci2027_datenerfassung/ci2027-playground.git"
+    "url": "https://github.com/Thuenen-Forest-Ecosystems/terrestrial-forest-monitor.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GNU3",
   "devDependencies": {
     "@babel/preset-env": "^7.24.4",
     "@rollup/plugin-babel": "^6.0.4",

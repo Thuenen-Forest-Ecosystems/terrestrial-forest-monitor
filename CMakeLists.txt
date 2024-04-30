@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 # Increase Version on Release #15
-project(playground VERSION 0.1.2 LANGUAGES CXX)
+project(tfm VERSION 0.1.2 LANGUAGES CXX)
 
 # set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,30 +11,31 @@ find_package(Qt6 6.4 REQUIRED COMPONENTS Quick LinguistTools)
 
 qt_standard_project_setup()
 
-qt_add_executable(playground
-    main.cpp
+qt_add_executable(tfm
+    src/main.cpp
 )
 
-#target_link_options(playground PRIVATE -s FULL_ES3=1)
-#target_link_options(playground PRIVATE -s LIBRARY_DEBUG=1)
+#target_link_options(tfm PRIVATE -s FULL_ES3=1)
+#target_link_options(tfm PRIVATE -s LIBRARY_DEBUG=1)
 
 
-qt_add_qml_module(playground
-    URI Playground
+qt_add_qml_module(tfm
+    URI TFM
+    #RESOURCE_PREFIX ":/qt/qml"
     VERSION 1.0
     QML_FILES
-    Main.qml
-    js/build/bundle.cjs.js
-    js/build/dereference.cjs.js
-    # RESOURCE_PREFIX "/root"
+        src/Main.qml
+        js/build/ajv.cjs.js
+        js/build/dereference.cjs.js
+        js/build/addFormats.cjs.js
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
-set_target_properties(playground PROPERTIES
+set_target_properties(tfm PROPERTIES
 
-    # MACOSX_BUNDLE_GUI_IDENTIFIER com.example.playground
+    # MACOSX_BUNDLE_GUI_IDENTIFIER com.example.tfm
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
@@ -54,21 +55,21 @@ message(STATUS "Project: ${PROJECT_NAME} ${PROJECT_VERSION}")
 
 # #qt_add_executable(photosurfaceexample MACOSX_BUNDLE main.cpp ${app_icon_macos})
 
-add_subdirectory(Routes)
+add_subdirectory(src/Routes)
 
-add_subdirectory(Generic)
-add_subdirectory(Components/Layouts)
+add_subdirectory(src/Generic)
+add_subdirectory(src/Components/Layouts)
 
-add_subdirectory(StaticData)
+add_subdirectory(src/StaticData)
 
-add_subdirectory(Components/AuthOpenApi)
+add_subdirectory(src/Components/AuthOpenApi)
 
-add_subdirectory(Components/SyncOpenApi)
-add_subdirectory(Components/Gnss)
-add_subdirectory(Components/NetworkState)
+add_subdirectory(src/Components/SyncOpenApi)
+add_subdirectory(src/Components/Gnss)
+add_subdirectory(src/Components/NetworkState)
 
 # find_package(Qt6 REQUIRED COMPONENTS Bluetooth)
-target_link_libraries(playground PRIVATE
+target_link_libraries(tfm PRIVATE
     Qt6::Quick
     Qt6::Core
     Qt6::Gui
@@ -86,7 +87,7 @@ target_link_libraries(playground PRIVATE
 )
 
 include(GNUInstallDirs)
-install(TARGETS playground
+install(TARGETS tfm
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -101,13 +102,16 @@ list(APPEND QML_DIRS ${PROJECT_BINARY_DIR}/qml)
 set(QML_IMPORT_PATH "${QML_DIRS}" CACHE STRING "Qt Creator 4.1 extra qml import paths")
 
 # TRANSLATION: https://doc.qt.io/qt-6/qtqml-qml-i18n-example.html (linux)
-# qt_add_translations(playground
-# RESOURCE_PREFIX /qt/qml/translated/i18n
-# TS_FILES
-# i18n/base.ts
-# i18n/qml_de.ts
-# )
+qt_standard_project_setup()
 
+qt_add_translations(tfm
+    RESOURCE_PREFIX /qt/qml/translated/i18n
+    TS_FILE_BASE qml
+    TS_FILE_DIR i18n
+    TS_FILES
+        i18n/base.ts
+        i18n/qml_de.ts
+)
 
 
 # Pack https://www.ics.com/blog/revisiting-qt-installer-framework-cmake
