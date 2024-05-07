@@ -12,7 +12,6 @@ Page {
 
     function refreshTables(){
         const tables = Sqlite.tables()
-
         userTables = tables
     }
 
@@ -49,7 +48,17 @@ Page {
                 headline: qsTr("Admin")
 
                 GenericLine{
-                    title: "Select DB Schema"
+                    title: "PostgREST-Host"
+                    description: qsTr("Wähle ein Host-System.")
+                    leadingCodePoint: "e875"
+                    HostSelection{
+                        Layout.minimumWidth: 300
+                    }
+
+                }
+
+                GenericLine{
+                    title: "DB Schema (deprecated)"
                     description: qsTr("Wähle ein Schema.")
                     leadingCodePoint: "e9f4"
                     SchemaSelection{
@@ -64,7 +73,7 @@ Page {
                     Component.onCompleted: {
                         refreshTables();
                     }
-                    title: qsTr(userTables.length + " Datenbanken")
+                    title: qsTr(userTables.length + " Tabellen")
                     description: qsTr("Für Nutzer:")
                     IconButton {
                         codePoint: "e872"

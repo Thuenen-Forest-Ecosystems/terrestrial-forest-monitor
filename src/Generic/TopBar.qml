@@ -16,6 +16,7 @@ RowLayout {
 
     height: 100
 
+
     Item{
         width: 377/3
         height: 151/3
@@ -67,5 +68,8 @@ RowLayout {
         }
     }
 
+    HostIndicator {
+        buttonIconColor: "#333"
+    }
 
 }

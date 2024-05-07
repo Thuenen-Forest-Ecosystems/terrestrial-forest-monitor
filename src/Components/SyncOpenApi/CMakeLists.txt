@@ -26,5 +26,5 @@ qt_add_qml_module(SyncOpenApiLib
     CreateSchema.qml
     SchemaSelection.qml
     HostSelection.qml
-
+    HostIndicator.qml
 )

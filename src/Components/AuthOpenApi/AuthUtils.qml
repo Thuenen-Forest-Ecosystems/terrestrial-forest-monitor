@@ -69,6 +69,7 @@ Item {
     function tockenIsValid() {
         
         var token = getToken();
+        console.log(token);
         if(token) {
             const payload = parseJwt(token);
             const exp = payload.exp * 1000;

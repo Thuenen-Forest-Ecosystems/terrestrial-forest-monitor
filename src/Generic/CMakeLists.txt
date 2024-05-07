@@ -8,14 +8,10 @@ qt_add_qml_module(GenericLib
     VERSION 1.0
     RESOURCE_PREFIX "/qt/qml"
     QML_FILES  TopBar.qml
-    QML_FILES  pages/Settings.qml
     QML_FILES  ComponentsList.qml
     QML_FILES  BasicPage.qml
     QML_FILES  BackBar.qml
 
     RESOURCES
         images/THUENEN_SCREEN_White.svg
-        icons/settings_FILL0_wght400_GRAD0_opsz24.svg
-        icons/contact_support_FILL0_wght400_GRAD0_opsz24.svg
-
 )

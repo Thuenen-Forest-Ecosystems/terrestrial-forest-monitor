@@ -5,8 +5,8 @@ import QtQuick.Controls.Material
 import QtCore
 
 import Layouts
-
 import QtQuick.LocalStorage
+import SyncOpenApi
 
 
 ApplicationWindow {
@@ -54,7 +54,6 @@ ApplicationWindow {
             themeBackground = Style.isDarkTheme ? "#333" : "#eee"
         }
     }
-
 
 
     StackView {

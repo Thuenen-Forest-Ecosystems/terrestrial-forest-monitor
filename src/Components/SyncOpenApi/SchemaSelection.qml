@@ -25,15 +25,29 @@ ComboBox {
             }
         }
     }
+    function getSchemaNames() {
+        dbSchemas = []
+
+        SyncUtils.getSchemata((response) => {
+            if(response.error) {
+                console.log("TOAST Error: " + response.error)
+                return
+            }else{
+                dbSchemas = response.data
+                activateCurrentSchema()
+            }
+        })
+    }
+
+    Connections{
+        target: SyncUtils
+        function onHostChanged(newHost){
+            getSchemaNames();
+        }
+    }
     
     Component.onCompleted: {
-        SyncUtils.getSchemata(function(response) {
-            const unfilteredSchemas = response.data
-            dbSchemas = unfilteredSchemas.filter(function(schema) {
-                return schema.schema_name.startsWith("bwi")
-            })
-            activateCurrentSchema()
-        })
+        getSchemaNames();
     }
     enabled: dbSchemas.length > 0
     textRole: "schema_name"

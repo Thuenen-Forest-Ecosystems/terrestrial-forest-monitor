@@ -7,15 +7,134 @@ import AuthOpenApi 1.0
 
 QtObject {
 
+    id: syncUtils
+
+    signal hostChanged(newHost: variant)
+
     property string openApiHost: "https://wo-apps.thuenen.de/postgrest/"
-    property string publicSchema: "api"
     property string schemataEndpoint: "my_schemata"
-    property string schema_name: "bwi_de_001_dev"
+    property bool isDefaultSchema: true
+    property string schemaPrefix: "public_"
 
     // local DB name
     property string dbName: "SyncDB"
 
-    property var db: LocalStorage.openDatabaseSync(dbName, "1.0", "The Example QML SQL!", 1000000); // 1 MB
+
+    property var db: LocalStorage.openDatabaseSync(dbName, "1.0", "OpenApi to local", 1000000); // 1 MB
+
+
+    function setHost(hostData){
+        openApiHost = hostData.openApiHost;
+        schemataEndpoint = hostData.schemataEndpoint;
+        isDefaultSchema = hostData.isDefaultSchema || false;
+        schemaPrefix = hostData.schemaPrefix || "public_";
+
+        syncUtils.hostChanged(hostData);
+    }
+
+    // Sync all tables from selected schema
+    function syncTables(schemaName, callback = () => {}){
+
+        // TODO GET USERNAME
+        const email = AuthUtils.tokenPayload().email;
+        
+        // settings.value('activeUser')
+
+        sendHttpRequest(null, (result) => {
+            if(!result.error){
+                buildSqlite(result.data.definitions, schemaName, email, callback);
+            }else{
+                callback(result);
+            }
+        }, schemaName);
+    }
+    function buildSqlite(definitions, schema_name, userId = 'anonymous', callback = () => {}) {
+        if(!schema_name){
+            console.log('No schema name set');
+            return;
+        }else if (!definitions){
+            console.log('No definitions set');
+            return;
+        }
+
+        const tables = [];
+
+        for (const [definitionKey, definition] of Object.entries(definitions)) {
+            const fields = [];
+
+            for (const [key, value] of Object.entries(definition.properties)) {
+
+                let sqLiteFormat = 'TEXT';
+
+                if( value.format.includes('int') )
+                    sqLiteFormat = 'INTEGER'
+                else if ( value.format.includes('double') || value.format.includes('REAL') || value.format.includes('float') )
+                    sqLiteFormat = 'INTEGER'
+
+
+                fields.push(`${key} ${sqLiteFormat}`);
+
+            }
+
+            tables.push({
+                definitionKey,
+                fields
+            });
+        }
+
+        db.transaction(
+            function(tx) {
+               for(const table of tables){
+
+                    const userName = userId.replace(/[^\w\s]/gi, '')
+
+                    const tableName = `${userName}$${schema_name}$${table.definitionKey}`
+
+
+                    const sqlStringDrop = `DROP TABLE IF EXISTS ${tableName};`;
+                    tx.executeSql(sqlStringDrop);
+
+                    if(tableName === 'gerritbalindtthuenende$bwi_de_002_dev$z3_tab'){
+                        console.log('z3_tab', table.fields.join(','));
+                        // z3_tab -> tbdbname
+                        
+                    }
+
+                    const sqlStringCreate = `CREATE TABLE IF NOT EXISTS ${tableName}(${table.fields.join(',')});`;
+                    tx.executeSql(sqlStringCreate);
+
+                   
+                    sendHttpRequest(table.definitionKey, (result) => {
+                        if(!result.error){
+                            addRowsToTable(tableName, result.data);
+
+                            callback({
+                                data: tables
+                            })
+
+                        }else
+                            callback(result);
+                    }, schema_name);
+                }
+            }
+        )
+    }
+    function addRowsToTable(tableName, object): void {
+        db.transaction(
+            function(tx) {
+                for(const row of object){
+                    const keys = Object.keys(row)
+                    const values = Object.values(row)
+                    const encValues = values.map(x => typeof x == 'number'? x : `"${x}"`)
+
+                     
+                    const sqlStringCreate = `INSERT INTO ${tableName} (${keys}) VALUES (${encValues});`;
+                    tx.executeSql(sqlStringCreate);
+                }
+            }
+        )
+    }
+
 
     function usernameToTableName(username){
         return username.replace(/[^\w\s]/gi, '');
@@ -95,6 +214,7 @@ QtObject {
 
     // HELPER
     function error(message){
+        console.log('ERROR: ' + message);
         return {
             error: message
         }
@@ -103,11 +223,7 @@ QtObject {
 
         let errorMessage = ""
 
-        if(!endPoint) {
-            errorMessage = "Kein Endpunkt angegeben"
-            callback(error(errorMessage));
-            return
-        }else if(!callback) {
+        if(!callback) {
             errorMessage = "Kein Callback angegeben"
             callback(error(errorMessage));
             return
@@ -116,18 +232,30 @@ QtObject {
         body = JSON.stringify(body);
 
         var http = new XMLHttpRequest()
-        var url = openApiHost + endPoint;
+        var url = openApiHost;
+        if(endPoint)
+            url += endPoint;
 
         http.open(type, url, true);
 
         http.setRequestHeader("accept", "application/json");
         http.setRequestHeader("Content-type", "application/json");
-        http.setRequestHeader("Accept-Profile", schema || publicSchema);
+        if(schema){
+            http.setRequestHeader("Accept-Profile", schema);
+
+            const token = AuthUtils.getToken();
+            if(token){
+                http.setRequestHeader("Authorization", `bearer ${token}`);
+            }
+
+        }
+            
+        
         http.setRequestHeader("Connection", "close");
 
         http.onreadystatechange = function() {
             if (http.readyState == 4) {
-
+                console.log(http.status);
                 // server down: TODO: Check Server before form is shown
                 if(http.responseText == '') {
                     errorMessage = "Server nicht erreichbar"
@@ -136,11 +264,13 @@ QtObject {
                 }
                 var object = JSON.parse(http.responseText.toString());
 
+                
                 if (http.status == 200) {
                     callback({
                         data: object
                     });
                 } else {
+                    console.log(JSON.stringify(object));
                     errorMessage = object.message
                     callback(error(errorMessage));
                 }
@@ -150,12 +280,18 @@ QtObject {
     }
     // on PUBLIC SCHEMA
     function getSchemata(callback = () => {}){
+
         sendHttpRequest(schemataEndpoint, (result) => {
-            if(result.error){
-                console.log('Show Error');
-                return
+
+            // filter relevant schemas only
+            if(!result.error){
+                result.data = result.data.filter((schema) => {
+                    return schema.schema_name.startsWith(schemaPrefix)
+                })
             }
+            
             callback(result)
         });
+        
     }
 }

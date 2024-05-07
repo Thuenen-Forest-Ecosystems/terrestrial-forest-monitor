@@ -15,5 +15,4 @@ qt_add_qml_module(RoutesLib
         CI27/Ecken.qml
         CI27/Traktliste.qml
         CI27/Einstellungen.qml
-        CI27/settings/Privileges.qml
 )

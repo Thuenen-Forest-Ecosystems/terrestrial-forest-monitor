@@ -9,15 +9,18 @@ import SyncOpenApi 1.0
 ComboBox {
 
     property alias settings: settings
-    
+
     property variant boxModel: [
         {
-            "label": "https://wo-apps.thuenen.de/postgrest/"
-            "schema_description": "BWI Schema"
+            "openApiHost": "https://wo-apps.thuenen.de/postgrest/",
+            "schemataEndpoint": "my_schemata",
+            "isDefaultSchema": true,
+            "schemaPrefix": "bwi_"
         },
         {
-            "label": "http://localhost:3000/"
-            "schema_description": "BWI Schema"
+            "openApiHost": "http://localhost:3000/",
+            "schemataEndpoint": "schema_names",
+            "schemaPrefix": "public_"
         }
     ]
     
@@ -26,10 +29,11 @@ ComboBox {
 
     function activateCurrentSchema() {
         const currentValue = settings.value("host");
+        const parsed = JSON.parse(currentValue)
 
-        if (currentValue) {
-            for (let i = 0; i < dbSchemas.length; i++) {
-                if (dbSchemas[i].schema_name === currentValue) {
+        if (parsed) {
+            for (let i = 0; i < boxModel.length; i++) {
+                if (boxModel[i].openApiHost === parsed.openApiHost) {
                     schemaComboBox.currentIndex = i
                     break
                 }
@@ -41,15 +45,14 @@ ComboBox {
         activateCurrentSchema()
     }
     enabled: boxModel.length > 0
-    textRole: "schema_name"
-    valueRole: "schema_name"
+    textRole: "openApiHost"
     currentIndex: 0
     model: boxModel
     width: parent.width
     onActivated: {
-
-        //settings.setValue("host", schemaComboBox.currentValue)
+        settings.setValue("host", JSON.stringify(boxModel[schemaComboBox.currentIndex]))
         //SyncUtils.schema_name = schemaComboBox.currentValue
+        SyncUtils.setHost(boxModel[schemaComboBox.currentIndex])
     }
 
     Settings {

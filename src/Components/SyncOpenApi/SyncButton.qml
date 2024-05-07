@@ -22,10 +22,13 @@ Item {
     Component.onCompleted: {
         db = LocalStorage.openDatabaseSync(dbName, "1.0", "The Example QML SQL!", 100000000); // 100 MB
 
-        settings.sync();
-        token = settings.value('activeToken')
+        //settings.sync();
+
+        const hasToken = settings.value('activeToken');
+        token = hasToken || null;
         schema_name = schemaSettings.value("schema")
         console.log(schema_name);
+
     }
 
 
@@ -35,7 +38,9 @@ Item {
         enabled: schema_name
         Connections {
             function onClicked(){
-                sendHttpRequest()
+                SyncUtils.syncTables(schema_name, (res) => {
+                    console.log('-----> success');
+                })
             }
         }
     }

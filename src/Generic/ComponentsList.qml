@@ -47,6 +47,14 @@ Repeater {
                             {
                                 btnLabel: "SchemaSelection.qml",
                                 qmlFile:"qrc:/qt/qml/SyncOpenApi/SchemaSelection.qml"
+                            },
+                            {
+                                btnLabel: "HostSelection.qml",
+                                qmlFile:"qrc:/qt/qml/SyncOpenApi/HostSelection.qml"
+                            },
+                            {
+                                btnLabel: "HostIndicator.qml",
+                                qmlFile:"qrc:/qt/qml/SyncOpenApi/HostIndicator.qml"
                             }
                         ]
                     },
