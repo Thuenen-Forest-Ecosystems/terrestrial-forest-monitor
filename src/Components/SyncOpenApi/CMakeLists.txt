@@ -25,5 +25,6 @@ qt_add_qml_module(SyncOpenApiLib
     TableRowToLayout.qml
     CreateSchema.qml
     SchemaSelection.qml
+    HostSelection.qml
 
 )
