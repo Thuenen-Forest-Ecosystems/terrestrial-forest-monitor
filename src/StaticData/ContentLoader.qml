@@ -13,8 +13,18 @@ Item {
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
+                if(xhr.status !== 200) {
+                     cb({error: "wrong status", status: xhr.status});
+                    return
+                }
 
-                var data = JSON.parse(xhr.responseText);
+                try{
+                    var data = JSON.parse(xhr.responseText);
+                } catch(e) {
+                    cb({error: e});
+                    return
+                }
+                
                 json = data;
                 if(cb) {
                     cb(data);

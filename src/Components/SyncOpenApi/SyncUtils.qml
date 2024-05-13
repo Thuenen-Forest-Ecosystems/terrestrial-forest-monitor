@@ -2,10 +2,11 @@ pragma Singleton
 
 import QtQuick 2.15
 import QtQuick.LocalStorage
+import QtCore 
 
 import AuthOpenApi 1.0
 
-QtObject {
+Item {
 
     id: syncUtils
 
@@ -15,14 +16,20 @@ QtObject {
     property string schemataEndpoint: "my_schemata"
     property bool isDefaultSchema: true
     property string schemaPrefix: "public_"
+    property string schema_name
+    property alias syncSettings: syncSettings
 
     // local DB name
     property string dbName: "SyncDB"
 
-
     property var db: LocalStorage.openDatabaseSync(dbName, "1.0", "OpenApi to local", 1000000); // 1 MB
 
-
+    Settings {
+        id: syncSettings
+        category: "Schema"
+    }
+    
+    
     function setHost(hostData){
         openApiHost = hostData.openApiHost;
         schemataEndpoint = hostData.schemataEndpoint;
@@ -36,7 +43,12 @@ QtObject {
     function syncTables(schemaName, callback = () => {}){
 
         // TODO GET USERNAME
-        const email = AuthUtils.tokenPayload().email;
+        const payload = AuthUtils.tokenPayload();
+        if(!payload){
+            callback(error('No user logged in'));
+            return;
+        }
+        const email = payload.email;
         
         // settings.value('activeUser')
 
@@ -94,16 +106,10 @@ QtObject {
                     const sqlStringDrop = `DROP TABLE IF EXISTS ${tableName};`;
                     tx.executeSql(sqlStringDrop);
 
-                    if(tableName === 'gerritbalindtthuenende$bwi_de_002_dev$z3_tab'){
-                        console.log('z3_tab', table.fields.join(','));
-                        // z3_tab -> tbdbname
-                        
-                    }
 
                     const sqlStringCreate = `CREATE TABLE IF NOT EXISTS ${tableName}(${table.fields.join(',')});`;
                     tx.executeSql(sqlStringCreate);
 
-                   
                     sendHttpRequest(table.definitionKey, (result) => {
                         if(!result.error){
                             addRowsToTable(tableName, result.data);
@@ -113,7 +119,7 @@ QtObject {
                             })
 
                         }else
-                            callback(result);
+                            callback(error(result));
                     }, schema_name);
                 }
             }
@@ -129,7 +135,12 @@ QtObject {
 
                      
                     const sqlStringCreate = `INSERT INTO ${tableName} (${keys}) VALUES (${encValues});`;
-                    tx.executeSql(sqlStringCreate);
+                    try{
+                        tx.executeSql(sqlStringCreate);
+                    }catch(e){
+                        
+                        console.log('Created:', e);
+                    }
                 }
             }
         )
@@ -145,22 +156,30 @@ QtObject {
             return false;
         }
 
+        const currentSchema = syncSettings.value('schema')
+
         const payload = AuthUtils.tokenPayload();
         const userName = usernameToTableName(payload.email);
 
-        
-        const filteredTables = this.tables().filter(t => t.name.startsWith(userName + '$') && t.name.endsWith('$' + tableName));
 
-        const sqlString = `SELECT * FROM ${filteredTables[0].name} ${where};`;
+        //const filteredTables = this.tables().filter(t => t.name.startsWith(userName + '$' + currentSchema) && t.name.endsWith('$' + tableName));
+        //const sqlString = `SELECT * FROM ${filteredTables[0].name} ${where};`;
+
+        const syncTableName = `${userName}$${currentSchema}$${tableName}`
+        const sqlString = `SELECT * FROM ${syncTableName} ${where};`;
 
         const rows = [];
         
         db.transaction(
             function(tx) {
-                const result = tx.executeSql(sqlString);
+                try{
+                    const result = tx.executeSql(sqlString);
 
-                for(var i = 0; i < result.rows.length; i++) {
-                    rows.push(result.rows.item(i));
+                    for(var i = 0; i < result.rows.length; i++) {
+                        rows.push(result.rows.item(i));
+                    }
+                }catch(e){
+                    console.log(e);
                 }
             }
         )
@@ -171,7 +190,6 @@ QtObject {
         const tables = [];
         db.transaction(
             function(tx) {
-
                 const sqlStringTables2 = `SELECT name FROM sqlite_schema;`;
                 var rs2 = tx.executeSql(sqlStringTables2);
                 for(var i = 0; i < rs2.rows.length; i++) {
@@ -179,12 +197,17 @@ QtObject {
                     const tableName = rs2.rows.item(i).name;
 
                     const sqlStringDrop = `SELECT COUNT(*) FROM "${tableName}";`;
-                    const res = tx.executeSql(sqlStringDrop);
+                    try{
+                        const res = tx.executeSql(sqlStringDrop);
 
-                    tables.push({
-                        name: tableName,
-                        rowsCount: res.rows.item(0)['COUNT(*)']
-                    })
+                        tables.push({
+                            name: tableName,
+                            rowsCount: res.rows.item(0)['COUNT(*)']
+                        })
+                    } catch(e) {
+                        console.log(e);
+                    }
+                    
                 }
             }
         )
@@ -213,8 +236,11 @@ QtObject {
     }
 
     // HELPER
-    function error(message){
-        console.log('ERROR: ' + message);
+    function error(message, httpStastus = 0){
+        if(httpStastus == 401){
+            // SHOW TOAST
+        }
+        //globalToast.show(message);
         return {
             error: message
         }
@@ -249,17 +275,16 @@ QtObject {
             }
 
         }
-            
         
         http.setRequestHeader("Connection", "close");
 
         http.onreadystatechange = function() {
             if (http.readyState == 4) {
-                console.log(http.status);
+
                 // server down: TODO: Check Server before form is shown
                 if(http.responseText == '') {
                     errorMessage = "Server nicht erreichbar"
-                    callback(error(errorMessage));
+                    callback(error(errorMessage, http.status));
                     return
                 }
                 var object = JSON.parse(http.responseText.toString());
@@ -270,9 +295,7 @@ QtObject {
                         data: object
                     });
                 } else {
-                    console.log(JSON.stringify(object));
-                    errorMessage = object.message
-                    callback(error(errorMessage));
+                    callback(error(object.message, http.status));
                 }
             }
         }

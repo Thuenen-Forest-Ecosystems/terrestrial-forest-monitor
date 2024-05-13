@@ -52,6 +52,9 @@ RowLayout {
         id: settings
         category: "User"
     }
+    SyncButton {
+        Layout.alignment: Qt.AlignVCenter
+    }
     AuthenticationButton{
         Layout.alignment: Qt.AlignVCenter
     }

@@ -16,27 +16,37 @@ Item {
     property alias settings: settings
     property var _schema: {}
 
-    // TODO: Load the schema from the server
     ContentLoader{
         id: contentLoader
-        url: "qrc:/qt/qml/StaticData/response_1714067568845.json"
-        Component.onCompleted: {
-            const schemaDefinitions = contentLoader.json
+    }
 
-            const schemaName = 'bwi_de_001_dev';
-            
-            contentLoader.loader(`qrc:/qt/qml/StaticData/${schemaName}.json`, function(schema) {
-                schema.definitions = schemaDefinitions.definitions;
-                schema.parameters = schemaDefinitions.parameters;
+    function _createSchema(schemaDefinitions, schemaName){
 
-                _schema = DereferenceCjs.dereference.dereferenceSync(schema);
-                delete _schema.definitions;
-                delete _schema.parameters;
+        contentLoader.loader(`qrc:/qt/qml/StaticData/${schemaName}.json`, function(schema) {
 
-                setSchema(schemaName, _schema);
+            if(schema.error){
+                console.log('schema:', schemaName, JSON.stringify(schema));
+                return;
+            }
 
-            });
-        }
+            schema.definitions = schemaDefinitions.definitions;
+            schema.parameters = schemaDefinitions.parameters;
+
+            _schema = DereferenceCjs.dereference.dereferenceSync(schema);
+            delete _schema.definitions;
+            delete _schema.parameters;
+
+            setSchema(schemaName, _schema);
+
+        });
+    }
+    Component.onCompleted: {
+        const schemaName = settings.value('schema')
+
+        SyncUtils.sendHttpRequest(null, (result) => {
+            _createSchema(result, schemaName)
+        }, schemaName)
+
     }
 
     function getSchema(name){

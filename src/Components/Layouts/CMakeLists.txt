@@ -35,7 +35,10 @@ qt_add_qml_module(LayoutsLib
         GenericForm.qml
         GenericForm/TextField.qml
         GenericForm/SendButton.qml
+        GenericToast.qml
+        GenericToastManager.qml
         MapWrapper.qml
+        GenericMap.qml
 
     RESOURCES 
         fonts/calibri.ttf 

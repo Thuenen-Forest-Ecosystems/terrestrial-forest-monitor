@@ -6,7 +6,7 @@ import Generic
 import Layouts
 
 MainContent{
-    anchors.fill: parent
+
     ComponentsList {
         id: componentsList
     }

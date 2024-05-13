@@ -22,8 +22,12 @@ Item {
     }
 
     function executeIfLoggedIn(fn){
-        if(!isLoggedIn) loginDialogPopup.open()
-        else fn();
+        if(!isLoggedIn){
+            loginDialogPopup.open()
+            loginDialogPopup.onLoggedIn.connect(() => {
+                if(isLoggedIn) fn();
+            });
+        }else fn();
     }
 
     Component.onCompleted: {

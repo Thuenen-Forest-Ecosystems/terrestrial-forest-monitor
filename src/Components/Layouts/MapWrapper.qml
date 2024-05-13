@@ -5,12 +5,12 @@ import QtQuick.Layouts 6.2
 Rectangle{
     id: mapWrapper
 
-    visible: useMap
+    visible: true //mapBtn.visibile || false
+    property bool showMap: false
 
     Component.onCompleted: {
-        console.log("useMap");
-        if(mapBtn) mapBtn.setVisibility(true)
-        console.log(showMap.mapState);
+        //if(mapBtn) mapBtn.setVisibility(true)
+        console.log('displayMap', mapBtn);
     }
     Component.onDestruction: if(mapBtn) mapBtn.setVisibility(false)
 
@@ -20,9 +20,9 @@ Rectangle{
 
     clip: true
 
-    Text {
-        text: qsTr("MAP")
-        anchors.centerIn: parent
+    GenericMap {
+        id: map
+        anchors.fill: parent
     }
 
     Connections {

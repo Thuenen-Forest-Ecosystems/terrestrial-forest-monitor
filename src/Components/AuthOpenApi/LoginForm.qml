@@ -6,12 +6,18 @@ import QtCore
 
 import Layouts
 
-
 import "qrc:/TFM/js/build/ajv.cjs.js" as Bundle
 
 
 
 ColumnLayout {
+
+    id: root
+
+    signal successfullLogin(string username, string token)
+    signal loginFailed(string message)
+
+    property var dialog;
 
     // TODO: add to global variable
     property string apiHost: "https://wo-apps.thuenen.de/postgrest/"
@@ -82,13 +88,14 @@ ColumnLayout {
     function setActiveUser(username, token){
         settings.setValue('activeUser', username)
         settings.setValue('activeToken', token)
-        settings.sync();
+        //settings.sync();
 
         AuthState.latestLogin += 1;
-        loginDialogPopup.close()
+        successfullLogin(username, token);
     }
 
     function saveTocken(token, username, password) :void {
+
         let createdTimeStamp = new Date().getTime();
 
         setActiveUser(username, token);
@@ -98,7 +105,6 @@ ColumnLayout {
         const hash = hashCode(password + '/' + salt)
 
         const autoLogin = rememberLoginCheckbox.checked;
-
 
         removeUserByUsername(username)
 
@@ -146,9 +152,14 @@ ColumnLayout {
     }
 
     function removeUserByUsername(username){
+        if(!username) return;
         db.transaction(
             function(tx) {
-                tx.executeSql(`DELETE FROM ${usersTable} WHERE username in ( ? )`, [userName], executeResult);
+                try{
+                    tx.executeSql(`DELETE FROM ${usersTable} WHERE username in ( ? )`, [username], executeResult);
+                }catch(e){
+                    console.log('removeUserByUsername: ',e)
+                }
             }
         )
     }
@@ -229,6 +240,7 @@ ColumnLayout {
                 var object = JSON.parse(http.responseText.toString());
 
                 if (http.status == 200) {
+                    console.log('saveTocken', object.token, userName, password);
                     saveTocken(object.token, userName, password);
                     loggingIn = true
 
@@ -320,6 +332,12 @@ ColumnLayout {
     Settings {
         id: settings
         category: "User"
+    }
+
+    Label{
+        visible: AuthUtils.tockenIsValid() < 0
+        text: "Die letzte Anmeldung ist abgelaufen! Melde dich erneut an."
+        color: "#ff0000"
     }
 
     GenericTextField{

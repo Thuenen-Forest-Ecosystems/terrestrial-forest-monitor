@@ -55,6 +55,8 @@ Item {
         return sessionSettings.value('activeToken')
     }
     function parseJwt (token) {
+        if(!token)
+            return null;
         var base64Url = token.split('.')[1];
         var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         var jsonPayload = decodeURIComponent(Qt.atob(base64).split('').map(function(c) {
@@ -69,15 +71,15 @@ Item {
     function tockenIsValid() {
         
         var token = getToken();
-        console.log(token);
+
         if(token) {
             const payload = parseJwt(token);
             const exp = payload.exp * 1000;
 
             const now = new Date();
-            const expires = new Date(exp + 120 * 60000);
+            const expires = new Date(exp); //  + 120 * 60000
 
-            console.log("TODO: fix timestamp", now, expires);
+            return expires - now;
 
             if(now < expires)
                 return true;

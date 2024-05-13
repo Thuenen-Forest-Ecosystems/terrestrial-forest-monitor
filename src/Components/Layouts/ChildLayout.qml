@@ -7,15 +7,11 @@ import Generic 1.0
 
 
 Page {
-
+    
     objectName: "ChildLayout"
 
     default property alias data: inner.children
     property StackView breadcrumbStackView
-
-    property bool showMap: false
-    property bool useMap: true
-
 
     ColumnLayout{
         anchors.fill: parent

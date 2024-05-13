@@ -6,8 +6,7 @@ project(tfm VERSION 0.1.2 LANGUAGES CXX)
 # set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick LinguistTools)
-
+find_package(Qt6 REQUIRED COMPONENTS Quick LinguistTools Location Bluetooth)
 
 qt_standard_project_setup()
 
@@ -21,7 +20,7 @@ qt_add_executable(tfm
 
 qt_add_qml_module(tfm
     URI TFM
-    #RESOURCE_PREFIX ":/qt/qml"
+    #RESOURCE_PREFIX ":/qt/qml/"
     VERSION 1.0
     QML_FILES
         src/Main.qml
@@ -68,14 +67,14 @@ add_subdirectory(src/Components/SyncOpenApi)
 add_subdirectory(src/Components/Gnss)
 add_subdirectory(src/Components/NetworkState)
 
-# find_package(Qt6 REQUIRED COMPONENTS Bluetooth)
 target_link_libraries(tfm PRIVATE
     Qt6::Quick
     Qt6::Core
     Qt6::Gui
     Qt6::Qml
+    #Qt6::Bluetooth
+    #Qt6::Location
 
-    # Qt6::Bluetooth
     AuthOpenApiLibplugin
     SyncOpenApiLibplugin
     GnssLibplugin

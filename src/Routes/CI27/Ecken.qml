@@ -54,6 +54,7 @@ Item{
                 Layout.fillWidth: true
                 headline: "Trakt: " + id.toString()
                 GenericLine{
+                    clip: true
                     TableRowToLayout{
                         Layout.fillWidth: true
                         row: parentRows[0]
@@ -88,7 +89,6 @@ Item{
             }
             IconButton {
                 codePoint: "e429"
-                iconColor: "#333"
                 toolTip: "Filter"
 
                 onClicked: function(e){

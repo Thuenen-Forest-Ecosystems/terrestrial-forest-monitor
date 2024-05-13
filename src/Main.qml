@@ -7,6 +7,7 @@ import QtCore
 import Layouts
 import QtQuick.LocalStorage
 import SyncOpenApi
+import AuthOpenApi
 
 
 ApplicationWindow {
@@ -74,6 +75,14 @@ ApplicationWindow {
             text: "Content goes here!"
             anchors.centerIn: parent
         }
+    }
+
+    GenericToastManager {
+        id: toast
+    }
+    LoginDialog {
+        id: loginDialogPopup
+        anchors.centerIn: parent
     }
 
     // Remove Settings

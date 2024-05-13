@@ -2,14 +2,25 @@ import QtQuick 6.2
 import QtQuick.Controls 6.2
 import QtQuick.Layouts
 
-// http://imaginativethinking.ca/bi-directional-data-binding-qt-quick/
 import Layouts
 
-Dialog {
-    modal: true
+//Dialog {
+GenericDialog {
+    anchors.centerIn: parent
+    showLogo: false
+
+    id: root
+
+    Component.onCompleted: {
+        console.log('DIALOG');
+    }
+
+    //modal: true
+
+    signal onLoggedIn()
+    signal onLoggedOut()
 
     property alias loginForm: loginForm
-    property StackView authStackView: authStackView
 
     title: wrapper.isLoggedIn ? "Abmelden" : "Eingabe Nutzerdaten"
 
@@ -25,34 +36,42 @@ Dialog {
     }
 
 
-    contentItem: ColumnLayout{
-
-        height: 50
+    
 
         LoginForm{
             id: loginForm
-            visible: !wrapper.isLoggedIn
-        }
-        GenericButton{
-            visible: wrapper.isLoggedIn
-
-            Layout.alignment: Qt.AlignRight
-
-            buttonText: "abmelden"
-            buttonIcon: "e9ba"
-
-            fn: function onClicked(){
-
-                let item = authStackView.get(0);
-                authStackView.pop(item, StackView.Immediate);
-
-                loginDialogPopup.close()
-                wrapper.logout()
-
-
+            visible: !wrapper.isLoggedIn || AuthUtils.tockenIsValid() < 0
+            onSuccessfullLogin: {
+                root.close()
+                root.onLoggedIn()
             }
-            raised: true
+            onLoginFailed: {
+                loginForm.resetForm();
+            }
         }
-    }
+        ColumnLayout{
+            visible: wrapper.isLoggedIn && AuthUtils.tockenIsValid() > 0
+            
+            Label{
+                visible: AuthUtils.tockenIsValid() < 0
+                text: "Token is expired"
+            }
+            GenericButton{
+                
+
+                Layout.alignment: Qt.AlignRight
+
+                buttonText: "abmelden"
+                buttonIcon: "e9ba"
+
+                fn: function onClicked(){
+                    root.close()
+                    wrapper.logout()
+                    root.onLoggedOut()
+                }
+                raised: true
+            }
+        }
+    
 
 }

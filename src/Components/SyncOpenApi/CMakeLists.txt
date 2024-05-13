@@ -27,4 +27,5 @@ qt_add_qml_module(SyncOpenApiLib
     SchemaSelection.qml
     HostSelection.qml
     HostIndicator.qml
+    FilterRows.qml
 )

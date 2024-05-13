@@ -38,7 +38,7 @@ RowLayout {
         visible: !isLoggedIn
         Layout.alignment: Qt.AlignVCenter
         buttonText: "anmelden"
-        buttonToolTip: "ANMELDEN / ABMELDEN"
+        buttonToolTip: "ANMELDEN"
         buttonIcon: "e853"
         fn: (e) => {
             loginDialogPopup.open();
@@ -49,10 +49,13 @@ RowLayout {
         visible: isLoggedIn
         Layout.alignment: Qt.AlignVCenter
         buttonText: userName
-        buttonToolTip: "ANMELDEN / ABMELDEN"
+        buttonToolTip: "ABMELDEN"
         buttonIcon: "e9ba"
         fn: (e) => {
             loginDialogPopup.open();
+            loginDialogPopup.onLoggedOut.connect(() => {
+                stackViewMain.pop(StackView.Immediate);
+            });
         }
     }
 

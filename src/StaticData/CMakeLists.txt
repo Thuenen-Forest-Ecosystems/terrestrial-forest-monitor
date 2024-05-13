@@ -10,5 +10,9 @@ qt_add_qml_module(StaticDataLib
     QML_FILES
     ContentLoader.qml
 
-    RESOURCES contacts.json schema.json response_1714067568845.json bwi_de_001_dev.json
+    RESOURCES 
+        contacts.json
+        schema.json
+        bwi_de_001_dev.json
+        bwi_de_002_dev.json
 )

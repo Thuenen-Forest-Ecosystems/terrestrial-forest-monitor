@@ -9,5 +9,5 @@ qt_add_qml_module(GnssLib
     RESOURCE_PREFIX "/qt/qml"
     QML_FILES Connect.qml
     QML_FILES Bluetest.qml
-    SOURCES bluetest.h bluetest.cpp
+    SOURCES bluetoothbaseclass.h bluetoothbaseclass.cpp
 )

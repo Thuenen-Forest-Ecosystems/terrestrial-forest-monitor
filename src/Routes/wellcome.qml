@@ -9,7 +9,7 @@ RootLayout{
 
     objectName: 'Wellcome'
 
-
+   
     AuthWrapper{
         id: wrapper
         visible: false

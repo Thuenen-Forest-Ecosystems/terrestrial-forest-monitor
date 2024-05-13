@@ -30,9 +30,12 @@ Dialog {
             }
         }
         ScrollView{
-            Layout.preferredWidth: 300
-            Layout.maximumHeight: parent.height - logo.height
-            Layout.leftMargin: 75
+            //Layout.minimumWidth: 400
+            Layout.maximumHeight: root.parent.height - logo.height
+            Layout.leftMargin: showLogo ? 75 : 20
+            Layout.topMargin: 20
+            Layout.rightMargin: 20
+            Layout.bottomMargin: 20
             Layout.fillWidth: true
 
             Column{
@@ -40,7 +43,9 @@ Dialog {
 
                 spacing: 10
 
-                width: root.width - root.padding*2 - 75
+                //width: root.width - root.padding*2 - 75
+                Layout.fillWidth: true
+                Layout.leftMargin: 20
 
             }
         }

@@ -12,67 +12,108 @@ Item{
     objectName: "Traktliste"
     //breadcrumbStackView: stackViewMain
 
+    property bool loading: false
 
     property variant rows: []
     property var rowsDetails: []
 
     // TODO: Global Selection
-    property string schemaName: "bwi_de_001_dev"
     property string tableName: "b3_tnr"
 
     property alias settings: settings
+    property bool isFilterVisible: false
 
+    
     Component.onCompleted: {
+        loading = true
         rows = SyncUtils.select(tableName, `ORDER BY tnr ASC`);
-        const rowsDetailsObject = JSON.parse(settings.value(schemaName));
-        rowsDetails = Object.entries(rowsDetailsObject.properties.transectList.items.properties)
+        loading = false
+
+        mapBtn.visible = true
+
+        if(rows.length === 0){
+            console.log("Error: Table not found")
+            return
+        }
+
+        const schema_name = settings.value("schema")
+
+        try{
+            const rowsDetailsObject = JSON.parse(settings.value(schema_name));
+            rowsDetails = Object.entries(rowsDetailsObject.properties.transectList.items.properties)
+        } catch(e){
+            console.log(e, schema_name, settings.value(schema_name))
+        }
+    }
+
+    Settings {
+        id: settings
+        category: "Schema"
     }
 
     ColumnLayout{
         id: columnLayout
         anchors.fill: parent
         spacing: 0
-
-        Settings {
-            id: settings
-            category: "Schema"
-        }
+       
 
         RowLayout{
-            Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
-
-            Item{
-                width: 10
-            }
+            Layout.maximumWidth: 900
+            Layout.topMargin: 10
+            Layout.leftMargin: 10
+            Layout.rightMargin: 10
+            
             Label{
-                Layout.fillWidth: true
-                text: "Traktliste"
+                text: `Traktliste (${rows.length})`
                 font.pixelSize: 20
-                Layout.alignment: Qt.AlignHCenter
-                Layout.maximumWidth: 700
+                Layout.fillWidth: true
             }
             IconButton {
-                codePoint: "e429"
-                iconColor: "#333"
+                codePoint: !isFilterVisible ? "e429" : "e5ce"
                 toolTip: "Filter"
-
+                badge: true
                 onClicked: function(e){
+                    isFilterVisible = !isFilterVisible
                 }
             }
-            Item{
-                width: 10
-            }
+        }
+        FilterRows{
+            id: filterRows
+            Layout.preferredWidth: columnLayout.width
+            //Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter
+            visible: isFilterVisible
         }
 
         GenericDivider{margin: 0}
 
+
         MainContent{
+
+            id: mainContent
 
             Layout.fillHeight: true
             Layout.fillWidth: true
 
+            Rectangle{
+                height: mainContent.height
+                width: parent.width
+                color: "transparent"
+                visible: !loading && rows.length === 0
+                Label{
+                    Layout.fillWidth: true
+                    text: `Keine Daten vorhanden.<br/>(${tableName})`
+                    font.pixelSize: 16
+                    anchors.centerIn: parent
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    opacity: 0.5
+                }
+            }
+
             Repeater {
+                visible: !loading && rows.length > 0
                 model: rows
                 delegate: GenericCard{
                     clicked: () =>{

@@ -13,7 +13,7 @@ Page {
 
     default property alias data: inner.children
     property alias stackViewMain: stackViewMain
-    property alias loginDialogPopup: loginDialogPopup
+    //property alias loginDialogPopup: loginDialogPopup
 
     property alias mapBtn: mapBtn
 
@@ -149,8 +149,7 @@ Page {
                 property string mapCodePoint: "e2db"
                 property bool mapState: false
 
-
-                visible: false
+                visible: true
 
                 codePoint: mapState ? mapCodePoint : "e5cd"
                 iconColor: "#333"
@@ -217,11 +216,10 @@ Page {
             }
         }
         
-        LoginDialog {
+        /*LoginDialog {
             id: loginDialogPopup
             anchors.centerIn: parent
-            authStackView: stackViewMain
-        }
+        }*/
 
     }
 
