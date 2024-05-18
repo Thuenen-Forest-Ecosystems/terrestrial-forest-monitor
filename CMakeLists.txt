@@ -6,13 +6,22 @@ project(tfm VERSION 0.1.2 LANGUAGES CXX)
 # set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick LinguistTools Location Bluetooth)
+#set(CMAKE_PREFIX_PATH "/home/gerrit/Qt/6.7.0/gcc_64")
+#list(APPEND CMAKE_MODULE_PATH "/home/gerrit/Qt/6.7.0/gcc_64/lib/cmake")
+#set(CMAKE_PREFIX_PATH /usr/local/Cellar/qt5/5.4.0/lib/cmake/Qt5Widgets/)
+
+
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Bluetooth REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick LinguistTools Positioning Bluetooth REQUIRED)
+#find_package(Qt6 COMPONENTS Core Quick LinguistTools Positioning Bluetooth REQUIRED)
+
 
 qt_standard_project_setup()
 
-qt_add_executable(tfm
-    src/main.cpp
-)
+#qt_add_executable(tfm
+#    src/main.cpp
+#)
+add_executable(tfm src/main.cpp)
 
 #target_link_options(tfm PRIVATE -s FULL_ES3=1)
 #target_link_options(tfm PRIVATE -s LIBRARY_DEBUG=1)
@@ -72,8 +81,7 @@ target_link_libraries(tfm PRIVATE
     Qt6::Core
     Qt6::Gui
     Qt6::Qml
-    #Qt6::Bluetooth
-    #Qt6::Location
+    Qt6::Positioning Qt6::Bluetooth
 
     AuthOpenApiLibplugin
     SyncOpenApiLibplugin

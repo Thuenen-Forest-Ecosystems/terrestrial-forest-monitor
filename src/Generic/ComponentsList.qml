@@ -73,6 +73,10 @@ Repeater {
                             {
                                 btnLabel: "Connect.qml",
                                 qmlFile:"qrc:/qt/qml/Gnss/Connect.qml"
+                            },
+                            {
+                                btnLabel: "GpsInfo.qml",
+                                qmlFile:"qrc:/qt/qml/Gnss/GpsInfo.qml"
                             }
                         ]
                     }

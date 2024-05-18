@@ -5,8 +5,6 @@
 #include <QTranslator>
 #include <QIcon>
 
-
-
 int main(int argc, char *argv[]) {
   QGuiApplication app(argc, argv);
 
@@ -27,6 +25,7 @@ int main(int argc, char *argv[]) {
 
   const QUrl url(u"qrc:/TFM/src/Main.qml"_qs);
   //const QUrl url(QStringLiteral("qrc:/Main.qml"));
+
 
   QObject::connect(
       &engine, &QQmlApplicationEngine::objectCreated, &app,
