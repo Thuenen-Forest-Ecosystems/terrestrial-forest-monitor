@@ -19,16 +19,19 @@ Page {
 
     function createSpriteObjects(qmlFile) {
 
+        console.log('Creating sprite objects');
+
         component = Qt.createComponent(qmlFile);
 
         if (component.status == Component.Ready){
             finishCreation();
         }else{
+            console.log('component.status', component.status, Component.Ready);
             component.statusChanged.connect(finishCreation);
         }
     }
     function finishCreation() {
-
+        console.log('finishCreation', Component.Ready);
         if (component.status === Component.Ready) {
             sprite = component.createObject(placeHolder, {});
             if (sprite === null) {

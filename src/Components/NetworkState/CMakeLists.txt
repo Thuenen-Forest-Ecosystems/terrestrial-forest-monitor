@@ -15,4 +15,5 @@ qt_add_qml_module(NetworkStateLib
 
     SOURCES
             networkstate.cpp networkstate.h
+            NetworkManager.h
 )

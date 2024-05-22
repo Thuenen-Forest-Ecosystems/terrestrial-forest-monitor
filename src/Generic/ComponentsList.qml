@@ -67,7 +67,7 @@ Repeater {
                             }
                         ]
                     },
-                    {
+                    /*{
                         name: "GNSS - Global Navigation Satellite System",
                         pages: [
                             {
@@ -75,11 +75,11 @@ Repeater {
                                 qmlFile:"qrc:/qt/qml/Gnss/Connect.qml"
                             },
                             {
-                                btnLabel: "GpsInfo.qml",
-                                qmlFile:"qrc:/qt/qml/Gnss/GpsInfo.qml"
+                                btnLabel: "DeviceList.qml",
+                                qmlFile:"qrc:/qt/qml/Gnss/DeviceList.qml"
                             }
                         ]
-                    }
+                    }*/
                 ]
             append(components) // appending a whole array makes each index into a ListElement at the top level
         }

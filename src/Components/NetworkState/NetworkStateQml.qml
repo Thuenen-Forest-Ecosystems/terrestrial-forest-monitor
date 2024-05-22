@@ -1,15 +1,22 @@
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts
 
-import QtQuick 2.12
-import QtQuick.Controls 2.0
-
-import NetworkState 1.0
-
-Item{
-    NetworkState {
-        id: networkState
+Rectangle {
+   
+    NetworkManager {
+        id: networkManager
+        onIsOnlineChanged:{
+            console.log("Network is online: " + networkManager.isOnline)
+        }
+        onIsAvailableChanged:{
+            console.log("Network information is" + networkManager.isAvailable)
+        }
     }
-    Label {
-        id: name
-        text: qsTr(networkState.isOnline.toString())
+
+    Button {
+        enabled: networkManager.isAvailable
+        text: networkManager.isOnline ? "Online" : "Offline"
+        onClicked: networkManager.updateOnlineStatus()
     }
 }

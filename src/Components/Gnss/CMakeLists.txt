@@ -10,5 +10,12 @@ qt_add_qml_module(GnssLib
     QML_FILES Connect.qml
     QML_FILES Bluetest.qml
     QML_FILES GpsInfo.qml
-    SOURCES bluetoothbaseclass.h bluetoothbaseclass.cpp bluetoothgps.h bluetoothgps.cpp
+    QML_FILES DeviceList.qml
+    SOURCES 
+        #bluetoothdevices.h bluetoothdevices.cpp
+        #bluetoothbaseclass.cpp bluetoothbaseclass.h
+        #connectionhandler.cpp connectionhandler.h
+        #devicefinder.cpp devicefinder.h
+        #devicehandler.cpp devicehandler.h
+        #deviceinfo.cpp deviceinfo.h
 )

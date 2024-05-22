@@ -11,8 +11,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #set(CMAKE_PREFIX_PATH /usr/local/Cellar/qt5/5.4.0/lib/cmake/Qt5Widgets/)
 
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Bluetooth REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick LinguistTools Positioning Bluetooth REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core Quick Gui Qml LinguistTools Positioning Bluetooth Network)
+
 #find_package(Qt6 COMPONENTS Core Quick LinguistTools Positioning Bluetooth REQUIRED)
 
 
@@ -21,7 +21,9 @@ qt_standard_project_setup()
 #qt_add_executable(tfm
 #    src/main.cpp
 #)
-add_executable(tfm src/main.cpp)
+add_executable(tfm 
+    src/main.cpp
+)
 
 #target_link_options(tfm PRIVATE -s FULL_ES3=1)
 #target_link_options(tfm PRIVATE -s LIBRARY_DEBUG=1)
@@ -81,7 +83,9 @@ target_link_libraries(tfm PRIVATE
     Qt6::Core
     Qt6::Gui
     Qt6::Qml
-    Qt6::Positioning Qt6::Bluetooth
+    Qt6::Positioning
+    Qt6::Bluetooth
+    Qt6::Network
 
     AuthOpenApiLibplugin
     SyncOpenApiLibplugin
@@ -130,6 +134,8 @@ set(CPACK_PACKAGE_VERSION_MINOR "0")
 #include(CPACK)
 include(CPackIFW)
 
+include_directories(${CMAKE_SOURCE_DIR}/src/Components/Gnss)
+include_directories(${CMAKE_SOURCE_DIR}/src/Components/NetworkState)
 # PACK: https://www.youtube.com/watch?v=3xuq985YKI0 
 
 

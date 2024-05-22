@@ -16,8 +16,8 @@ BluetoothGPS::BluetoothGPS(QObject *parent)
 
 void BluetoothGPS::deviceDiscovered(const QBluetoothDeviceInfo &device)
 {
-    if (!device.isNull() && socket->state() == QBluetoothSocket::UnconnectedState) {
-        socket->connectToService(device.address(), QBluetoothUuid::SerialPort);
+    if (!device.isValid() && socket->state() == QBluetoothSocket::SocketState::UnconnectedState	) {
+        socket->connectToService(device.address(), QBluetoothUuid::ServiceClassUuid::SerialPort	);
     }
 }
 

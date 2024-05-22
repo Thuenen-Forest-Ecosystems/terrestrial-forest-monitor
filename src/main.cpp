@@ -1,11 +1,19 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include <QCommandLineOption>
+#include <QCommandLineParser>
+#include <QLoggingCategory>
+
 #include <QFontDatabase>
 #include <QTranslator>
 #include <QIcon>
 
-int main(int argc, char *argv[]) {
+using namespace Qt::StringLiterals;
+
+
+int main(int argc, char *argv[])
+{
   QGuiApplication app(argc, argv);
 
   QTranslator translator;
@@ -26,7 +34,6 @@ int main(int argc, char *argv[]) {
   const QUrl url(u"qrc:/TFM/src/Main.qml"_qs);
   //const QUrl url(QStringLiteral("qrc:/Main.qml"));
 
-
   QObject::connect(
       &engine, &QQmlApplicationEngine::objectCreated, &app,
       [url](QObject *obj, const QUrl &objUrl) {
@@ -36,12 +43,6 @@ int main(int argc, char *argv[]) {
       Qt::QueuedConnection);
 
   engine.load(url);
-
-
-  //std::string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJpc3MiOiJhdXRoMCIsInNhbXBsZSI6InRlc3QifQ.lQm3N2bVlqt2-1L-FsOjtR6uE-L4E9zJutMWKIe1v1M";
-  //auto decoded = jwt::decode(token);
-  //for(auto& e : decoded.get_payload_json())
-  //      std::cout << e.first << " = " << e.second << std::endl;
 
   return  app.exec();
 }

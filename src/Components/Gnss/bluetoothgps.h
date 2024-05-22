@@ -3,9 +3,9 @@
 #define BLUETOOTHGPS_H
 
 #include <QObject>
-#include <QBluetoothSocket>
-#include <QBluetoothDeviceDiscoveryAgent>
-#include <QGeoPositionInfoSource>
+#include <QtBluetooth/QBluetoothSocket>
+#include <QtBluetooth/QBluetoothDeviceDiscoveryAgent>
+#include <QtPositioning/QGeoPositionInfoSource>
 
 class BluetoothGPS : public QObject
 {
