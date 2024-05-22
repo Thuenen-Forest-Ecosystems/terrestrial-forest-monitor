@@ -67,9 +67,13 @@ Repeater {
                             }
                         ]
                     },
-                    /*{
+                    {
                         name: "GNSS - Global Navigation Satellite System",
                         pages: [
+                            {
+                                btnLabel: "BluetoothSearch.qml",
+                                qmlFile:"qrc:/qt/qml/Gnss/BluetoothSearch.qml"
+                            },
                             {
                                 btnLabel: "Connect.qml",
                                 qmlFile:"qrc:/qt/qml/Gnss/Connect.qml"
@@ -79,7 +83,7 @@ Repeater {
                                 qmlFile:"qrc:/qt/qml/Gnss/DeviceList.qml"
                             }
                         ]
-                    }*/
+                    }
                 ]
             append(components) // appending a whole array makes each index into a ListElement at the top level
         }

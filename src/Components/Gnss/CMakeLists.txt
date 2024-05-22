@@ -11,6 +11,7 @@ qt_add_qml_module(GnssLib
     QML_FILES Bluetest.qml
     QML_FILES GpsInfo.qml
     QML_FILES DeviceList.qml
+    QML_FILES BluetoothSearch.qml
     SOURCES 
         #bluetoothdevices.h bluetoothdevices.cpp
         #bluetoothbaseclass.cpp bluetoothbaseclass.h

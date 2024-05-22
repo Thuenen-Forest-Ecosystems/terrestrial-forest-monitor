@@ -2,8 +2,8 @@
 #include <QCoreApplication>
 
 #include <QtNetwork/QNetworkInformation>
-#include <QDebug>
 #include <QQmlEngine>
+#include<QDebug>
 
 class NetworkManager : public QObject
 {
@@ -14,6 +14,8 @@ class NetworkManager : public QObject
 
 public:
     explicit NetworkManager(QObject *parent = nullptr) : QObject(parent) {
+        qInfo()<<QNetworkInformation::availableBackends();
+        qInfo()<<QNetworkInformation::loadDefaultBackend();
         auto networkInfo = QNetworkInformation::instance();
         if (networkInfo) {
             connect(networkInfo, &QNetworkInformation::reachabilityChanged, this, &NetworkManager::updateOnlineStatus);
@@ -32,7 +34,6 @@ public:
     }
 
     Q_INVOKABLE void updateOnlineStatus() {
-        qInfo( "updateOnlineStatus" );
         auto networkInfo = QNetworkInformation::instance();
         if (networkInfo) {
             online = QNetworkInformation::instance()->reachability() == QNetworkInformation::Reachability::Online;

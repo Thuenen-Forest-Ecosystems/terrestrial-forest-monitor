@@ -26,7 +26,7 @@ Page {
         if (component.status == Component.Ready){
             finishCreation();
         }else{
-            console.log('component.status', component.status, Component.Ready);
+             console.log("Error loading component:", component.errorString());
             component.statusChanged.connect(finishCreation);
         }
     }
