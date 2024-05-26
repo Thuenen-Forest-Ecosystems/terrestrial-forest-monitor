@@ -5,7 +5,6 @@ import QtQuick.Layouts
 import Layouts
 
 Flow{
-    required property string tableName;
     required property variant row;
     required property var details;
 

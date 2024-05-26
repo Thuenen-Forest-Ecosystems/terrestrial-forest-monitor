@@ -25,12 +25,15 @@ RowLayout {
         if(isSyncing) return;
 
         isSyncing = true;
-
+        
         SyncUtils.syncTables(schema_name, (res) => {
+
             if(res?.error){
 
                 if(res?.error?.error)
                     toast.show(res.error.error, 5000, "#ff0000");
+                if(res?.error)
+                    toast.show(res.error, 5000, "#ff0000");
 
                 if(!wrapper.isLoggedIn || AuthUtils.tockenIsValid() < 0){
                     loginDialogPopup.open();
@@ -62,17 +65,6 @@ RowLayout {
         id: wrapper
         visible: false
     }
-
-    /*Button {
-        id:syncBtn
-        text: qsTr(schema_name || 'Schema not set')
-        enabled: schema_name
-        Connections {
-            function onClicked(){
-                _syncTables();
-            }
-        }
-    }*/
 
     Settings {
         id: schemaSettings

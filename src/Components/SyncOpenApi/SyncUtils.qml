@@ -28,6 +28,21 @@ Item {
         id: syncSettings
         category: "Schema"
     }
+
+    Component.onCompleted: {
+        const host = syncSettings.value('host')
+        if(host){
+            try{
+                const hostData = JSON.parse(host)
+                openApiHost = hostData.openApiHost;
+                schemataEndpoint = hostData.schemataEndpoint;
+                isDefaultSchema = hostData.isDefaultSchema || false;
+                schemaPrefix = hostData.schemaPrefix || "public_";
+            }catch(e){
+                console.log('Error parsing host data', e);
+            }
+        }
+    }
     
     
     function setHost(hostData){
@@ -53,6 +68,7 @@ Item {
         // settings.value('activeUser')
 
         sendHttpRequest(null, (result) => {
+           
             if(!result.error){
                 buildSqlite(result.data.definitions, schemaName, email, callback);
             }else{
@@ -262,6 +278,8 @@ Item {
         if(endPoint)
             url += endPoint;
 
+        console.log('url', url);
+
         http.open(type, url, true);
 
         http.setRequestHeader("accept", "application/json");
@@ -288,7 +306,7 @@ Item {
                     return
                 }
                 var object = JSON.parse(http.responseText.toString());
-
+                
                 
                 if (http.status == 200) {
                     callback({
@@ -303,12 +321,17 @@ Item {
     }
     // on PUBLIC SCHEMA
     function getSchemata(callback = () => {}){
+        
+        
 
         sendHttpRequest(schemataEndpoint, (result) => {
-
+             //callback(result)
+             //return;
             // filter relevant schemas only
+           
             if(!result.error){
                 result.data = result.data.filter((schema) => {
+                     console.log(schema.schema_name, schemaPrefix);
                     return schema.schema_name.startsWith(schemaPrefix)
                 })
             }

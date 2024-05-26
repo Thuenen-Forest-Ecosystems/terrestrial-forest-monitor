@@ -29,6 +29,7 @@ ComboBox {
         dbSchemas = []
 
         SyncUtils.getSchemata((response) => {
+
             if(response.error) {
                 console.log("TOAST Error: " + response.error)
                 return

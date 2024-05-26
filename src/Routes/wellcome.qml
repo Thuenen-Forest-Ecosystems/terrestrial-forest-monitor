@@ -4,6 +4,7 @@ import QtQuick.Layouts 6.2
 
 import Layouts
 import AuthOpenApi
+import StaticData
 
 RootLayout{
 
@@ -13,6 +14,10 @@ RootLayout{
     AuthWrapper{
         id: wrapper
         visible: false
+    }
+
+    ContentLoader{
+        id: contentLoader
     }
 
 
@@ -140,13 +145,30 @@ RootLayout{
                 ColorFieldBtn{
                     bgColor: "#00AA82"
 
-                    text: ""
-                    enabled: false
+                    onClicked: {
+
+                        contentLoader.loader(`qrc:/qt/qml/StaticData/b3_view.json`, function(obj) {
+                            if(obj.error) return console.error(obj.error);
+                            stackViewMain.push(
+                                Qt.createComponent("qrc:/qt/qml/Layouts/GenericJsonObject.qml").createObject(null, {"rows": obj[0]["children"]}),
+                                {
+                                    "rows": obj[0]["children"],
+                                    "key": "b3_view",
+                                    "objectName": "Traktliste"
+                                },
+                                StackView.Immediate
+                            )
+                        })
+                    }
+
+                    text: "Automated"
+                    enabled: true
 
                     Layout.fillHeight: true
                     Layout.fillWidth: true
 
                     Layout.minimumWidth: 100
+                    Layout.minimumHeight: 100
 
                     Layout.preferredHeight: parent.height/2
                     Layout.preferredWidth: parent.width/3

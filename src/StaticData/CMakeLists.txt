@@ -15,4 +15,5 @@ qt_add_qml_module(StaticDataLib
         schema.json
         bwi_de_001_dev.json
         bwi_de_002_dev.json
+        b3_view.json
 )

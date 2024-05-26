@@ -39,6 +39,7 @@ qt_add_qml_module(LayoutsLib
         GenericToastManager.qml
         MapWrapper.qml
         GenericMap.qml
+        GenericJsonObject.qml
 
     RESOURCES 
         fonts/calibri.ttf 

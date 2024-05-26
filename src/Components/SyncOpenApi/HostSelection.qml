@@ -19,11 +19,10 @@ ComboBox {
         },
         {
             "openApiHost": "http://localhost:3000/",
-            "schemataEndpoint": "schema_names",
-            "schemaPrefix": "public_"
+            "schemataEndpoint": "my_schemata",
+            "schemaPrefix": "bwi_"
         }
     ]
-    
 
     id: schemaComboBox
 

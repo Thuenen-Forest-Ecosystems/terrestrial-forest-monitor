@@ -14,6 +14,7 @@ Column{
     property var clicked
 
     width: parent.width
+    //Layout.fillWidth: true
 
     spacing: 5
 
