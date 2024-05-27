@@ -10,7 +10,6 @@ import SyncOpenApi 1.0
 
 Item{
     objectName: "Traktliste"
-    //breadcrumbStackView: stackViewMain
 
     property bool loading: false
 
@@ -117,8 +116,14 @@ Item{
                 model: rows
                 delegate: GenericCard{
                     clicked: () =>{
+                        const sprite = Qt.createComponent("qrc:/qt/qml/Routes/CI27/Ecken.qml").createObject(null, {id: modelData.tnr});
+                        if(sprite === null){
+                            console.error("Error: Could not create sprite:", modelData.tnr)
+                            return
+                        }
+
                         stackViewMain.push(
-                            Qt.createComponent("qrc:/qt/qml/Routes/CI27/Ecken.qml").createObject(null, {"id": modelData.tnr}),
+                            sprite,
                             {
                                 "id": modelData.tnr
                             },
@@ -130,7 +135,6 @@ Item{
                             Layout.fillWidth: true
                             row: modelData
                             details: rowsDetails
-                            tableName: tableName
                         }
                     }
                 }

@@ -52,6 +52,8 @@ Item {
         schemaPrefix = hostData.schemaPrefix || "public_";
 
         syncUtils.hostChanged(hostData);
+
+        console.log();
     }
 
     // Sync all tables from selected schema
@@ -68,7 +70,7 @@ Item {
         // settings.value('activeUser')
 
         sendHttpRequest(null, (result) => {
-           
+            console.log('Syncing tables', JSON.stringify(result.data, null, 2));
             if(!result.error){
                 buildSqlite(result.data.definitions, schemaName, email, callback);
             }else{
@@ -122,11 +124,13 @@ Item {
                     const sqlStringDrop = `DROP TABLE IF EXISTS ${tableName};`;
                     tx.executeSql(sqlStringDrop);
 
-
+                    
                     const sqlStringCreate = `CREATE TABLE IF NOT EXISTS ${tableName}(${table.fields.join(',')});`;
                     tx.executeSql(sqlStringCreate);
+                
 
                     sendHttpRequest(table.definitionKey, (result) => {
+                        
                         if(!result.error){
                             addRowsToTable(tableName, result.data);
 
@@ -134,22 +138,26 @@ Item {
                                 data: tables
                             })
 
-                        }else
+                        }else{
+                            console.log('Error fetching data for table', table.definitionKey);
                             callback(error(result));
+                        }
                     }, schema_name);
                 }
             }
         )
     }
     function addRowsToTable(tableName, object): void {
+
+
         db.transaction(
             function(tx) {
                 for(const row of object){
                     const keys = Object.keys(row)
                     const values = Object.values(row)
+                    
                     const encValues = values.map(x => typeof x == 'number'? x : `"${x}"`)
 
-                     
                     const sqlStringCreate = `INSERT INTO ${tableName} (${keys}) VALUES (${encValues});`;
                     try{
                         tx.executeSql(sqlStringCreate);
@@ -263,6 +271,8 @@ Item {
     }
     function sendHttpRequest(endPoint, callback, schema, type = 'GET', body = {}) : void {
 
+        const _schema = schema || syncSettings.value('schema');
+
         let errorMessage = ""
 
         if(!callback) {
@@ -278,8 +288,6 @@ Item {
         if(endPoint)
             url += endPoint;
 
-        console.log('url', url);
-
         http.open(type, url, true);
 
         http.setRequestHeader("accept", "application/json");
@@ -288,13 +296,17 @@ Item {
             http.setRequestHeader("Accept-Profile", schema);
 
             const token = AuthUtils.getToken();
-            if(token){
+            if(token && endPoint){
                 http.setRequestHeader("Authorization", `bearer ${token}`);
+            }else{
+                errorMessage = "Kein Token oder Endpunkt vorhanden"
             }
 
         }
         
         http.setRequestHeader("Connection", "close");
+
+        console.log('REQUEST:', url, type, schema, body);
 
         http.onreadystatechange = function() {
             if (http.readyState == 4) {
@@ -305,8 +317,14 @@ Item {
                     callback(error(errorMessage, http.status));
                     return
                 }
-                var object = JSON.parse(http.responseText.toString());
-                
+
+                var object
+                try{
+                    object = JSON.parse(http.responseText.toString());
+                }catch(e){
+                    callback(error('Error parsing response', http.status));
+                    return;
+                }
                 
                 if (http.status == 200) {
                     callback({

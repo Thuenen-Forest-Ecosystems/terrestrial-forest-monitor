@@ -109,7 +109,6 @@ Item{
                         Layout.fillWidth: true
                         row: parentRows[0]
                         details: parentRowsDetails
-                        tableName: parentTableName
                     }
                 }
             }

@@ -10,9 +10,8 @@ import SyncOpenApi 1.0
 
 Item{
     objectName: "Trakt: " + id.toString()
-    //breadcrumbStackView: stackViewMain
-
     property int id
+
     property variant rows: []
     property var rowsDetails: []
 
@@ -25,6 +24,11 @@ Item{
     property string tableName: "b3_ecke"
 
     property alias settings: settings
+
+    Settings {
+        id: settings
+        category: "Schema"
+    }
 
     Component.onCompleted: {
         parentRows = SyncUtils.select(parentTableName, `WHERE tnr = ${id}`);
@@ -59,7 +63,6 @@ Item{
                         Layout.fillWidth: true
                         row: parentRows[0]
                         details: parentRowsDetails
-                        tableName: parentTableName
                     }
                 }
             }
@@ -68,10 +71,7 @@ Item{
             }
         }
 
-        Settings {
-            id: settings
-            category: "Schema"
-        }
+       
 
         RowLayout{
             Layout.fillWidth: true
@@ -125,7 +125,6 @@ Item{
                             Layout.fillWidth: true
                             row: modelData
                             details: rowsDetails
-                            tableName: tableName
                         }
                     }
                 }

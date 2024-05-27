@@ -9,7 +9,7 @@ import SyncOpenApi 1.0
 
 
 Item{
-    //objectName: "Traktliste"
+    objectName: "[To be filled]"
     //breadcrumbStackView: stackViewMain
     property bool loading: false
 

@@ -91,9 +91,10 @@ RootLayout{
                     bgColor: "#00AAAA"
 
                     onClicked: {
+                        const sprite = Qt.createComponent("qrc:/qt/qml/Routes/CI27/Traktliste.qml").createObject(null);
                         wrapper.executeIfLoggedIn(
                             () => {
-                                stackViewMain.push("qrc:/qt/qml/Routes/CI27/Traktliste.qml", StackView.Immediate)
+                                stackViewMain.push(sprite, StackView.Immediate)
                             }
                         )
                     }
@@ -153,7 +154,7 @@ RootLayout{
                                 Qt.createComponent("qrc:/qt/qml/Layouts/GenericJsonObject.qml").createObject(null, {"rows": obj[0]["children"]}),
                                 {
                                     "rows": obj[0]["children"],
-                                    "key": "b3_view",
+                                    "tableName": "b3_view",
                                     "objectName": "Traktliste"
                                 },
                                 StackView.Immediate
