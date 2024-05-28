@@ -290,3 +290,5 @@ tmp/
 
 # macOS
 .DS_Store
+
+TFM.session.sql

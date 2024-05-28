@@ -47,8 +47,11 @@ Page {
             Label {
                 text: "Version:"
             }
+            Component.onCompleted: {
+                console.log(JSON.stringify(Qt.application, null, 2));
+            }
             Label {
-                text: Qt.application.version
+                text: Qt.application.version || "not defined"
                 font.weight: Font.Bold
             }
         }

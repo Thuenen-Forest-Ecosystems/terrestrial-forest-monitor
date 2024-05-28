@@ -1,1 +1,0 @@
-SELECT * FROM pg_proc WHERE proname = 'update_trakt_eckes';

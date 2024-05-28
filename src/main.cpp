@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
   app.setOrganizationDomain("org.thuenen.de");
   app.setApplicationName("Terrestrial Forest Monitor");
   app.setWindowIcon(QIcon(":/resources/android_512_512.png"));
+  app.setApplicationVersion("1.0.1");
 
   // Allow to load local files via XMLHttpRequest
   qputenv("QML_XHR_ALLOW_FILE_READ", QString("1").toUtf8());

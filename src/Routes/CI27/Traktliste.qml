@@ -116,12 +116,12 @@ Item{
                 model: rows
                 delegate: GenericCard{
                     clicked: () =>{
+
                         const sprite = Qt.createComponent("qrc:/qt/qml/Routes/CI27/Ecken.qml").createObject(null, {id: modelData.tnr});
                         if(sprite === null){
                             console.error("Error: Could not create sprite:", modelData.tnr)
                             return
                         }
-
                         stackViewMain.push(
                             sprite,
                             {
