@@ -1,18 +1,5 @@
 # Terrestrial Forest Monitor (TFM)
 
-
-## Components
-
-[AuthOpenApi](https://github.com/Thuenen-Forest-Ecosystems/terrestrial-forest-monitor/tree/main/Components/AuthOpenApi)
-
-## Install & Run
-### Build C++ Dependencies
-We uses [conan](https://conan.io/) package manager by default. But feel free to use any package manager you like.
-
-```bash
-$ conan install conanfile.txt --build=missing
-```
-
 ### Build JavaScript Dependencies
 
 Run ```npm install``` and ```npm run build``` in the ```js``` folder before Running the QT app.
