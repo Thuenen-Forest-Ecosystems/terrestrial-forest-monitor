@@ -5,6 +5,7 @@ import QtQuick.Layouts
 import QtCore
 
 import Layouts
+import SyncOpenApi
 
 import "qrc:/TFM/js/build/ajv.cjs.js" as Bundle
 
@@ -48,6 +49,16 @@ ColumnLayout {
     property alias settings: settings
 
     spacing: 20
+
+    Connections {
+        target: SyncUtils
+        function onHostChanged(e) {
+            apiHost = e.openApiHost;
+        }
+    }
+    Component.onDestruction: {
+        console.log(SyncUtils.openApiHost);
+    }
 
 
     function executeResult(trans, results) {
@@ -148,6 +159,7 @@ ColumnLayout {
 
 
     function validateSendForm() : void {
+
         sendHttpRequest(values.values.username, values.values.password)
     }
 
@@ -282,12 +294,8 @@ ColumnLayout {
     Component.onCompleted: {
 
         db = LocalStorage.openDatabaseSync(localOnlyDBName, "1.0", "The Example QML SQL!", 1000000); // 1 MB
-        //dropLocalUserTable();
+
         createLocalUserTable();
-
-        //AuthState.addListener(authStateChange)
-
-        //for( const i in Bundle)  console.log(i);
 
         errors = [];
 

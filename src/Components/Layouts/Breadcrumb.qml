@@ -23,9 +23,6 @@ Rectangle{
     }
     Component.onCompleted: _readStack()
 
-    function _change(){
-        console.log('change bread');
-    }
 
     function _goTo(name, index) {
 
@@ -36,18 +33,7 @@ Rectangle{
 
 
         stackView.pop(item, StackView.Immediate);
-        /*return;
-
-
-        for(let i = index+1; i < stackView.depth; i++){
-            console.log(i);
-            const item = stackView.get(i);
-
-            if(item){
-                console.log(item);
-                stackView.pop(item, StackView.Immediate);
-            }
-        }*/
+        
     }
     function _readStack(){
 

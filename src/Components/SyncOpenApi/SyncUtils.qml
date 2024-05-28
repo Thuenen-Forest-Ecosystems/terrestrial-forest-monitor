@@ -269,6 +269,14 @@ Item {
             error: message
         }
     }
+    /**
+     * 
+     * @param {string} endPoint 
+     * @param {function} callback 
+     * @param {string} schema 
+     * @param {string} type 
+     * @param {object} body 
+     */
     function sendHttpRequest(endPoint, callback, schema, type = 'GET', body = {}) : void {
 
         const _schema = schema || syncSettings.value('schema');
@@ -340,22 +348,46 @@ Item {
     // on PUBLIC SCHEMA
     function getSchemata(callback = () => {}){
         
-        
-
         sendHttpRequest(schemataEndpoint, (result) => {
-             //callback(result)
-             //return;
-            // filter relevant schemas only
-           
+
+            let schemata = syncSettings.value('schemata');
+            schemata = schemata? JSON.parse(schemata) : {};
+            
             if(!result.error){
+                
+                schemata[openApiHost] = result;
+                syncSettings.setValue('schemata', JSON.stringify(schemata))
+
                 result.data = result.data.filter((schema) => {
-                     console.log(schema.schema_name, schemaPrefix);
                     return schema.schema_name.startsWith(schemaPrefix)
                 })
+            }else if(schemata[openApiHost]){
+                result.data = schemata[openApiHost].data;
             }
-            
+
             callback(result)
         });
         
+    }
+    function getCurrentSchemata(latest = false){
+        let schemata = syncSettings.value('schemata');
+        schemata = schemata? JSON.parse(schemata) : {};
+
+        const schemaList = schemata[openApiHost].data.filter((schema) => {
+            return schema.schema_name.startsWith(schemaPrefix)
+        })
+
+        const schemaVersions = {};
+        schemaList.forEach((schema) => {
+            const schemaNameArray = schema.schema_name.split('_');
+
+            if(!schemaVersions[schemaNameArray[0]]) schemaVersions[schemaNameArray[0]] = {};
+            if(!schemaVersions[schemaNameArray[0]][schemaNameArray[1]]) schemaVersions[schemaNameArray[0]][schemaNameArray[1]] = [];
+
+            schemaVersions[schemaNameArray[0]][schemaNameArray[1]].push(schemaNameArray[2])
+            schemaVersions[schemaNameArray[0]][schemaNameArray[1]].sort((a, b) => a - b)
+        })
+
+        return schemaVersions;
     }
 }

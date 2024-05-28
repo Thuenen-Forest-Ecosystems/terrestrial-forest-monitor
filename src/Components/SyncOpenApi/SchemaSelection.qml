@@ -31,9 +31,10 @@ ComboBox {
         SyncUtils.getSchemata((response) => {
 
             if(response.error) {
-                console.log("TOAST Error: " + response.error)
+                toast.show(response.error, 5000, "#ff0000");
                 return
             }else{
+                toast.show("Erfolgreich", 3000, "#00ff00");
                 dbSchemas = response.data
                 activateCurrentSchema()
             }
@@ -46,10 +47,10 @@ ComboBox {
             getSchemaNames();
         }
     }
-    
     Component.onCompleted: {
         getSchemaNames();
     }
+    
     enabled: dbSchemas.length > 0
     textRole: "schema_name"
     valueRole: "schema_name"

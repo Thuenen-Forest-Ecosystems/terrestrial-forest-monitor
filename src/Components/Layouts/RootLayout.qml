@@ -178,8 +178,6 @@ Page {
 
                 onClicked: function(e){
 
-                    console.log(Qt.platform.os);
-
                     if(applicationWindow.visibility === 2){
                         applicationWindow.visibility = 5
                         fullscreenBtn.codePoint = "f1cf"

@@ -4,12 +4,20 @@ import QtQuick.Layouts 6.2
 
 import Layouts
 import AuthOpenApi
+import SyncOpenApi
 import StaticData
 
 RootLayout{
+    objectName: 'Home'
 
-    objectName: 'Wellcome'
+    property variant schemata
 
+
+    Component.onCompleted: {
+        schemata = SyncUtils.getCurrentSchemata()
+    }
+
+    
    
     AuthWrapper{
         id: wrapper
@@ -19,7 +27,6 @@ RootLayout{
     ContentLoader{
         id: contentLoader
     }
-
 
     GridLayout{
 

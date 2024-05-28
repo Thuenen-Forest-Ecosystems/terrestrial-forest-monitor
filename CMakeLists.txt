@@ -3,8 +3,16 @@ cmake_minimum_required(VERSION 3.16)
 # Increase Version on Release #15
 project(tfm VERSION 0.1.2 LANGUAGES CXX)
 
-# set(CMAKE_AUTOMOC ON)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+if(CMAKE_VERSION VERSION_LESS "3.7.0")
+    set(CMAKE_INCLUDE_CURRENT_DIR ON)
+endif()
 
 #set(CMAKE_PREFIX_PATH "/home/gerrit/Qt/6.7.0/gcc_64")
 #list(APPEND CMAKE_MODULE_PATH "/home/gerrit/Qt/6.7.0/gcc_64/lib/cmake")
@@ -12,6 +20,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 find_package(Qt6 REQUIRED COMPONENTS Core Quick Gui Qml LinguistTools Positioning Bluetooth Network)
+
+
 
 #find_package(Qt6 COMPONENTS Core Quick LinguistTools Positioning Bluetooth REQUIRED)
 

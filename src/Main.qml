@@ -15,6 +15,7 @@ ApplicationWindow {
     property real theme: Material.Dark
     property string themeBackground: Material.background
     property alias sessionSettings: sessionSettings
+    property alias schemaSettings: schemaSettings
 
     id: applicationWindow
     visible: true
@@ -40,8 +41,10 @@ ApplicationWindow {
     FontLoader {
         id: defaultFont
         source: "qrc:/qt/qml/Layouts/fonts/calibri.ttf"
-        onStatusChanged: console.log(loader.status)
+        //onStatusChanged: console.log(loader.status)
     }
+
+    
 
 
     Connections{
@@ -115,5 +118,9 @@ ApplicationWindow {
     Settings {
         id: sessionSettings
         category: "User"
+    }
+    Settings {
+        id: schemaSettings
+        category: "Schema"
     }
 }

@@ -11,10 +11,6 @@ GenericDialog {
 
     id: root
 
-    Component.onCompleted: {
-        console.log('DIALOG');
-    }
-
     //modal: true
 
     signal onLoggedIn()
